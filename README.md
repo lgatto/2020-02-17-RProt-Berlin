@@ -10,10 +10,10 @@ This course will introduce participants to the analysis and
 exploration of mass spectrometry (MS) based proteomics data using R
 and Bioconductor. The course will cover all levels of MS data, from
 raw data to identification and quantitation data, up to the
-statistical intrepretation of a typical shotgun MS experiment and will
+statistical interpretation of a typical shotgun MS experiment and will
 focus on hands-on tutorials. At the end of this course, the
 participants will be able to manipulate MS data in R and use existing
-packages for their exploratory and statistica proteomics data
+packages for their exploratory and statistical proteomics data
 analysis.
 
 ## Targeted audience and assumed background
@@ -51,4 +51,4 @@ identify differentially expression proteins between two groups.
 
 ## Instructor
 
-[Prof Laurent Gatto](https://lgatto.github.io/about/)
+[Prof Laurent Gatto](https://lgatto.github.io/about/), de Duve Institute, UCLouvain, Belgium
