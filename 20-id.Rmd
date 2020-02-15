@@ -1,4 +1,5 @@
-# Identification data: `mzR`, `mzID`, `MSnID`
+# Identification data
+
 
 ```{r env, echo=FALSE, warning = FALSE}
 library(BiocStyle)
@@ -6,7 +7,85 @@ suppressPackageStartupMessages(library("mzR"))
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("MSnID"))
 ```
-## Handling identification data
+
+## Identification data.frame
+
+Let's use the identification from from `msdata`:
+
+```{r mzrvsid, eval = TRUE}
+idf <- msdata::ident(full.names = TRUE)
+basename(idf)
+```
+
+The easiest way to read identification data in `mzIdentML` (often
+abbreviated with `mzid`) into R is to read it with `readMzIdData`,
+that will parse it, process it, and return a `data.frame`:
+
+```{r readid}
+iddf <- readMzIdData(idf)
+head(iddf)
+```
+
+When adding identification data with the `addIdentificationData`
+function as shown above, the data is first read with `readMzIdData`,
+and is then cleaned up:
+
+- only PSMs matching the regular (non-decoy) database are retained;
+- PSMs or rank greater than 1 are discarded;
+- only proteotypic peptides are kept, i.e. those that match to a
+  unique peptide.
+
+```{r idfilt}
+## at this stage, we still have all the PSMs
+table(iddf$isDecoy)
+table(iddf$rank)
+```
+
+> **Exercise** This behaviour can be replicates with the
+> `filterIdentificationDataFrame` function. Try it out for yourself.
+
+<details>
+```{r filtid}
+iddf2 <- filterIdentificationDataFrame(iddf)
+table(iddf2$isDecoy)
+table(iddf2$rank)
+```
+</details>
+
+> **Exercise** The standard `r CRANpkg("tidyverse")` tools are fit for
+> data wrangling with identification data. Using the above
+> identification dataframe, calculate the length of each peptide (you
+> can use `nchar` with the peptide sequence `sequence`) and the number
+> of peptides for each protein (defined as
+> `DatabaseDescription`). Plot the length of the proteins against
+> their respective number of peptides. Optionally, stratify the plot
+> by the peptide e-value score (`MS.GF.EValue`) using for example
+> `cut` to define bins.
+
+<details>
+```{r answid1, fig.cap="Identifcation data wrangling 1"}
+suppressPackageStartupMessages(library("dplyr"))
+iddf2 <- as_tibble(iddf2) %>%
+    mutate(peplen = nchar(sequence))
+npeps <- iddf2 %>%
+    group_by(DatabaseDescription) %>%
+    tally
+iddf2 <- full_join(iddf2, npeps)
+
+library("ggplot2")
+ggplot(iddf2, aes(x = n, y = DBseqLength)) + geom_point()
+```
+
+```{r answid2, fig.cap="Identifcation data wrangling 2"}
+iddf2$evalBins <- cut(iddf2$MS.GF.EValue, summary(iddf2$MS.GF.EValue))
+ggplot(iddf2, aes(x = n, y = DBseqLength, color = peplen)) +
+    geom_point() +
+    facet_wrap(~ evalBins)
+```
+</details>
+
+
+## Low level access to id data
 
 There are two packages that can be used to parse `mzIdentML` files,
 namely `mzR` (that we have already used for raw data) and `mzID`. The
@@ -28,7 +107,7 @@ idf <- ident(full.names = TRUE)
 basename(idf)
 ```
 
-### mzID
+### `mzID`
 
 The main functions are `mzID` to read the data into a dedicated data
 class and `flatten` to transform it into a `data.frame`. 
@@ -47,11 +126,6 @@ accessor functions such as `database`, `software`, `scans`, `peptides`,
 ```{r fid}
 head(flatten(id))
 ```
-
-#### Exercise
-
-Open the `r basename(idf)` file as shown above. What software and how many
-proteins were in the database used to perform the search?
 
 ### `mzR`
 
@@ -73,28 +147,6 @@ The identification data can be accessed as a `data.frame` with the
 
 ```{r fid2}
 head(psms(id2))
-```
-
-#### Example
-
-Is there a relation between the length of a protein and the number of
-identified peptides, conditioned by the (average) e-value of the
-identifications?
-
-```{r, ex_id, echo=TRUE, eval=TRUE}
-fid <- flatten(id)
-fid2 <- fid[!fid$isdecoy, ]
-
-x <- by(fid2, fid2$accession,
-        function(x)
-            c(unique(x$length),
-              length(unique(x$pepseq)),
-              mean(x$'ms-gf:specevalue')))
-x <- data.frame(do.call(rbind, x))
-colnames(x) <- c("plength", "npep", "eval")
-x$bins <- cut(x$eval, summary(x$eval))
-library("lattice")
-xyplot(log10(plength) ~ npep | bins, data = x)
 ```
 
 ## Adding identification data to raw data
@@ -125,6 +177,52 @@ raw data and the PSMs from the identification data is done internally.
 msexp <- addIdentificationData(msexp, idf)
 head(fData(msexp))
 ```
+
+
+## MS/MS database search
+
+While searches are generally performed using third-party software
+independently of R or can be started from R using a `system` call, the
+`r Biocpkg("MSGFplus")` package enables to perform a search using the
+MSGF+ engine, as illustrated below.
+
+We search the `r basename(mzf)` file against the fasta file from
+`PXD000001` using `MSGFplus`.
+
+We first download the fasta files from ProteomeXchange:
+
+<div class="boxed yellow">On-line</div>
+
+```{r ex_getfas, cache=TRUE}
+fas <- pxget(px, "erwinia_carotovora.fasta")
+basename(fas)
+```
+
+Below, we setup and run the
+search^[In the `runMSGF` call, the memory allocated to the java virtual machine is limited to 1GB. In general, there is no need to specify this argument, unless you experience an error regarding the *maximum heap size*.].
+
+```{r ex_msgfplus, message=FALSE, cache=TRUE}
+library("MSGFplus")
+msgfpar <- msgfPar(database = fas,
+                   instrument = 'HighRes',
+                   tda = TRUE,
+                   enzyme = 'Trypsin',
+                   protocol = 'iTRAQ')
+idres <- runMSGF(msgfpar, mzf, memory=1000)
+idres
+## identification file (needed below)
+basename(mzID::files(idres)$id)
+```
+
+A graphical interface to perform the search the data and explore the
+results is also available:
+
+```{r msgfgui, eval=FALSE}
+library("MSGFgui")
+MSGFgui()
+```
+
+![The `r Biocpkg("MSGFgui")` interface](./img/MSGFgui.png)
 
 ## Visualising identification data
 
@@ -157,31 +255,27 @@ calculateFragments("SIGFEGDSIGR")
 Visualising a pair of spectra means that we can access them, and that,
 in addition to plotting, we can manipulate them and perform
 computations. The two spectra corresponding to the `IMIDLDGTENK`
-peptide, for example have 
-
-```{r}
-compareSpectra(itraqdata2[[25]], itraqdata2[[28]], fun = "common")
-```
-
+peptide, for example have
+`r compareSpectra(itraqdata2[[25]], itraqdata2[[28]], fun = "common")`
 common peaks, a correlation of
+`r round(compareSpectra(itraqdata2[[25]], itraqdata2[[28]], fun = "cor"), 3)`
+and a dot product of
+`r round(compareSpectra(itraqdata2[[25]], itraqdata2[[28]], fun = "dotproduct"), 3)`
+(see `?compareSpectra` for details).
 
-```{r}
+> **Exercise** Use the `compareSpectra` function to compare spectra 25
+>  and 28 plotted above, calculating the metrics mentioned
+>  above. Don't forget to pick peaks from `itraqdata` first.
+
+<details>
+```{r compspex}
+data(itraqdata)
+itraqdata2 <- pickPeaks(itraqdata, verbose = FALSE)
+compareSpectra(itraqdata2[[25]], itraqdata2[[28]], fun = "common")
 compareSpectra(itraqdata2[[25]], itraqdata2[[28]], fun = "cor")
-```
-
-and a dot product of 
-
-```{r}
 compareSpectra(itraqdata2[[25]], itraqdata2[[28]], fun = "dotproduct")
 ```
-
-See `?compareSpectra` for details.
-
-There are 2 Bioconductor packages for peptide-spectrum matching
-directly in R, namely `r Biocpkg("MSGFplus")` and `r Biocpkg("rTANDEM")`, 
-replying on `MSGF+` and `X!TANDEM` respectively.
-See also the `r Biocpkg("MSGFgui")` package for visualisation of
-identification data.
+</details>
 
 
 ## Exploration and Assessment of Confidence of LC-MSn Proteomics Identifications using `MSnID`
