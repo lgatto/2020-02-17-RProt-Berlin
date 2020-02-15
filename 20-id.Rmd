@@ -178,7 +178,6 @@ msexp <- addIdentificationData(msexp, idf)
 head(fData(msexp))
 ```
 
-
 ## MS/MS database search
 
 While searches are generally performed using third-party software
@@ -186,12 +185,12 @@ independently of R or can be started from R using a `system` call, the
 `r Biocpkg("MSGFplus")` package enables to perform a search using the
 MSGF+ engine, as illustrated below.
 
-We search the `r basename(mzf)` file against the fasta file from
-`PXD000001` using `MSGFplus`.
+
+We search the
+`TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz`
+file against the fasta file from `PXD000001` using `MSGFplus`.
 
 We first download the fasta files from ProteomeXchange:
-
-<div class="boxed yellow">On-line</div>
 
 ```{r ex_getfas, cache=TRUE}
 fas <- pxget(px, "erwinia_carotovora.fasta")
@@ -201,7 +200,7 @@ basename(fas)
 Below, we setup and run the
 search^[In the `runMSGF` call, the memory allocated to the java virtual machine is limited to 1GB. In general, there is no need to specify this argument, unless you experience an error regarding the *maximum heap size*.].
 
-```{r ex_msgfplus, message=FALSE, cache=TRUE}
+```{r ex_msgfplus, eval = FALSE}
 library("MSGFplus")
 msgfpar <- msgfPar(database = fas,
                    instrument = 'HighRes',
@@ -210,8 +209,19 @@ msgfpar <- msgfPar(database = fas,
                    protocol = 'iTRAQ')
 idres <- runMSGF(msgfpar, mzf, memory=1000)
 idres
-## identification file (needed below)
-basename(mzID::files(idres)$id)
+```
+
+```
+## An mzID object
+## 
+## Software used:   MS-GF+ (version: Beta (v10072))
+## 
+## Rawfile:         /home/lg390/Documents/Teaching/bioc-ms-prot/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML
+## 
+## Database:        /home/lg390/Documents/Teaching/bioc-ms-prot/erwinia_carotovora.fasta
+## 
+## Number of scans: 5343
+## Number of PSM's: 5656
 ```
 
 A graphical interface to perform the search the data and explore the
