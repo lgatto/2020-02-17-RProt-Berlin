@@ -265,7 +265,7 @@ rw1
 ##  Number of spectra: 6103 
 ##  MSn retention times: 3:22 - 60:2 minutes
 ## - - - Processing information - - -
-## Data loaded: Sat Feb 15 22:13:39 2020 
+## Data loaded: Sat Feb 15 22:20:17 2020 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -297,7 +297,7 @@ rw2
 ##  Number of spectra: 7534 
 ##  MSn retention times: 0:0 - 60:2 minutes
 ## - - - Processing information - - -
-## Data loaded [Sat Feb 15 22:14:00 2020] 
+## Data loaded [Sat Feb 15 22:20:40 2020] 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -402,8 +402,8 @@ rw1[1:5]
 ##  Number of spectra: 5 
 ##  MSn retention times: 3:22 - 3:24 minutes
 ## - - - Processing information - - -
-## Data loaded: Sat Feb 15 22:13:39 2020 
-## Data [numerically] subsetted 5 spectra: Sat Feb 15 22:14:05 2020 
+## Data loaded: Sat Feb 15 22:20:17 2020 
+## Data [numerically] subsetted 5 spectra: Sat Feb 15 22:20:45 2020 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -433,7 +433,7 @@ rw2[1:5]
 ##  Number of spectra: 5 
 ##  MSn retention times: 0:0 - 0:4 minutes
 ## - - - Processing information - - -
-## Data loaded [Sat Feb 15 22:14:00 2020] 
+## Data loaded [Sat Feb 15 22:20:40 2020] 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -734,7 +734,7 @@ in the figure below (taken from the `RforProteomics`
 but we can transverse all the data and extracted/visualise/understand
 structured slices of data.**
 
-![MS visualisation](../img/msfigvis.png)
+![MS visualisation](../img/msvisfig.png)
 
 In this code chunks we start by selecting relevant spectra of
 interest. We will focus on the first MS1 spectrum acquired after 30
@@ -802,12 +802,14 @@ p <- plot(rw2[[i]])
 ![plot of chunk visfig03](figure/visfig03-1.png)
 
 ```r
-p + xlim(400, 1000)
+p + ggplot2::xlim(400, 1000)
 ```
 
 ```
-## Error in xlim(400, 1000): could not find function "xlim"
+## Warning: Removed 3812 rows containing missing values (geom_path).
 ```
+
+![plot of chunk visfig03](figure/visfig03-2.png)
  
 or using base plotting:
  
@@ -898,8 +900,8 @@ rw3
 ##  Number of spectra: 11 
 ##  MSn retention times: 30:1 - 30:4 minutes
 ## - - - Processing information - - -
-## Data loaded [Sat Feb 15 22:14:00 2020] 
-## Filter: select parent/children scans for 2807 [Sat Feb 15 22:15:35 2020] 
+## Data loaded [Sat Feb 15 22:20:40 2020] 
+## Filter: select parent/children scans for 2807 [Sat Feb 15 22:22:17 2020] 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData

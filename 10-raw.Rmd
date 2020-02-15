@@ -239,7 +239,7 @@ in the figure below (taken from the `RforProteomics`
 but we can transverse all the data and extracted/visualise/understand
 structured slices of data.**
 
-![MS visualisation](../img/msfigvis.png)
+![MS visualisation](../img/msvisfig.png)
 
 In this code chunks we start by selecting relevant spectra of
 interest. We will focus on the first MS1 spectrum acquired after 30
@@ -282,7 +282,7 @@ abline(v = fData(rw2)[i, "retentionTime"], col = "red")
 
 ```{r visfig03}
 p <- plot(rw2[[i]]) 
-p + xlim(400, 1000)
+p + ggplot2::xlim(400, 1000)
 ```
  
 or using base plotting:
