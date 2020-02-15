@@ -1,5 +1,7 @@
 # R/Bioconductor for Mass Spectrometry and Proteomics
 
+URL https://www.physalia-courses.org/courses-workshops/course58/
+
 ## Dates and location
 
 17 - 19 Feb 2020, Free University (FU) Berlin
