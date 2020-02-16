@@ -93,7 +93,7 @@ resource. These data can be downloaded within R using the
 `r Biocpkg("rpx")` package.
 
 
-```{r rpx}
+```{r rpx, eval = FALSE}
 library("rpx")
 pxannounced()
 ```
@@ -103,7 +103,7 @@ metadata that will be stored in a `PXDataset` object. The names of the
 files available in this data can be retrieved with the `pxfiles`
 accessor function.
 
-```{r pxd}
+```{r pxd, eval = FALSE}
 px <- PXDataset("PXD000001")
 px
 pxfiles(px)
@@ -111,7 +111,7 @@ pxfiles(px)
 
 Other metadata for the `px` data set:
 
-```{r pxvar}
+```{r pxvar, eval = FALSE}
 pxtax(px)
 pxurl(px)
 pxref(px)
@@ -123,7 +123,7 @@ downloaded^[If the file is already available, it is not downloaded a second time
 in the working directory and the name of the file is return by the
 function and stored in the `mzf` variable for later use ^[This and other files are also availabel in the `msdata` package, described below].
 
-```{r pxget}
+```{r pxget, eval = FALSE}
 fn <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
 mzf <- pxget(px, fn)
 mzf
@@ -187,6 +187,6 @@ package, that offers quantitative proteomics data.
 pRolocdata::pRolocdata()
 ```
 
-```{r prolocdata, echo = FALSE}
+```{r prolocdata2, echo = FALSE}
 knitr::kable(pRolocdata::pRolocdata()$results[, -(1:2)])
 ```

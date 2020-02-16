@@ -229,7 +229,7 @@ method. Below, we use the iTRAQ 4-plex isobaric tagging strategy
 (defined by the <code>iTRAQ4</code> parameter; other tags are available: see
 <code>?ReporterIons</code>) and the <code>max</code> method to calculate the use the maximum
 of the reporter peak for quantitation.</p>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="kw">plot</span>(msexp[[<span class="dv">1</span>]], <span class="dt">full=</span><span class="ot">TRUE</span>, <span class="dt">reporters =</span> iTRAQ4)</a></code></pre></div>
+<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" data-line-number="1"><span class="kw">plot</span>(msexp[[<span class="dv">1</span>]], <span class="dt">full=</span><span class="ot">TRUE</span>, <span class="dt">reporters =</span> iTRAQ4)</a></code></pre></div>
 <div class="figure">
 <span id="fig:itraq4plot"></span>
 <p class="caption marginnote shownote">
@@ -237,17 +237,17 @@ Figure 5.1: MS2 spectrum and it’s iTRAQ4 reporter ions.
 </p>
 <img src="_main_files/figure-html/itraq4plot-1.png" alt="MS2 spectrum and it's iTRAQ4 reporter ions." width="672">
 </div>
-<div class="sourceCode" id="cb202"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb202-1" data-line-number="1">msset &lt;-<span class="st"> </span><span class="kw">quantify</span>(msexp, <span class="dt">method =</span> <span class="st">"max"</span>, <span class="dt">reporters =</span> iTRAQ4)</a></code></pre></div>
+<div class="sourceCode" id="cb192"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb192-1" data-line-number="1">msset &lt;-<span class="st"> </span><span class="kw">quantify</span>(msexp, <span class="dt">method =</span> <span class="st">"max"</span>, <span class="dt">reporters =</span> iTRAQ4)</a></code></pre></div>
 <p>Below, we access the quantitative and metadata slots of the newly
 created <code>MSnSet</code> object.</p>
-<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="kw">exprs</span>(msset)</a></code></pre></div>
+<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1"><span class="kw">exprs</span>(msset)</a></code></pre></div>
 <pre><code>##       iTRAQ4.114 iTRAQ4.115 iTRAQ4.116 iTRAQ4.117
 ## F1.S1   706555.7   685055.1   929016.1   668245.2
 ## F1.S2   260663.7   212745.0   163782.8   239142.7
 ## F1.S3  2213566.0  2069209.6  2204032.2  2331846.8
 ## F1.S4   616043.4   705976.6   671828.8   666845.6
 ## F1.S5  1736128.2  1787622.5  1795311.8  1825523.0</code></pre>
-<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">fData</span>(msset))</a></code></pre></div>
+<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">fData</span>(msset))</a></code></pre></div>
 <pre><code>##       spectrum acquisition.number          sequence chargeState rank
 ## F1.S1        1                  1 VESITARHGEVLQLRPK           3    1
 ## F1.S2        2                  2     IDGQWVTHQWLKK           3    1
@@ -308,15 +308,15 @@ created <code>MSnSet</code> object.</p>
 ## F1.S3               40
 ## F1.S4               40
 ## F1.S5               40</code></pre>
-<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1"><span class="kw">pData</span>(msset)</a></code></pre></div>
+<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" data-line-number="1"><span class="kw">pData</span>(msset)</a></code></pre></div>
 <pre><code>##                  mz reporters
 ## iTRAQ4.114 114.1112    iTRAQ4
 ## iTRAQ4.115 115.1083    iTRAQ4
 ## iTRAQ4.116 116.1116    iTRAQ4
 ## iTRAQ4.117 117.1150    iTRAQ4</code></pre>
 <p>New columns can be added to the metadata slots.</p>
-<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1"><span class="kw">pData</span>(msset)<span class="op">$</span>groups &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"Treat"</span>, <span class="st">"Cond"</span>), <span class="dt">each =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb209-2" data-line-number="2"><span class="kw">pData</span>(msset)</a></code></pre></div>
+<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1"><span class="kw">pData</span>(msset)<span class="op">$</span>groups &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"Treat"</span>, <span class="st">"Cond"</span>), <span class="dt">each =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb199-2" data-line-number="2"><span class="kw">pData</span>(msset)</a></code></pre></div>
 <pre><code>##                  mz reporters groups
 ## iTRAQ4.114 114.1112    iTRAQ4  Treat
 ## iTRAQ4.115 115.1083    iTRAQ4  Treat
@@ -325,10 +325,10 @@ created <code>MSnSet</code> object.</p>
 <p>Another useful slot is <code>processingData</code>, accessed with
 <code>processingData(.)</code>, that records all the processing that objects have
 undergone since their creation.</p>
-<div class="sourceCode" id="cb211"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb211-1" data-line-number="1"><span class="kw">processingData</span>(msset)</a></code></pre></div>
+<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="kw">processingData</span>(msset)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Sun Feb 16 20:51:27 2020 
-## iTRAQ4 quantification by max: Sun Feb 16 20:51:30 2020 
+## Data loaded: Sun Feb 16 21:32:12 2020 
+## iTRAQ4 quantification by max: Sun Feb 16 21:32:15 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="spectral-counting" class="section level2">
@@ -338,12 +338,12 @@ undergone since their creation.</p>
 (normalised) spectral index <code>SI</code> and (normalised) spectral abundance
 factor <code>SAF</code> or simply a simple count
 method<label for="tufte-sn-4" class="margin-toggle sidenote-number">4</label><input type="checkbox" id="tufte-sn-4" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">4</span> The code below is for illustration only - it doesn’t make much sense to perform any of these quantitations on such a multiplexed data</span>.</p>
-<div class="sourceCode" id="cb213"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb213-1" data-line-number="1"><span class="kw">exprs</span>(si &lt;-<span class="st"> </span><span class="kw">quantify</span>(msexp, <span class="dt">method =</span> <span class="st">"SIn"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb203"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb203-1" data-line-number="1"><span class="kw">exprs</span>(si &lt;-<span class="st"> </span><span class="kw">quantify</span>(msexp, <span class="dt">method =</span> <span class="st">"SIn"</span>))</a></code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
 ## ECA0510     0.0006553518
 ## ECA0984     0.0035384487
 ## ECA1028     0.0002684726</code></pre>
-<div class="sourceCode" id="cb215"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb215-1" data-line-number="1"><span class="kw">exprs</span>(saf &lt;-<span class="st"> </span><span class="kw">quantify</span>(msexp, <span class="dt">method =</span> <span class="st">"NSAF"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb205"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb205-1" data-line-number="1"><span class="kw">exprs</span>(saf &lt;-<span class="st"> </span><span class="kw">quantify</span>(msexp, <span class="dt">method =</span> <span class="st">"NSAF"</span>))</a></code></pre></div>
 <pre><code>##         dummyiTRAQ.mzXML
 ## ECA0510        0.4306167
 ## ECA0984        0.3094475
@@ -371,9 +371,9 @@ format to the wider community. It is composed of a key-value metadata
 section and peptide/protein/small molecule tabular sections. These
 data can be imported with the <code>readMzTabData</code>
 function<label for="tufte-sn-5" class="margin-toggle sidenote-number">5</label><input type="checkbox" id="tufte-sn-5" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">5</span> We specify version 0.9 (which generates the warning) to fit with the version of that file. For recent files, the <code>version</code> argument should be ignored to use the importer for the current file version 1.0.</span>.</p>
-<div class="sourceCode" id="cb217"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb217-1" data-line-number="1">mztf &lt;-<span class="st"> </span><span class="kw">pxget</span>(px, <span class="st">"F063721.dat-mztab.txt"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb207"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb207-1" data-line-number="1">mztf &lt;-<span class="st"> </span><span class="kw">pxget</span>(px, <span class="st">"F063721.dat-mztab.txt"</span>)</a></code></pre></div>
 <pre><code>## Downloading 1 file</code></pre>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb219-1" data-line-number="1">(mzt &lt;-<span class="st"> </span><span class="kw">readMzTabData</span>(mztf, <span class="dt">what =</span> <span class="st">"PEP"</span>, <span class="dt">version =</span> <span class="st">"0.9"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb209"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb209-1" data-line-number="1">(mzt &lt;-<span class="st"> </span><span class="kw">readMzTabData</span>(mztf, <span class="dt">what =</span> <span class="st">"PEP"</span>, <span class="dt">version =</span> <span class="st">"0.9"</span>))</a></code></pre></div>
 <pre><code>## Warning: Version 0.9 is deprecated. Please see '?readMzTabData' and '?MzTab' for
 ## details.</code></pre>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
@@ -402,9 +402,9 @@ into R with the <code>readMSnSet2</code> function. The main 2 arguments of the
 function are (1) a text-based spreadsheet and (2) column names of
 indices that identify the quantitation data. The latter can be queried
 with the <code>getEcols</code> function.</p>
-<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1">csv &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span> (<span class="st">"extdata"</span> , <span class="dt">package =</span> <span class="st">"pRolocdata"</span>),</a>
-<a class="sourceLine" id="cb222-2" data-line-number="2">           <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">"pr800866n_si_004-rep1.csv"</span>)</a>
-<a class="sourceLine" id="cb222-3" data-line-number="3"><span class="kw">getEcols</span>(csv, <span class="dt">split =</span> <span class="st">","</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb212"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb212-1" data-line-number="1">csv &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span> (<span class="st">"extdata"</span> , <span class="dt">package =</span> <span class="st">"pRolocdata"</span>),</a>
+<a class="sourceLine" id="cb212-2" data-line-number="2">           <span class="dt">full.names =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">"pr800866n_si_004-rep1.csv"</span>)</a>
+<a class="sourceLine" id="cb212-3" data-line-number="3"><span class="kw">getEcols</span>(csv, <span class="dt">split =</span> <span class="st">","</span>)</a></code></pre></div>
 <pre><code>##  [1] "\"Protein ID\""              "\"FBgn\""                   
 ##  [3] "\"Flybase Symbol\""          "\"No. peptide IDs\""        
 ##  [5] "\"Mascot score\""            "\"No. peptides quantified\""
@@ -413,9 +413,9 @@ with the <code>getEcols</code> function.</p>
 ## [11] "\"PLS-DA classification\""   "\"Peptide sequence\""       
 ## [13] "\"Precursor ion mass\""      "\"Precursor ion charge\""   
 ## [15] "\"pd.2013\""                 "\"pd.markers\""</code></pre>
-<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1">ecols &lt;-<span class="st"> </span><span class="dv">7</span><span class="op">:</span><span class="dv">10</span></a>
-<a class="sourceLine" id="cb224-2" data-line-number="2">res &lt;-<span class="st"> </span><span class="kw">readMSnSet2</span>(csv, ecols)</a>
-<a class="sourceLine" id="cb224-3" data-line-number="3"><span class="kw">head</span>(<span class="kw">exprs</span>(res))</a></code></pre></div>
+<div class="sourceCode" id="cb214"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb214-1" data-line-number="1">ecols &lt;-<span class="st"> </span><span class="dv">7</span><span class="op">:</span><span class="dv">10</span></a>
+<a class="sourceLine" id="cb214-2" data-line-number="2">res &lt;-<span class="st"> </span><span class="kw">readMSnSet2</span>(csv, ecols)</a>
+<a class="sourceLine" id="cb214-3" data-line-number="3"><span class="kw">head</span>(<span class="kw">exprs</span>(res))</a></code></pre></div>
 <pre><code>##   area.114 area.115 area.116 area.117
 ## 1 0.379000 0.281000 0.225000 0.114000
 ## 2 0.420000 0.209667 0.206111 0.163889
@@ -423,7 +423,7 @@ with the <code>getEcols</code> function.</p>
 ## 4 0.247500 0.253000 0.320000 0.179000
 ## 5 0.216000 0.183000 0.342000 0.259000
 ## 6 0.072000 0.212333 0.573000 0.142667</code></pre>
-<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">fData</span>(res))</a></code></pre></div>
+<div class="sourceCode" id="cb216"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb216-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">fData</span>(res))</a></code></pre></div>
 <pre><code>##   Protein.ID        FBgn Flybase.Symbol No..peptide.IDs Mascot.score
 ## 1    CG10060 FBgn0001104    G-ialpha65A               3       179.86
 ## 2    CG10067 FBgn0000044         Act57B               5       222.40
@@ -447,14 +447,14 @@ with the <code>getEcols</code> function.</p>
 ## 6                                            ER/Golgi         ER</code></pre>
 <p>However, as we see below, we do not have any metadata about samples,
 i.e. about the design of the experiment.</p>
-<div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="kw">pData</span>(res)</a></code></pre></div>
+<div class="sourceCode" id="cb218"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb218-1" data-line-number="1"><span class="kw">pData</span>(res)</a></code></pre></div>
 <pre><code>## data frame with 0 columns and 4 rows</code></pre>
 <p>This can be done manually, or by importing a csv file containing that
 design. Below, we define two groups and two operators for the 4
 samples of the <code>res</code> object created above:</p>
-<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1"><span class="kw">pData</span>(res)<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="dt">each =</span> <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb230-2" data-line-number="2"><span class="kw">pData</span>(res)<span class="op">$</span>operator &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb230-3" data-line-number="3"><span class="kw">pData</span>(res)</a></code></pre></div>
+<div class="sourceCode" id="cb220"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb220-1" data-line-number="1"><span class="kw">pData</span>(res)<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="dt">each =</span> <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb220-2" data-line-number="2"><span class="kw">pData</span>(res)<span class="op">$</span>operator &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">2</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb220-3" data-line-number="3"><span class="kw">pData</span>(res)</a></code></pre></div>
 <pre><code>##          group operator
 ## area.114     A        1
 ## area.115     A        2
@@ -462,18 +462,18 @@ samples of the <code>res</code> object created above:</p>
 ## area.117     B        2</code></pre>
 <p>Note that <code>pData(res)$</code> can be shortened with <code>res$</code>. This is also
 valid when setting new metadata, as shown above.</p>
-<div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1"><span class="kw">pData</span>(res)<span class="op">$</span>group</a></code></pre></div>
+<div class="sourceCode" id="cb222"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb222-1" data-line-number="1"><span class="kw">pData</span>(res)<span class="op">$</span>group</a></code></pre></div>
 <pre><code>## [1] "A" "A" "B" "B"</code></pre>
-<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1">res<span class="op">$</span>group</a></code></pre></div>
+<div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1">res<span class="op">$</span>group</a></code></pre></div>
 <pre><code>## [1] "A" "A" "B" "B"</code></pre>
 <blockquote>
 <p><strong>Exercise</strong> Using <code>readMSnSet2</code>, load the following file that was
 part of the supplementary information of a manuscript.</p>
 </blockquote>
-<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb236-1" data-line-number="1">csvfile &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"pRolocdata"</span>),</a>
-<a class="sourceLine" id="cb236-2" data-line-number="2">               <span class="dt">pattern =</span> <span class="st">"hyperLOPIT-SIData-ms3-rep12-intersect.csv"</span>,</a>
-<a class="sourceLine" id="cb236-3" data-line-number="3">               <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb236-4" data-line-number="4"><span class="kw">basename</span>(csvfile)</a></code></pre></div>
+<div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1">csvfile &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"pRolocdata"</span>),</a>
+<a class="sourceLine" id="cb226-2" data-line-number="2">               <span class="dt">pattern =</span> <span class="st">"hyperLOPIT-SIData-ms3-rep12-intersect.csv"</span>,</a>
+<a class="sourceLine" id="cb226-3" data-line-number="3">               <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb226-4" data-line-number="4"><span class="kw">basename</span>(csvfile)</a></code></pre></div>
 <pre><code>## [1] "hyperLOPIT-SIData-ms3-rep12-intersect.csv.gz"</code></pre>
 <blockquote>
 <p>You’ll first need to identify which columns to use as expression
@@ -486,7 +486,7 @@ remembering to skip 1 line and, optionally, use the first column as
 feature names (see the <code>fnames</code> argument). What are the number of
 features and samples in the data?</p>
 </blockquote>
-<details><div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" data-line-number="1"><span class="kw">getEcols</span>(csvfile, <span class="dt">split =</span> <span class="st">","</span>, <span class="dt">n =</span> <span class="dv">2</span>)</a></code></pre></div>
+<details><div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="kw">getEcols</span>(csvfile, <span class="dt">split =</span> <span class="st">","</span>, <span class="dt">n =</span> <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>##  [1] ""                                  ""                                 
 ##  [3] ""                                  "Experiment 1"                     
 ##  [5] "Experiment 2"                      "Experiment 1"                     
@@ -510,8 +510,8 @@ features and samples in the data?</p>
 ## [41] "Signaling Cascades"                "Oct4 Interactome"                 
 ## [43] "Nanog Interactome"                 "Sox2 Interactome"                 
 ## [45] "Cell Surface Proteins"</code></pre>
-<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb240-1" data-line-number="1">msn &lt;-<span class="st"> </span><span class="kw">readMSnSet2</span>(csvfile, <span class="dt">ecol =</span> <span class="dv">8</span><span class="op">:</span><span class="dv">27</span>, <span class="dt">fnames =</span> <span class="dv">1</span>, <span class="dt">skip =</span> <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb240-2" data-line-number="2"><span class="kw">dim</span>(msn)</a></code></pre></div>
+<div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1">msn &lt;-<span class="st"> </span><span class="kw">readMSnSet2</span>(csvfile, <span class="dt">ecol =</span> <span class="dv">8</span><span class="op">:</span><span class="dv">27</span>, <span class="dt">fnames =</span> <span class="dv">1</span>, <span class="dt">skip =</span> <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb230-2" data-line-number="2"><span class="kw">dim</span>(msn)</a></code></pre></div>
 <pre><code>## [1] 5032   20</code></pre>
 </details><blockquote>
 <p><strong>Exercise</strong> Add the following experimental design to the <code>MSnSet</code>
@@ -520,10 +520,10 @@ created above. The 10 first samples originate from batch A, and the
 control group, and the others to the condition group. Even samples
 are female and odd samples are male.</p>
 </blockquote>
-<details><div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb242-1" data-line-number="1">msn<span class="op">$</span>batch &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="dt">each =</span> <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb242-2" data-line-number="2">msn<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"CTRL"</span>, <span class="st">"COND"</span>), <span class="dt">each =</span> <span class="dv">5</span>), <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb242-3" data-line-number="3">msn<span class="op">$</span>gender &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>), <span class="dv">10</span>)</a>
-<a class="sourceLine" id="cb242-4" data-line-number="4"><span class="kw">pData</span>(msn)</a></code></pre></div>
+<details><div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1">msn<span class="op">$</span>batch &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="dt">each =</span> <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb232-2" data-line-number="2">msn<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"CTRL"</span>, <span class="st">"COND"</span>), <span class="dt">each =</span> <span class="dv">5</span>), <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb232-3" data-line-number="3">msn<span class="op">$</span>gender &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>), <span class="dv">10</span>)</a>
+<a class="sourceLine" id="cb232-4" data-line-number="4"><span class="kw">pData</span>(msn)</a></code></pre></div>
 <pre><code>##         batch group gender
 ## X126        A  CTRL      M
 ## X127N       A  CTRL      F
@@ -567,7 +567,7 @@ replicates are available for each concentration. The study is a
 spike-in study for which we know the ground truth so we have the
 ability to evaluate the quality of the fold change estimates and the
 list of DE genes that we return with a method.</p>
-<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="kw">basename</span>(f &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw">quant</span>(<span class="dt">full.names =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb234"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb234-1" data-line-number="1"><span class="kw">basename</span>(f &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw">quant</span>(<span class="dt">full.names =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>## [1] "cptac_a_b_peptides.txt"</code></pre>
 <p>Before reading the spreadsheet, we need to identify which columns
 contain quantitation data (that will be used to populate the <code>exprs</code>
@@ -576,7 +576,7 @@ slot) and the feature data (that will be put into the <code>fData</code> slot).<
 spreadsheet. The quantitative values we want to used are those in the
 columns starting with<code>Intensity 6A_7</code>, <code>Intensity 6A_8</code>, …
 <code>Intensity 6B_9</code>, that we refer to with <code>Intensity</code>.</p>
-<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb246-1" data-line-number="1"><span class="kw">getEcols</span>(f, <span class="dt">split =</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb236"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb236-1" data-line-number="1"><span class="kw">getEcols</span>(f, <span class="dt">split =</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)</a></code></pre></div>
 <pre><code>##  [1] "Sequence"                 "N-term cleavage window"  
 ##  [3] "C-term cleavage window"   "Amino acid before"       
 ##  [5] "First amino acid"         "Second amino acid"       
@@ -615,11 +615,11 @@ columns starting with<code>Intensity 6A_7</code>, <code>Intensity 6A_8</code>, �
 ## [71] "MS/MS Count"</code></pre>
 <p>Using a pattern, we can set the columns to be used to populate the
 quantitation slot.</p>
-<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb248-1" data-line-number="1">(e &lt;-<span class="st"> </span><span class="kw">grepEcols</span>(f, <span class="st">"Intensity "</span>, <span class="dt">split =</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)) <span class="co">## careful at the space!</span></a></code></pre></div>
+<div class="sourceCode" id="cb238"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb238-1" data-line-number="1">(e &lt;-<span class="st"> </span><span class="kw">grepEcols</span>(f, <span class="st">"Intensity "</span>, <span class="dt">split =</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span>)) <span class="co">## careful at the space!</span></a></code></pre></div>
 <pre><code>## [1] 56 57 58 59 60 61</code></pre>
-<div class="sourceCode" id="cb250"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb250-1" data-line-number="1">(cptac &lt;-<span class="st"> </span><span class="kw">readMSnSet2</span>(f, <span class="dt">ecol =</span> e,</a>
-<a class="sourceLine" id="cb250-2" data-line-number="2">                      <span class="dt">fnames =</span> <span class="st">"Sequence"</span>,</a>
-<a class="sourceLine" id="cb250-3" data-line-number="3">                      <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb240"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb240-1" data-line-number="1">(cptac &lt;-<span class="st"> </span><span class="kw">readMSnSet2</span>(f, <span class="dt">ecol =</span> e,</a>
+<a class="sourceLine" id="cb240-2" data-line-number="2">                      <span class="dt">fnames =</span> <span class="st">"Sequence"</span>,</a>
+<a class="sourceLine" id="cb240-3" data-line-number="3">                      <span class="dt">sep =</span> <span class="st">"</span><span class="ch">\t</span><span class="st">"</span>))</a></code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 11466 features, 6 samples 
 ##   element names: exprs 
@@ -637,7 +637,7 @@ quantitation slot.</p>
 ##  MSnbase version: 2.12.0</code></pre>
 <p>We can access the peptide-level expression data with <code>exprs</code> and the
 feature meta-data with <code>fData</code>.</p>
-<div class="sourceCode" id="cb252"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb252-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">exprs</span>(cptac))</a></code></pre></div>
+<div class="sourceCode" id="cb242"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb242-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">exprs</span>(cptac))</a></code></pre></div>
 <pre><code>##                    Intensity.6A_7 Intensity.6A_8 Intensity.6A_9 Intensity.6B_7
 ## AAAAGAGGAGDSGDAVTK              0              0          66760              0
 ## AAAALAGGK                 2441300        1220000        1337600        2850900
@@ -652,7 +652,7 @@ feature meta-data with <code>fData</code>.</p>
 ## AAADALSDLEIK               620510         737780
 ## AAADALSDLEIKDSK            380820         414490
 ## AAAEEFQR                        0          76970</code></pre>
-<div class="sourceCode" id="cb254"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb254-1" data-line-number="1"><span class="kw">tail</span>(<span class="kw">exprs</span>(cptac))</a></code></pre></div>
+<div class="sourceCode" id="cb244"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb244-1" data-line-number="1"><span class="kw">tail</span>(<span class="kw">exprs</span>(cptac))</a></code></pre></div>
 <pre><code>##                     Intensity.6A_7 Intensity.6A_8 Intensity.6A_9 Intensity.6B_7
 ## YYSISSSSLSEK                309270         357640         337930         387870
 ## YYSIYDLGNNAVGLAK                 0              0              0              0
@@ -667,7 +667,7 @@ feature meta-data with <code>fData</code>.</p>
 ## YYTITEVATR                  366000              0
 ## YYTVFDRDNNR                      0              0
 ## YYTVFDRDNNRVGFAEAAR              0              0</code></pre>
-<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" data-line-number="1"><span class="kw">fvarLabels</span>(cptac)</a></code></pre></div>
+<div class="sourceCode" id="cb246"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb246-1" data-line-number="1"><span class="kw">fvarLabels</span>(cptac)</a></code></pre></div>
 <pre><code>##  [1] "Sequence"                 "N.term.cleavage.window"  
 ##  [3] "C.term.cleavage.window"   "Amino.acid.before"       
 ##  [5] "First.amino.acid"         "Second.amino.acid"       
@@ -704,20 +704,20 @@ feature meta-data with <code>fData</code>.</p>
 <p>For the sake of simplicity, we can clean up the feature variables and
 only keep those of interest. It is possible to do this interactively
 with</p>
-<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb258-1" data-line-number="1">cptac &lt;-<span class="st"> </span><span class="kw">selectFeatureData</span>(cptac)</a></code></pre></div>
+<div class="sourceCode" id="cb248"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb248-1" data-line-number="1">cptac &lt;-<span class="st"> </span><span class="kw">selectFeatureData</span>(cptac)</a></code></pre></div>
 <p>or by setting the feature variables of interest.</p>
-<div class="sourceCode" id="cb259"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb259-1" data-line-number="1">cptac &lt;-<span class="st"> </span><span class="kw">selectFeatureData</span>(cptac,</a>
-<a class="sourceLine" id="cb259-2" data-line-number="2">                           <span class="dt">fcol =</span> <span class="kw">c</span>(<span class="st">"Proteins"</span>,</a>
-<a class="sourceLine" id="cb259-3" data-line-number="3">                                    <span class="st">"Potential.contaminant"</span>,</a>
-<a class="sourceLine" id="cb259-4" data-line-number="4">                                    <span class="st">"Reverse"</span>,</a>
-<a class="sourceLine" id="cb259-5" data-line-number="5">                                    <span class="st">"Sequence"</span>))</a>
-<a class="sourceLine" id="cb259-6" data-line-number="6"><span class="kw">fvarLabels</span>(cptac)</a></code></pre></div>
+<div class="sourceCode" id="cb249"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb249-1" data-line-number="1">cptac &lt;-<span class="st"> </span><span class="kw">selectFeatureData</span>(cptac,</a>
+<a class="sourceLine" id="cb249-2" data-line-number="2">                           <span class="dt">fcol =</span> <span class="kw">c</span>(<span class="st">"Proteins"</span>,</a>
+<a class="sourceLine" id="cb249-3" data-line-number="3">                                    <span class="st">"Potential.contaminant"</span>,</a>
+<a class="sourceLine" id="cb249-4" data-line-number="4">                                    <span class="st">"Reverse"</span>,</a>
+<a class="sourceLine" id="cb249-5" data-line-number="5">                                    <span class="st">"Sequence"</span>))</a>
+<a class="sourceLine" id="cb249-6" data-line-number="6"><span class="kw">fvarLabels</span>(cptac)</a></code></pre></div>
 <pre><code>## [1] "Proteins"              "Potential.contaminant" "Reverse"              
 ## [4] "Sequence"</code></pre>
 <p>Let’s also add sample annotations:</p>
-<div class="sourceCode" id="cb261"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb261-1" data-line-number="1">cptac<span class="op">$</span>condition &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="dt">each =</span> <span class="dv">3</span>))</a>
-<a class="sourceLine" id="cb261-2" data-line-number="2">cptac<span class="op">$</span>sample &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">7</span><span class="op">:</span><span class="dv">9</span>, <span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb261-3" data-line-number="3"><span class="kw">pData</span>(cptac)</a></code></pre></div>
+<div class="sourceCode" id="cb251"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb251-1" data-line-number="1">cptac<span class="op">$</span>condition &lt;-<span class="st"> </span><span class="kw">factor</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="dt">each =</span> <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb251-2" data-line-number="2">cptac<span class="op">$</span>sample &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="dv">7</span><span class="op">:</span><span class="dv">9</span>, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb251-3" data-line-number="3"><span class="kw">pData</span>(cptac)</a></code></pre></div>
 <pre><code>##                condition sample
 ## Intensity.6A_7         A      7
 ## Intensity.6A_8         A      8
@@ -731,8 +731,8 @@ exactly, and then adding it with <code>pData(cptac) &lt;- myDf</code>.</p>
 <p>The sample names are rather long and contain information on the
 spike-in concentration and the repeat. We this remove <code>Intensity.6</code>
 from the sample names:</p>
-<div class="sourceCode" id="cb263"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb263-1" data-line-number="1"><span class="kw">sampleNames</span>(cptac) &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">"Intensity</span><span class="ch">\\</span><span class="st">.6"</span>, <span class="st">""</span>, <span class="kw">sampleNames</span>(cptac))</a>
-<a class="sourceLine" id="cb263-2" data-line-number="2"><span class="kw">sampleNames</span>(cptac) </a></code></pre></div>
+<div class="sourceCode" id="cb253"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb253-1" data-line-number="1"><span class="kw">sampleNames</span>(cptac) &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">"Intensity</span><span class="ch">\\</span><span class="st">.6"</span>, <span class="st">""</span>, <span class="kw">sampleNames</span>(cptac))</a>
+<a class="sourceLine" id="cb253-2" data-line-number="2"><span class="kw">sampleNames</span>(cptac) </a></code></pre></div>
 <pre><code>## [1] "A_7" "A_8" "A_9" "B_7" "B_8" "B_9"</code></pre>
 </div>
 <div id="handling-overlapping-protein-groups" class="section level2">
@@ -742,19 +742,19 @@ from the sample names:</p>
 there is none of these proteins present in a smaller subgroup.</p>
 <p>The <code>smallestUniqueGroups</code> function stems from the <code>MSqRob</code> package,
 that can be installed with:</p>
-<div class="sourceCode" id="cb265"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb265-1" data-line-number="1">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">"statOmics/MSqRob"</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb266-1" data-line-number="1"><span class="kw">head</span>(keep &lt;-<span class="st"> </span>MSqRob<span class="op">::</span><span class="kw">smallestUniqueGroups</span>(<span class="kw">fData</span>(cptac)<span class="op">$</span>Proteins))</a></code></pre></div>
+<div class="sourceCode" id="cb255"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb255-1" data-line-number="1">BiocManager<span class="op">::</span><span class="kw">install</span>(<span class="st">"statOmics/MSqRob"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb256"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb256-1" data-line-number="1"><span class="kw">head</span>(keep &lt;-<span class="st"> </span>MSqRob<span class="op">::</span><span class="kw">smallestUniqueGroups</span>(<span class="kw">fData</span>(cptac)<span class="op">$</span>Proteins))</a></code></pre></div>
 <pre><code>## [1] "sp|P38915|SPT8_YEAST"  "sp|P09938|RIR2_YEAST"  "sp|P53075|SHE10_YEAST"
 ## [4] "sp|P00360|G3P1_YEAST"  "sp|P15180|SYKC_YEAST"  "sp|P15705|STI1_YEAST"</code></pre>
-<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb268-1" data-line-number="1"><span class="kw">length</span>(keep)</a></code></pre></div>
+<div class="sourceCode" id="cb258"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb258-1" data-line-number="1"><span class="kw">length</span>(keep)</a></code></pre></div>
 <pre><code>## [1] 1546</code></pre>
-<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" data-line-number="1"><span class="kw">length</span>(<span class="kw">unique</span>(<span class="kw">fData</span>(cptac)<span class="op">$</span>Proteins))</a></code></pre></div>
+<div class="sourceCode" id="cb260"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb260-1" data-line-number="1"><span class="kw">length</span>(<span class="kw">unique</span>(<span class="kw">fData</span>(cptac)<span class="op">$</span>Proteins))</a></code></pre></div>
 <pre><code>## [1] 1722</code></pre>
 <p>As shown above, we will keep 1546 protein groups
 from the 1722
 protein groups recorded in the data. This vector of protein names is
 used to filter the peptide-level data.</p>
-<div class="sourceCode" id="cb272"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb272-1" data-line-number="1">(cptac &lt;-<span class="st"> </span>cptac[<span class="kw">fData</span>(cptac)<span class="op">$</span>Proteins <span class="op">%in%</span><span class="st"> </span>keep, ])</a></code></pre></div>
+<div class="sourceCode" id="cb262"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb262-1" data-line-number="1">(cptac &lt;-<span class="st"> </span>cptac[<span class="kw">fData</span>(cptac)<span class="op">$</span>Proteins <span class="op">%in%</span><span class="st"> </span>keep, ])</a></code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 10740 features, 6 samples 
 ##   element names: exprs 
@@ -771,7 +771,7 @@ used to filter the peptide-level data.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 20:51:33 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <p><strong>Exercise</strong>: How many peptides have we lost by removing the proteins
 above?</p>
@@ -784,15 +784,15 @@ that are assigned to contaminant (such as keratine, trypsine, …) and
 reverse proteins (from the decoy database). These are annotated with a
 <code>"+"</code> in the respective <code>"Potential.contaminant"</code> and <code>"Reverse"</code>
 feature variables.</p>
-<div class="sourceCode" id="cb274"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb274-1" data-line-number="1"><span class="kw">table</span>(sel_conts &lt;-<span class="st"> </span><span class="kw">fData</span>(cptac)<span class="op">$</span>Potential.contaminant <span class="op">!=</span><span class="st"> "+"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb264"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb264-1" data-line-number="1"><span class="kw">table</span>(sel_conts &lt;-<span class="st"> </span><span class="kw">fData</span>(cptac)<span class="op">$</span>Potential.contaminant <span class="op">!=</span><span class="st"> "+"</span>)</a></code></pre></div>
 <pre><code>## 
 ## FALSE  TRUE 
 ##    62 10678</code></pre>
-<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1"><span class="kw">table</span>(sel_rev &lt;-<span class="st"> </span><span class="kw">fData</span>(cptac)<span class="op">$</span>Reverse <span class="op">!=</span><span class="st"> "+"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb266"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb266-1" data-line-number="1"><span class="kw">table</span>(sel_rev &lt;-<span class="st"> </span><span class="kw">fData</span>(cptac)<span class="op">$</span>Reverse <span class="op">!=</span><span class="st"> "+"</span>)</a></code></pre></div>
 <pre><code>## 
 ##  TRUE 
 ## 10740</code></pre>
-<div class="sourceCode" id="cb278"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb278-1" data-line-number="1">(cptac &lt;-<span class="st"> </span>cptac[sel_conts <span class="op">&amp;</span><span class="st"> </span>sel_rev, ])</a></code></pre></div>
+<div class="sourceCode" id="cb268"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb268-1" data-line-number="1">(cptac &lt;-<span class="st"> </span>cptac[sel_conts <span class="op">&amp;</span><span class="st"> </span>sel_rev, ])</a></code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 10678 features, 6 samples 
 ##   element names: exprs 
@@ -809,8 +809,8 @@ feature variables.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 20:51:33 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 20:51:33 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <p>You can keep track of the data processing steps in the object’s
 processing log.</p>
@@ -823,21 +823,21 @@ be considered as unreliable. We will filter out these proteins. This
 information is included in the <code>Only.identified.by.site</code> column of the
 <code>proteinGroups.txt</code> MaxQuant file. The code chunk below provides this
 list of proteins.</p>
-<div class="sourceCode" id="cb280"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb280-1" data-line-number="1">ptm_only &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"REV__CON__Q3T052"</span>, <span class="st">"REV__sp|P01120|RAS2_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-2" data-line-number="2">              <span class="st">"REV__sp|P32849|RAD5_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-3" data-line-number="3">              <span class="st">"REV__sp|Q03723|OST6_YEAST"</span>, <span class="st">"sp|P04051|RPC1_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-4" data-line-number="4">              <span class="st">"sp|P06367|RS14A_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-5" data-line-number="5">              <span class="st">"sp|P0CX73|YP11A_YEAST;sp|P0CX72|YL12A_YEAST;sp|P0CX71|YE11A_YEAST;sp|P0CX70|YD15A_YEAST;sp|Q6Q5H1|YP14A_YEAST;sp|P0C2I8|YL14A_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-6" data-line-number="6">              <span class="st">"sp|P19657|PMA2_YEAST"</span>, <span class="st">"sp|P32465|HXT1_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-7" data-line-number="7">              <span class="st">"sp|P39567|IMDH1_YEAST"</span>, <span class="st">"sp|P40527|ATC7_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-8" data-line-number="8">              <span class="st">"sp|P40530|PDK1_YEAST"</span>, <span class="st">"sp|P40989|FKS2_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-9" data-line-number="9">              <span class="st">"sp|P49955|SF3B1_YEAST"</span>, <span class="st">"sp|P51401|RL9B_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-10" data-line-number="10">              <span class="st">"sp|P53072|TAN1_YEAST"</span>, <span class="st">"sp|Q03964|YD17A_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-11" data-line-number="11">              <span class="st">"sp|Q04670|YM14B_YEAST;sp|Q12088|YL11B_YEAST;sp|Q03619|YE12B_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-12" data-line-number="12">              <span class="st">"sp|Q08649|ESA1_YEAST"</span>, <span class="st">"sp|Q12112|YN11B_YEAST"</span>,</a>
-<a class="sourceLine" id="cb280-13" data-line-number="13">              <span class="st">"sp|Q12479|IRC11_YEAST"</span>, <span class="st">"sp|Q3E7B7|YD85C_YEAST"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb270"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb270-1" data-line-number="1">ptm_only &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"REV__CON__Q3T052"</span>, <span class="st">"REV__sp|P01120|RAS2_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-2" data-line-number="2">              <span class="st">"REV__sp|P32849|RAD5_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-3" data-line-number="3">              <span class="st">"REV__sp|Q03723|OST6_YEAST"</span>, <span class="st">"sp|P04051|RPC1_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-4" data-line-number="4">              <span class="st">"sp|P06367|RS14A_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-5" data-line-number="5">              <span class="st">"sp|P0CX73|YP11A_YEAST;sp|P0CX72|YL12A_YEAST;sp|P0CX71|YE11A_YEAST;sp|P0CX70|YD15A_YEAST;sp|Q6Q5H1|YP14A_YEAST;sp|P0C2I8|YL14A_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-6" data-line-number="6">              <span class="st">"sp|P19657|PMA2_YEAST"</span>, <span class="st">"sp|P32465|HXT1_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-7" data-line-number="7">              <span class="st">"sp|P39567|IMDH1_YEAST"</span>, <span class="st">"sp|P40527|ATC7_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-8" data-line-number="8">              <span class="st">"sp|P40530|PDK1_YEAST"</span>, <span class="st">"sp|P40989|FKS2_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-9" data-line-number="9">              <span class="st">"sp|P49955|SF3B1_YEAST"</span>, <span class="st">"sp|P51401|RL9B_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-10" data-line-number="10">              <span class="st">"sp|P53072|TAN1_YEAST"</span>, <span class="st">"sp|Q03964|YD17A_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-11" data-line-number="11">              <span class="st">"sp|Q04670|YM14B_YEAST;sp|Q12088|YL11B_YEAST;sp|Q03619|YE12B_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-12" data-line-number="12">              <span class="st">"sp|Q08649|ESA1_YEAST"</span>, <span class="st">"sp|Q12112|YN11B_YEAST"</span>,</a>
+<a class="sourceLine" id="cb270-13" data-line-number="13">              <span class="st">"sp|Q12479|IRC11_YEAST"</span>, <span class="st">"sp|Q3E7B7|YD85C_YEAST"</span>)</a></code></pre></div>
 <p>We now remove the peptides matched to these proteins:</p>
-<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1">(cptac &lt;-<span class="st"> </span>cptac[<span class="op">!</span><span class="kw">fData</span>(cptac)<span class="op">$</span>Proteins <span class="op">%in%</span><span class="st"> </span>ptm_only, ])</a></code></pre></div>
+<div class="sourceCode" id="cb271"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb271-1" data-line-number="1">(cptac &lt;-<span class="st"> </span>cptac[<span class="op">!</span><span class="kw">fData</span>(cptac)<span class="op">$</span>Proteins <span class="op">%in%</span><span class="st"> </span>ptm_only, ])</a></code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 10659 features, 6 samples 
 ##   element names: exprs 
@@ -854,9 +854,9 @@ list of proteins.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 20:51:33 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 20:51:33 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 20:51:33 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="notes-on-missing-values" class="section level2">
@@ -865,8 +865,8 @@ list of proteins.</p>
 <p>Unfortunately, some software use 0 irrespective whether the data has
 intensity zero and when the data haven’t been observer. Below we fix
 this by setting all 0 values to <code>NA</code>.</p>
-<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" data-line-number="1"><span class="kw">exprs</span>(cptac)[<span class="kw">exprs</span>(cptac) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
-<a class="sourceLine" id="cb283-2" data-line-number="2"><span class="kw">table</span>(<span class="kw">is.na</span>(<span class="kw">exprs</span>(cptac)))</a></code></pre></div>
+<div class="sourceCode" id="cb273"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb273-1" data-line-number="1"><span class="kw">exprs</span>(cptac)[<span class="kw">exprs</span>(cptac) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb273-2" data-line-number="2"><span class="kw">table</span>(<span class="kw">is.na</span>(<span class="kw">exprs</span>(cptac)))</a></code></pre></div>
 <pre><code>## 
 ## FALSE  TRUE 
 ## 34637 29317</code></pre>
@@ -874,9 +874,9 @@ this by setting all 0 values to <code>NA</code>.</p>
 samples (columns) and rows (peptides). The cells have been reporder to
 emphasis the presence of missing values in the proteins shown at the
 top and the samples shown towards the right.</p>
-<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" data-line-number="1">napac &lt;-<span class="st"> </span>cptac</a>
-<a class="sourceLine" id="cb285-2" data-line-number="2"><span class="kw">exprs</span>(napac)[<span class="op">!</span><span class="kw">is.na</span>(<span class="kw">exprs</span>(napac))] &lt;-<span class="st"> </span><span class="dv">1</span></a>
-<a class="sourceLine" id="cb285-3" data-line-number="3"><span class="kw">naplot</span>(napac)</a></code></pre></div>
+<div class="sourceCode" id="cb275"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb275-1" data-line-number="1">napac &lt;-<span class="st"> </span>cptac</a>
+<a class="sourceLine" id="cb275-2" data-line-number="2"><span class="kw">exprs</span>(napac)[<span class="op">!</span><span class="kw">is.na</span>(<span class="kw">exprs</span>(napac))] &lt;-<span class="st"> </span><span class="dv">1</span></a>
+<a class="sourceLine" id="cb275-3" data-line-number="3"><span class="kw">naplot</span>(napac)</a></code></pre></div>
 <div class="figure">
 <span id="fig:napac"></span>
 <p class="caption marginnote shownote">
@@ -887,7 +887,7 @@ Figure 5.2: Overview of missing data
 <p>The following figure the proportions of features (peptides in this
 case) with respect to their completeness (blue) and the percentage of
 missing data in the full dataset (red).</p>
-<div class="sourceCode" id="cb286"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb286-1" data-line-number="1"><span class="kw">plotNA</span>(cptac)</a></code></pre></div>
+<div class="sourceCode" id="cb276"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb276-1" data-line-number="1"><span class="kw">plotNA</span>(cptac)</a></code></pre></div>
 <div class="figure">
 <span id="fig:plotNA"></span>
 <p class="caption marginnote shownote">
@@ -896,8 +896,8 @@ Figure 5.3: Data completeness.
 <img src="_main_files/figure-html/plotNA-1.png" alt="Data completeness." width="672">
 </div>
 <p>Below, we count the number of missing values in each</p>
-<div class="sourceCode" id="cb287"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb287-1" data-line-number="1"><span class="kw">fData</span>(cptac)<span class="op">$</span>nNA &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">exprs</span>(cptac), <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="kw">sum</span>(<span class="kw">is.na</span>(x)))</a>
-<a class="sourceLine" id="cb287-2" data-line-number="2"><span class="kw">table</span>(<span class="kw">fData</span>(cptac)<span class="op">$</span>nNA)</a></code></pre></div>
+<div class="sourceCode" id="cb277"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb277-1" data-line-number="1"><span class="kw">fData</span>(cptac)<span class="op">$</span>nNA &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">exprs</span>(cptac), <span class="dv">1</span>, <span class="cf">function</span>(x) <span class="kw">sum</span>(<span class="kw">is.na</span>(x)))</a>
+<a class="sourceLine" id="cb277-2" data-line-number="2"><span class="kw">table</span>(<span class="kw">fData</span>(cptac)<span class="op">$</span>nNA)</a></code></pre></div>
 <pre><code>## 
 ##    0    1    2    3    4    5    6 
 ## 3675  939  830  686  876  762 2891</code></pre>
@@ -910,7 +910,7 @@ other acquisitions only.</p>
 <strong>filter</strong> data with missing values, which however sacrifices a lot
 of data.</li>
 </ul>
-<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb289-1" data-line-number="1"><span class="kw">filterNA</span>(cptac)</a></code></pre></div>
+<div class="sourceCode" id="cb279"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb279-1" data-line-number="1"><span class="kw">filterNA</span>(cptac)</a></code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 3675 features, 6 samples 
 ##   element names: exprs 
@@ -926,12 +926,12 @@ of data.</li>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 20:51:33 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 20:51:33 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 20:51:33 2020 
-## Subset [10659,6][3675,6] Sun Feb 16 20:51:35 2020 
-## Removed features with more than 0 NAs: Sun Feb 16 20:51:35 2020 
-## Dropped featureData's levels Sun Feb 16 20:51:35 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
+## Subset [10659,6][3675,6] Sun Feb 16 21:32:20 2020 
+## Removed features with more than 0 NAs: Sun Feb 16 21:32:20 2020 
+## Dropped featureData's levels Sun Feb 16 21:32:20 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <ul>
 <li>perform <strong>imputation</strong>, considering the underlying nature of
@@ -954,7 +954,7 @@ statistical test level</strong>, which is the approach we are going to use.</li>
 </ul>
 <p>We are going to keep peptides that had a least two observations. This
 can be done with the <code>nNA</code> variable that we compute above</p>
-<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" data-line-number="1">(cptac &lt;-<span class="st"> </span>cptac[<span class="kw">fData</span>(cptac)<span class="op">$</span>nNA <span class="op">&lt;=</span><span class="st"> </span><span class="dv">4</span>, ])</a></code></pre></div>
+<div class="sourceCode" id="cb281"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb281-1" data-line-number="1">(cptac &lt;-<span class="st"> </span>cptac[<span class="kw">fData</span>(cptac)<span class="op">$</span>nNA <span class="op">&lt;=</span><span class="st"> </span><span class="dv">4</span>, ])</a></code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 7006 features, 6 samples 
 ##   element names: exprs 
@@ -971,16 +971,16 @@ can be done with the <code>nNA</code> variable that we compute above</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 20:51:33 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 20:51:33 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 20:51:33 2020 
-## Subset [10659,6][7006,6] Sun Feb 16 20:51:35 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
+## Subset [10659,6][7006,6] Sun Feb 16 21:32:20 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="log-transformation" class="section level2">
 <h2>
 <span class="header-section-number">5.10</span> Log transformation</h2>
-<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb293-1" data-line-number="1">(cptac &lt;-<span class="st"> </span><span class="kw">log</span>(cptac, <span class="dt">base =</span> <span class="dv">2</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb283"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb283-1" data-line-number="1">(cptac &lt;-<span class="st"> </span><span class="kw">log</span>(cptac, <span class="dt">base =</span> <span class="dv">2</span>))</a></code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 7006 features, 6 samples 
 ##   element names: exprs 
@@ -997,26 +997,26 @@ can be done with the <code>nNA</code> variable that we compute above</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 20:51:33 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 20:51:33 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 20:51:33 2020 
-## Subset [10659,6][7006,6] Sun Feb 16 20:51:35 2020 
-## Log transformed (base 2) Sun Feb 16 20:51:35 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
+## Subset [10659,6][7006,6] Sun Feb 16 21:32:20 2020 
+## Log transformed (base 2) Sun Feb 16 21:32:20 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="normalisation" class="section level2">
 <h2>
 <span class="header-section-number">5.11</span> Normalisation</h2>
 <p>Normalisation is handled by the <code>normalise</code> (or <code>normalize</code>) function.</p>
-<div class="sourceCode" id="cb295"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb295-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"limma"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb285"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb285-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"limma"</span>)</a></code></pre></div>
 <pre><code>## 
 ## Attaching package: 'limma'</code></pre>
 <pre><code>## The following object is masked from 'package:BiocGenerics':
 ## 
 ##     plotMA</code></pre>
-<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" data-line-number="1"><span class="kw">plotDensities</span>(<span class="kw">exprs</span>(cptac))</a></code></pre></div>
+<div class="sourceCode" id="cb288"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb288-1" data-line-number="1"><span class="kw">plotDensities</span>(<span class="kw">exprs</span>(cptac))</a></code></pre></div>
 <p><img src="_main_files/figure-html/norm-1.png" width="672"></p>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" data-line-number="1">(cptac &lt;-<span class="st"> </span><span class="kw">normalise</span>(cptac, <span class="dt">method =</span> <span class="st">"quantiles"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb289"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb289-1" data-line-number="1">(cptac &lt;-<span class="st"> </span><span class="kw">normalise</span>(cptac, <span class="dt">method =</span> <span class="st">"quantiles"</span>))</a></code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 7006 features, 6 samples 
 ##   element names: exprs 
@@ -1033,20 +1033,20 @@ can be done with the <code>nNA</code> variable that we compute above</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 20:51:33 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 20:51:33 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 20:51:33 2020 
-## Subset [10659,6][7006,6] Sun Feb 16 20:51:35 2020 
-## Log transformed (base 2) Sun Feb 16 20:51:35 2020 
-## Normalised (quantiles): Sun Feb 16 20:51:35 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
+## Subset [10659,6][7006,6] Sun Feb 16 21:32:20 2020 
+## Log transformed (base 2) Sun Feb 16 21:32:20 2020 
+## Normalised (quantiles): Sun Feb 16 21:32:20 2020 
 ##  MSnbase version: 2.12.0</code></pre>
-<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb301-1" data-line-number="1"><span class="kw">plotDensities</span>(<span class="kw">exprs</span>(cptac))</a></code></pre></div>
+<div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="kw">plotDensities</span>(<span class="kw">exprs</span>(cptac))</a></code></pre></div>
 <p><img src="_main_files/figure-html/norm-2.png" width="672"></p>
 <p>We can visualise our peptide-level data using a Multi Dimensional
 Scaling (MDS) plot, using the <code>plotMDS</code> function from the <code>limma</code>
 package. We use the condition sample variable to colour-code the
 samples.</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="kw">plotMDS</span>(<span class="kw">exprs</span>(cptac), <span class="dt">col =</span> <span class="kw">as.numeric</span>(cptac<span class="op">$</span>condition))</a></code></pre></div>
+<div class="sourceCode" id="cb292"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb292-1" data-line-number="1"><span class="kw">plotMDS</span>(<span class="kw">exprs</span>(cptac), <span class="dt">col =</span> <span class="kw">as.numeric</span>(cptac<span class="op">$</span>condition))</a></code></pre></div>
 <p><img src="_main_files/figure-html/mds0-1.png" width="672"></p>
 <p>The first axis in the plot is showing the leading log fold changes
 (differences on the log scale) between the samples. We notice that
@@ -1070,8 +1070,8 @@ Figure 5.5: Multiple levels of summarisation. Examples of aggregation from PSMs,
 </div>
 <p>Below, we combine the peptides into proteins using the median, passing
 <code>na.rm = TRUE</code> to account for the missing values in the data.</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb303-1" data-line-number="1">(cptac_prot &lt;-<span class="st"> </span><span class="kw">combineFeatures</span>(cptac, <span class="dt">fcol =</span> <span class="st">"Proteins"</span>,</a>
-<a class="sourceLine" id="cb303-2" data-line-number="2">                               <span class="dt">method =</span> <span class="st">"median"</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb293"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb293-1" data-line-number="1">(cptac_prot &lt;-<span class="st"> </span><span class="kw">combineFeatures</span>(cptac, <span class="dt">fcol =</span> <span class="st">"Proteins"</span>,</a>
+<a class="sourceLine" id="cb293-2" data-line-number="2">                               <span class="dt">method =</span> <span class="st">"median"</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
 <pre><code>## Your data contains missing values. Please read the relevant section in
 ## the combineFeatures manual page for details on the effects of missing
 ## values on data aggregation.</code></pre>
@@ -1091,29 +1091,29 @@ Figure 5.5: Multiple levels of summarisation. Examples of aggregation from PSMs,
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 20:51:33 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 20:51:33 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 20:51:33 2020 
-## Subset [10659,6][7006,6] Sun Feb 16 20:51:35 2020 
-## Log transformed (base 2) Sun Feb 16 20:51:35 2020 
-## Normalised (quantiles): Sun Feb 16 20:51:35 2020 
-## Combined 7006 features into 1384 using median: Sun Feb 16 20:51:36 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
+## Subset [10659,6][7006,6] Sun Feb 16 21:32:20 2020 
+## Log transformed (base 2) Sun Feb 16 21:32:20 2020 
+## Normalised (quantiles): Sun Feb 16 21:32:20 2020 
+## Combined 7006 features into 1384 using median: Sun Feb 16 21:32:21 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <p>We obtain 1384 proteins. Note how the processing steps are recorded. Below, we
 visualise the protein-level data on an MDS plot.</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb306-1" data-line-number="1"><span class="kw">plotMDS</span>(<span class="kw">exprs</span>(cptac_prot), <span class="dt">col =</span> <span class="kw">as.numeric</span>(cptac_prot<span class="op">$</span>condition))</a></code></pre></div>
+<div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb296-1" data-line-number="1"><span class="kw">plotMDS</span>(<span class="kw">exprs</span>(cptac_prot), <span class="dt">col =</span> <span class="kw">as.numeric</span>(cptac_prot<span class="op">$</span>condition))</a></code></pre></div>
 <p><img src="_main_files/figure-html/mds1-1.png" width="672"></p>
 <p><strong>Exercise</strong>: Repeat the summarisation using a the robust
 normalisation by setting<code>method = "robust"</code>, as described in <a href="https://www.biorxiv.org/content/10.1101/668863v1">Sticker <em>et
 al</em>. (2019)</a> and
 visualise the data on an MDS plot. Which one do you anticipate to
 provide better results?</p>
-<details><div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb307-1" data-line-number="1">cptac_rob &lt;-<span class="st"> </span><span class="kw">combineFeatures</span>(cptac, <span class="dt">fcol =</span> <span class="st">"Proteins"</span>,</a>
-<a class="sourceLine" id="cb307-2" data-line-number="2">                             <span class="dt">method =</span> <span class="st">"robust"</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<details><div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb297-1" data-line-number="1">cptac_rob &lt;-<span class="st"> </span><span class="kw">combineFeatures</span>(cptac, <span class="dt">fcol =</span> <span class="st">"Proteins"</span>,</a>
+<a class="sourceLine" id="cb297-2" data-line-number="2">                             <span class="dt">method =</span> <span class="st">"robust"</span>, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Your data contains missing values. Please read the relevant section in
 ## the combineFeatures manual page for details on the effects of missing
 ## values on data aggregation.</code></pre>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" data-line-number="1"><span class="kw">plotMDS</span>(<span class="kw">exprs</span>(cptac_rob), <span class="dt">col =</span> <span class="kw">as.numeric</span>(cptac_rob<span class="op">$</span>condition))</a></code></pre></div>
+<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" data-line-number="1"><span class="kw">plotMDS</span>(<span class="kw">exprs</span>(cptac_rob), <span class="dt">col =</span> <span class="kw">as.numeric</span>(cptac_rob<span class="op">$</span>condition))</a></code></pre></div>
 <img src="_main_files/figure-html/combine_rob-1.png" width="672"></details>
 </div>
 <div id="more-on-issing-values" class="section level2">
@@ -1125,8 +1125,8 @@ will be guided by many factors, such as degree and (non-)random nature
 of the missingness.</p>
 <p>Below, we load an <code>MSnSet</code> with missing values, count the number
 missing and non-missing values.</p>
-<div class="sourceCode" id="cb310"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb310-1" data-line-number="1"><span class="kw">data</span>(naset)</a>
-<a class="sourceLine" id="cb310-2" data-line-number="2"><span class="kw">table</span>(<span class="kw">is.na</span>(naset))</a></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" data-line-number="1"><span class="kw">data</span>(naset)</a>
+<a class="sourceLine" id="cb300-2" data-line-number="2"><span class="kw">table</span>(<span class="kw">is.na</span>(naset))</a></code></pre></div>
 <pre><code>## 
 ## FALSE  TRUE 
 ## 10254   770</code></pre>
@@ -1135,7 +1135,7 @@ the experiments and features with many missing values will be grouped
 towards the top and right of the heatmap, and barplots at the top and
 right summarise the number of missing values in the respective samples
 (column) and rows (rows).</p>
-<div class="sourceCode" id="cb312"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb312-1" data-line-number="1"><span class="kw">naplot</span>(naset)</a></code></pre></div>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="kw">naplot</span>(naset)</a></code></pre></div>
 <div class="figure">
 <span id="fig:naplot"></span>
 <p class="caption marginnote shownote">
@@ -1149,13 +1149,13 @@ particular can suffer from a very high number of missing values.</p>
 <p>Missing value in <code>MSnSet</code> instances can be filtered out with the
 <code>filterNA</code> functions. By default, it removes features that contain at
 least <code>NA</code> value.</p>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb313-1" data-line-number="1"><span class="co">## remove features with missing values</span></a>
-<a class="sourceLine" id="cb313-2" data-line-number="2">tmp &lt;-<span class="st"> </span><span class="kw">filterNA</span>(naset)</a>
-<a class="sourceLine" id="cb313-3" data-line-number="3"><span class="kw">processingData</span>(tmp)</a></code></pre></div>
+<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb303-1" data-line-number="1"><span class="co">## remove features with missing values</span></a>
+<a class="sourceLine" id="cb303-2" data-line-number="2">tmp &lt;-<span class="st"> </span><span class="kw">filterNA</span>(naset)</a>
+<a class="sourceLine" id="cb303-3" data-line-number="3"><span class="kw">processingData</span>(tmp)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Subset [689,16][301,16] Sun Feb 16 20:51:42 2020 
-## Removed features with more than 0 NAs: Sun Feb 16 20:51:42 2020 
-## Dropped featureData's levels Sun Feb 16 20:51:42 2020 
+## Subset [689,16][301,16] Sun Feb 16 21:32:26 2020 
+## Removed features with more than 0 NAs: Sun Feb 16 21:32:26 2020 
+## Dropped featureData's levels Sun Feb 16 21:32:26 2020 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>It is of course possible to impute missing values (<code>?impute</code>). This is
 however not a straightforward thing, as is likely to dramatically fail
@@ -1196,13 +1196,13 @@ with different methods.</p>
 neighbour (<strong>left</strong>), maximum likelihood, …) when data are missing
 at random.Conversely, MNAR features should ideally be imputed with a
 <strong>left-censor</strong> (minimum value (<strong>right</strong>), but not zero, …) method.</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" data-line-number="1"><span class="co">## impute missing values using knn imputation</span></a>
-<a class="sourceLine" id="cb315-2" data-line-number="2">tmp &lt;-<span class="st"> </span><span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"knn"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb305-1" data-line-number="1"><span class="co">## impute missing values using knn imputation</span></a>
+<a class="sourceLine" id="cb305-2" data-line-number="2">tmp &lt;-<span class="st"> </span><span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"knn"</span>)</a></code></pre></div>
 <pre><code>## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 12 rows with more than 50 % entries missing;
 ##  mean imputation used for these rows</code></pre>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" data-line-number="1"><span class="kw">processingData</span>(tmp)</a></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb307-1" data-line-number="1"><span class="kw">processingData</span>(tmp)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using knn Sun Feb 16 20:51:42 2020 
+## Data imputation using knn Sun Feb 16 21:32:27 2020 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>There are various methods to perform data imputation, as described in
@@ -1214,9 +1214,9 @@ data.</p>
 using knn for data missing at random and the deterministic minumum
 left-cencored imputation for data missing no at random.</p>
 </blockquote>
-<details><div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" data-line-number="1"><span class="kw">impute</span>(naset, <span class="st">"mixed"</span>,</a>
-<a class="sourceLine" id="cb319-2" data-line-number="2">       <span class="dt">randna =</span> <span class="kw">fData</span>(naset)<span class="op">$</span>randna,</a>
-<a class="sourceLine" id="cb319-3" data-line-number="3">       <span class="dt">mar =</span> <span class="st">"knn"</span>, <span class="dt">mnar =</span> <span class="st">"MinDet"</span>)</a></code></pre></div>
+<details><div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" data-line-number="1"><span class="kw">impute</span>(naset, <span class="st">"mixed"</span>,</a>
+<a class="sourceLine" id="cb309-2" data-line-number="2">       <span class="dt">randna =</span> <span class="kw">fData</span>(naset)<span class="op">$</span>randna,</a>
+<a class="sourceLine" id="cb309-3" data-line-number="3">       <span class="dt">mar =</span> <span class="st">"knn"</span>, <span class="dt">mnar =</span> <span class="st">"MinDet"</span>)</a></code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 689 features, 16 samples 
 ##   element names: exprs 
@@ -1232,7 +1232,7 @@ left-cencored imputation for data missing no at random.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Sun Feb 16 20:51:43 2020 
+## Data imputation using mixed Sun Feb 16 21:32:27 2020 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 </details><blockquote>
@@ -1245,14 +1245,14 @@ method of choice, then quantifies the difference between original
 data, use this strategy to assess the difference between knn and
 Bayesian PCA imputation.</p>
 </blockquote>
-<details><div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb321-1" data-line-number="1">imp1 &lt;-<span class="st"> </span><span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"knn"</span>)</a></code></pre></div>
+<details><div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb311-1" data-line-number="1">imp1 &lt;-<span class="st"> </span><span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"knn"</span>)</a></code></pre></div>
 <pre><code>## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 12 rows with more than 50 % entries missing;
 ##  mean imputation used for these rows</code></pre>
-<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb323-1" data-line-number="1">imp2 &lt;-<span class="st"> </span><span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"bpca"</span>)</a>
-<a class="sourceLine" id="cb323-2" data-line-number="2"><span class="kw">summary</span>(<span class="kw">abs</span>(<span class="kw">exprs</span>(imp1)[<span class="kw">is.na</span>(naset)] <span class="op">-</span><span class="st"> </span><span class="kw">exprs</span>(imp2)[<span class="kw">is.na</span>(naset)]))</a></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb313-1" data-line-number="1">imp2 &lt;-<span class="st"> </span><span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"bpca"</span>)</a>
+<a class="sourceLine" id="cb313-2" data-line-number="2"><span class="kw">summary</span>(<span class="kw">abs</span>(<span class="kw">exprs</span>(imp1)[<span class="kw">is.na</span>(naset)] <span class="op">-</span><span class="st"> </span><span class="kw">exprs</span>(imp2)[<span class="kw">is.na</span>(naset)]))</a></code></pre></div>
 <pre><code>##      Min.   1st Qu.    Median      Mean   3rd Qu.      Max. 
 ## 5.332e-05 6.594e-03 1.535e-02 2.315e-02 2.855e-02 2.579e-01</code></pre>
-<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">as.numeric</span>(<span class="kw">na.omit</span>(<span class="kw">exprs</span>(naset))))</a></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">as.numeric</span>(<span class="kw">na.omit</span>(<span class="kw">exprs</span>(naset))))</a></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##  0.0170  0.1865  0.2440  0.2500  0.3080  0.6587</code></pre>
 </details><blockquote>
@@ -1263,7 +1263,7 @@ distribution of the quantitative data. For instance, here is the
 intensity distribution of the <code>naset</code> data. Verify the effect of
 applying <code>knn</code>, <code>zero</code>, <code>MinDet</code> and <code>bpca</code> on this distribution.</p>
 </blockquote>
-<div class="sourceCode" id="cb327"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb327-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">na.omit</span>(<span class="kw">exprs</span>(naset))))</a></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">na.omit</span>(<span class="kw">exprs</span>(naset))))</a></code></pre></div>
 <div class="figure">
 <span id="fig:nasetdist"></span>
 <p class="caption marginnote shownote">
@@ -1271,16 +1271,16 @@ Figure 5.8: Intensity disctribution of the <code>naset</code> data.
 </p>
 <img src="_main_files/figure-html/nasetdist-1.png" alt="Intensity disctribution of the `naset` data." width="672">
 </div>
-<details><div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb328-1" data-line-number="1">cls &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"steelblue"</span>, <span class="st">"orange"</span>)</a>
-<a class="sourceLine" id="cb328-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">na.omit</span>(<span class="kw">exprs</span>(naset))), <span class="dt">col =</span> cls[<span class="dv">1</span>])</a>
-<a class="sourceLine" id="cb328-3" data-line-number="3"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">exprs</span>(<span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"knn"</span>))), <span class="dt">col =</span> cls[<span class="dv">2</span>])</a></code></pre></div>
+<details><div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" data-line-number="1">cls &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"black"</span>, <span class="st">"red"</span>, <span class="st">"blue"</span>, <span class="st">"steelblue"</span>, <span class="st">"orange"</span>)</a>
+<a class="sourceLine" id="cb318-2" data-line-number="2"><span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">na.omit</span>(<span class="kw">exprs</span>(naset))), <span class="dt">col =</span> cls[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb318-3" data-line-number="3"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">exprs</span>(<span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"knn"</span>))), <span class="dt">col =</span> cls[<span class="dv">2</span>])</a></code></pre></div>
 <pre><code>## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 12 rows with more than 50 % entries missing;
 ##  mean imputation used for these rows</code></pre>
-<div class="sourceCode" id="cb330"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb330-1" data-line-number="1"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">exprs</span>(<span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"zero"</span>))), <span class="dt">col =</span> cls[<span class="dv">3</span>])</a>
-<a class="sourceLine" id="cb330-2" data-line-number="2"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">exprs</span>(<span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"MinDet"</span>))), <span class="dt">col =</span> cls[<span class="dv">4</span>])</a>
-<a class="sourceLine" id="cb330-3" data-line-number="3"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">exprs</span>(<span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"bpca"</span>))), <span class="dt">col =</span> cls[<span class="dv">5</span>])</a>
-<a class="sourceLine" id="cb330-4" data-line-number="4"><span class="kw">legend</span>(<span class="st">"topright"</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">"orig"</span>, <span class="st">"knn"</span>, <span class="st">"zero"</span>, <span class="st">"MinDet"</span>, <span class="st">"bpca"</span>),</a>
-<a class="sourceLine" id="cb330-5" data-line-number="5">       <span class="dt">col =</span> cls, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">bty =</span> <span class="st">"n"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb320-1" data-line-number="1"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">exprs</span>(<span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"zero"</span>))), <span class="dt">col =</span> cls[<span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb320-2" data-line-number="2"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">exprs</span>(<span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"MinDet"</span>))), <span class="dt">col =</span> cls[<span class="dv">4</span>])</a>
+<a class="sourceLine" id="cb320-3" data-line-number="3"><span class="kw">lines</span>(<span class="kw">density</span>(<span class="kw">exprs</span>(<span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"bpca"</span>))), <span class="dt">col =</span> cls[<span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb320-4" data-line-number="4"><span class="kw">legend</span>(<span class="st">"topright"</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">"orig"</span>, <span class="st">"knn"</span>, <span class="st">"zero"</span>, <span class="st">"MinDet"</span>, <span class="st">"bpca"</span>),</a>
+<a class="sourceLine" id="cb320-5" data-line-number="5">       <span class="dt">col =</span> cls, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">bty =</span> <span class="st">"n"</span>)</a></code></pre></div>
 <img src="_main_files/figure-html/naex3-1.png" width="672"></details>
 </div>
 <div id="differential-expression" class="section level2">
@@ -1327,7 +1327,7 @@ package.</p>
 </h3>
 <p>We can start with a simpe t-test comparing the expression of the first
 protein for groups A and B.</p>
-<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="kw">pData</span>(cptac_rob)</a></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb321-1" data-line-number="1"><span class="kw">pData</span>(cptac_rob)</a></code></pre></div>
 <pre><code>##     condition sample
 ## A_7         A      7
 ## A_8         A      8
@@ -1335,32 +1335,32 @@ protein for groups A and B.</p>
 ## B_7         B      7
 ## B_8         B      8
 ## B_9         B      9</code></pre>
-<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb333-1" data-line-number="1">tt1 &lt;-<span class="st"> </span><span class="kw">t.test</span>(<span class="kw">exprs</span>(cptac_rob)[<span class="dv">1</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
-<a class="sourceLine" id="cb333-2" data-line-number="2">              <span class="kw">exprs</span>(cptac_rob)[<span class="dv">1</span>, <span class="dv">4</span><span class="op">:</span><span class="dv">6</span>])</a>
-<a class="sourceLine" id="cb333-3" data-line-number="3">tt1<span class="op">$</span>p.value</a></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb323-1" data-line-number="1">tt1 &lt;-<span class="st"> </span><span class="kw">t.test</span>(<span class="kw">exprs</span>(cptac_rob)[<span class="dv">1</span>, <span class="dv">1</span><span class="op">:</span><span class="dv">3</span>],</a>
+<a class="sourceLine" id="cb323-2" data-line-number="2">              <span class="kw">exprs</span>(cptac_rob)[<span class="dv">1</span>, <span class="dv">4</span><span class="op">:</span><span class="dv">6</span>])</a>
+<a class="sourceLine" id="cb323-3" data-line-number="3">tt1<span class="op">$</span>p.value</a></code></pre></div>
 <pre><code>## [1] 0.01370111</code></pre>
 <p>This approach can be applied on each protein (row) of our dataset by
 writing a simple helper function. This will however fail if we don’t
 have at least 2 expression values per group. We thus also apply an
 additional filter to remove features with <code>NA</code> values (this could be
 refined, but see below).</p>
-<div class="sourceCode" id="cb335"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb335-1" data-line-number="1">my_t_test &lt;-<span class="st"> </span><span class="cf">function</span>(prot_i) </a>
-<a class="sourceLine" id="cb335-2" data-line-number="2">    <span class="kw">t.test</span>(prot_i[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], prot_i[<span class="dv">4</span><span class="op">:</span><span class="dv">6</span>])<span class="op">$</span>p.value</a>
-<a class="sourceLine" id="cb335-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb335-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb335-5" data-line-number="5">cptac_rob_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">filterNA</span>(cptac_rob)                     </a>
-<a class="sourceLine" id="cb335-6" data-line-number="6">pv &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">exprs</span>(cptac_rob_<span class="dv">2</span>), <span class="dv">1</span>, my_t_test)</a></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb325-1" data-line-number="1">my_t_test &lt;-<span class="st"> </span><span class="cf">function</span>(prot_i) </a>
+<a class="sourceLine" id="cb325-2" data-line-number="2">    <span class="kw">t.test</span>(prot_i[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>], prot_i[<span class="dv">4</span><span class="op">:</span><span class="dv">6</span>])<span class="op">$</span>p.value</a>
+<a class="sourceLine" id="cb325-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb325-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb325-5" data-line-number="5">cptac_rob_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">filterNA</span>(cptac_rob)                     </a>
+<a class="sourceLine" id="cb325-6" data-line-number="6">pv &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">exprs</span>(cptac_rob_<span class="dv">2</span>), <span class="dv">1</span>, my_t_test)</a></code></pre></div>
 <p><strong>Exercise</strong> Do you think we have any statistically differentially
 expressed proteins?</p>
-<details><div class="sourceCode" id="cb336"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb336-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">sort</span>(pv))</a></code></pre></div>
+<details><div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb326-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">sort</span>(pv))</a></code></pre></div>
 <pre><code>##  P63279ups|UBC9_HUMAN_UPS   P99999ups|CYC_HUMAN_UPS P10636-8ups|TAU_HUMAN_UPS 
 ##              5.571678e-05              8.461009e-05              2.612725e-04 
 ##  P08311ups|CATG_HUMAN_UPS Q06830ups|PRDX1_HUMAN_UPS      sp|P31787|ACBP_YEAST 
 ##              6.063902e-04              7.002872e-04              1.214933e-03</code></pre>
-<div class="sourceCode" id="cb338"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb338-1" data-line-number="1"><span class="kw">hist</span>(pv)</a></code></pre></div>
-<p><img src="_main_files/figure-html/unnamed-chunk-19-1.png" width="672"></p>
-<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb339-1" data-line-number="1">adjp &lt;-<span class="st"> </span><span class="kw">p.adjust</span>(pv, <span class="dt">method =</span> <span class="st">"BH"</span>)</a>
-<a class="sourceLine" id="cb339-2" data-line-number="2"><span class="kw">sum</span>(adjp <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb328"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb328-1" data-line-number="1"><span class="kw">hist</span>(pv)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-21-1.png" width="672"></p>
+<div class="sourceCode" id="cb329"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb329-1" data-line-number="1">adjp &lt;-<span class="st"> </span><span class="kw">p.adjust</span>(pv, <span class="dt">method =</span> <span class="st">"BH"</span>)</a>
+<a class="sourceLine" id="cb329-2" data-line-number="2"><span class="kw">sum</span>(adjp <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</a></code></pre></div>
 <pre><code>## [1] 2</code></pre>
 </details><p>See also <a href="https://uclouvain-cbio.github.io/WSBIM1322/sec-testing.html">this
 chapter</a>
@@ -1370,20 +1370,21 @@ for a longer discussion of hypothesis testing.</p>
 <h3>
 <span class="header-section-number">5.14.2</span> <code>limma</code>
 </h3>
-<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"limma"</span>)</a>
-<a class="sourceLine" id="cb341-2" data-line-number="2">design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>cptac_rob<span class="op">$</span>condition)</a>
-<a class="sourceLine" id="cb341-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">lmFit</span>(<span class="kw">exprs</span>(cptac_rob), design)</a></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"limma"</span>)</a>
+<a class="sourceLine" id="cb331-2" data-line-number="2">design &lt;-<span class="st"> </span><span class="kw">model.matrix</span>(<span class="op">~</span><span class="st"> </span>cptac_rob<span class="op">$</span>condition)</a>
+<a class="sourceLine" id="cb331-3" data-line-number="3">fit &lt;-<span class="st"> </span><span class="kw">lmFit</span>(<span class="kw">exprs</span>(cptac_rob), design)</a></code></pre></div>
 <pre><code>## Warning: Partial NA coefficients for 23 probe(s)</code></pre>
-<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">eBayes</span>(fit)</a>
-<a class="sourceLine" id="cb343-2" data-line-number="2">res &lt;-<span class="st"> </span><span class="kw">topTable</span>(fit, <span class="dt">coef =</span> <span class="st">"cptac_rob$conditionB"</span>, <span class="dt">number =</span> <span class="ot">Inf</span>)</a>
-<a class="sourceLine" id="cb343-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb343-4" data-line-number="4"><span class="kw">library</span>(<span class="st">"tidyverse"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb333-1" data-line-number="1">fit &lt;-<span class="st"> </span><span class="kw">eBayes</span>(fit)</a>
+<a class="sourceLine" id="cb333-2" data-line-number="2">res &lt;-<span class="st"> </span><span class="kw">topTable</span>(fit, <span class="dt">coef =</span> <span class="st">"cptac_rob$conditionB"</span>, <span class="dt">number =</span> <span class="ot">Inf</span>)</a>
+<a class="sourceLine" id="cb333-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb333-4" data-line-number="4"><span class="kw">library</span>(<span class="st">"tidyverse"</span>)</a></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✔ tibble  2.1.3     ✔ purrr   0.3.3
 ## ✔ tidyr   1.0.2     ✔ stringr 1.4.0
 ## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::combine()    masks gridExtra::combine(), MSnbase::combine(), Biobase::combine(), BiocGenerics::combine()
+## ✖ purrr::detect()     masks RforProteomics::detect()
 ## ✖ tidyr::expand()     masks Matrix::expand(), S4Vectors::expand()
 ## ✖ dplyr::filter()     masks stats::filter()
 ## ✖ dplyr::first()      masks S4Vectors::first()
@@ -1397,7 +1398,7 @@ for a longer discussion of hypothesis testing.</p>
 ## ✖ dplyr::rename()     masks S4Vectors::rename()
 ## ✖ dplyr::sql()        masks dbplyr::sql()
 ## ✖ tidyr::unpack()     masks Matrix::unpack()</code></pre>
-<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" data-line-number="1">res <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(adj.P.Val <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb337-1" data-line-number="1">res <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(adj.P.Val <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>)</a></code></pre></div>
 <pre><code>##       logFC  AveExpr         t      P.Value   adj.P.Val           B
 ## 1  2.050636 16.75273 15.857724 1.377091e-06 0.001103142  5.99730657
 ## 2  1.821672 17.43785 15.438383 1.642745e-06 0.001103142  5.84987099
@@ -1420,29 +1421,29 @@ for a longer discussion of hypothesis testing.</p>
 ## 19 1.434464 16.87585  6.419197 4.212124e-04 0.031848339  0.46124872
 ## 20 1.813716 16.98311  7.783811 7.107145e-04 0.046061069  0.32845653
 ## 21 2.013064 18.37888  5.883578 7.002362e-04 0.046061069 -0.07588204</code></pre>
-<div class="sourceCode" id="cb349"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb349-1" data-line-number="1"><span class="kw">fData</span>(cptac_rob) &lt;-</a>
-<a class="sourceLine" id="cb349-2" data-line-number="2"><span class="st">    </span><span class="kw">full_join</span>(<span class="kw">rownames_to_column</span>(<span class="kw">fData</span>(cptac_rob)),</a>
-<a class="sourceLine" id="cb349-3" data-line-number="3">              <span class="kw">rownames_to_column</span>(res)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb349-4" data-line-number="4"><span class="st">    </span><span class="kw">column_to_rownames</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb339"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb339-1" data-line-number="1"><span class="kw">fData</span>(cptac_rob) &lt;-</a>
+<a class="sourceLine" id="cb339-2" data-line-number="2"><span class="st">    </span><span class="kw">full_join</span>(<span class="kw">rownames_to_column</span>(<span class="kw">fData</span>(cptac_rob)),</a>
+<a class="sourceLine" id="cb339-3" data-line-number="3">              <span class="kw">rownames_to_column</span>(res)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb339-4" data-line-number="4"><span class="st">    </span><span class="kw">column_to_rownames</span>()</a></code></pre></div>
 <pre><code>## Joining, by = "rowname"</code></pre>
-<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb351-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"ggrepel"</span>)</a>
-<a class="sourceLine" id="cb351-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="kw">fData</span>(cptac_rob),</a>
-<a class="sourceLine" id="cb351-3" data-line-number="3">       <span class="kw">aes</span>(<span class="dt">x =</span> logFC,</a>
-<a class="sourceLine" id="cb351-4" data-line-number="4">           <span class="dt">y =</span> <span class="op">-</span><span class="kw">log10</span>(adj.P.Val))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb351-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"ggrepel"</span>)</a>
+<a class="sourceLine" id="cb341-2" data-line-number="2"><span class="kw">ggplot</span>(<span class="kw">fData</span>(cptac_rob),</a>
+<a class="sourceLine" id="cb341-3" data-line-number="3">       <span class="kw">aes</span>(<span class="dt">x =</span> logFC,</a>
+<a class="sourceLine" id="cb341-4" data-line-number="4">           <span class="dt">y =</span> <span class="op">-</span><span class="kw">log10</span>(adj.P.Val))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb341-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>()</a></code></pre></div>
 <pre><code>## Warning: Removed 23 rows containing missing values (geom_point).</code></pre>
 <p><img src="_main_files/figure-html/limmatomsnset-1.png" width="672"></p>
-<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb353-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">fData</span>(cptac_rob),</a>
-<a class="sourceLine" id="cb353-2" data-line-number="2">       <span class="kw">aes</span>(<span class="dt">x =</span> logFC,</a>
-<a class="sourceLine" id="cb353-3" data-line-number="3">           <span class="dt">y =</span> <span class="op">-</span><span class="kw">log10</span>(adj.P.Val),</a>
-<a class="sourceLine" id="cb353-4" data-line-number="4">           <span class="dt">label =</span> <span class="kw">sub</span>(<span class="st">"</span><span class="ch">\\</span><span class="st">[OS.+</span><span class="ch">\\</span><span class="st">]"</span>, <span class="st">""</span>, Proteins))) <span class="op">+</span></a>
-<a class="sourceLine" id="cb353-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb353-6" data-line-number="6"><span class="st">    </span><span class="kw">geom_text_repel</span>(</a>
-<a class="sourceLine" id="cb353-7" data-line-number="7">        <span class="dt">data =</span> <span class="kw">subset</span>(<span class="kw">fData</span>(cptac_rob), adj.P.Val <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>),</a>
-<a class="sourceLine" id="cb353-8" data-line-number="8">        <span class="dt">nudge_x =</span> <span class="fl">0.05</span>,</a>
-<a class="sourceLine" id="cb353-9" data-line-number="9">        <span class="dt">nudge_y =</span> <span class="fl">-0.05</span>,</a>
-<a class="sourceLine" id="cb353-10" data-line-number="10">        <span class="dt">segment.size =</span> <span class="fl">0.5</span>,</a>
-<a class="sourceLine" id="cb353-11" data-line-number="11">    )</a></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb343-1" data-line-number="1"><span class="kw">ggplot</span>(<span class="kw">fData</span>(cptac_rob),</a>
+<a class="sourceLine" id="cb343-2" data-line-number="2">       <span class="kw">aes</span>(<span class="dt">x =</span> logFC,</a>
+<a class="sourceLine" id="cb343-3" data-line-number="3">           <span class="dt">y =</span> <span class="op">-</span><span class="kw">log10</span>(adj.P.Val),</a>
+<a class="sourceLine" id="cb343-4" data-line-number="4">           <span class="dt">label =</span> <span class="kw">sub</span>(<span class="st">"</span><span class="ch">\\</span><span class="st">[OS.+</span><span class="ch">\\</span><span class="st">]"</span>, <span class="st">""</span>, Proteins))) <span class="op">+</span></a>
+<a class="sourceLine" id="cb343-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb343-6" data-line-number="6"><span class="st">    </span><span class="kw">geom_text_repel</span>(</a>
+<a class="sourceLine" id="cb343-7" data-line-number="7">        <span class="dt">data =</span> <span class="kw">subset</span>(<span class="kw">fData</span>(cptac_rob), adj.P.Val <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.05</span>),</a>
+<a class="sourceLine" id="cb343-8" data-line-number="8">        <span class="dt">nudge_x =</span> <span class="fl">0.05</span>,</a>
+<a class="sourceLine" id="cb343-9" data-line-number="9">        <span class="dt">nudge_y =</span> <span class="fl">-0.05</span>,</a>
+<a class="sourceLine" id="cb343-10" data-line-number="10">        <span class="dt">segment.size =</span> <span class="fl">0.5</span>,</a>
+<a class="sourceLine" id="cb343-11" data-line-number="11">    )</a></code></pre></div>
 <pre><code>## Warning: Removed 23 rows containing missing values (geom_point).</code></pre>
 <p><img src="_main_files/figure-html/limmatomsnset-2.png" width="672"></p>
 </div>

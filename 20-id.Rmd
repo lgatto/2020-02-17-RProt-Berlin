@@ -20,7 +20,7 @@ head(iddf)
 ```
 
 When adding identification data with the `addIdentificationData`
-function as shown above, the data is first read with `readMzIdData`,
+function (as shown below), the data is first read with `readMzIdData`,
 and is then cleaned up:
 
 - only PSMs matching the regular (non-decoy) database are retained;
@@ -34,8 +34,10 @@ table(iddf$isDecoy)
 table(iddf$rank)
 ```
 
-> **Exercise** This behaviour can be replicates with the
-> `filterIdentificationDataFrame` function. Try it out for yourself.
+### Exercise {-}
+
+This behaviour can be replicates with the
+`filterIdentificationDataFrame` function. Try it out for yourself.
 
 <details>
 ```{r filtid}
@@ -45,15 +47,18 @@ table(iddf2$rank)
 ```
 </details>
 
-> **Exercise** The standard `r CRANpkg("tidyverse")` tools are fit for
-> data wrangling with identification data. Using the above
-> identification dataframe, calculate the length of each peptide (you
-> can use `nchar` with the peptide sequence `sequence`) and the number
-> of peptides for each protein (defined as
-> `DatabaseDescription`). Plot the length of the proteins against
-> their respective number of peptides. Optionally, stratify the plot
-> by the peptide e-value score (`MS.GF.EValue`) using for example
-> `cut` to define bins.
+### Exercise {-} 
+
+The `r CRANpkg("tidyverse")` 
+tools are fit for data wrangling with identification data. Using the
+above identification dataframe, calculate the length of each peptide
+(you can use `nchar` with the peptide sequence `sequence`) and the
+number of peptides for each protein (defined as
+`DatabaseDescription`). Plot the length of the proteins against their
+respective number of peptides. Optionally, stratify the plot by the
+peptide e-value score (`MS.GF.EValue`) using for example `cut` to
+define bins.
+
 
 <details>
 ```{r answid1, fig.cap="Identifcation data wrangling 1"}
@@ -259,9 +264,11 @@ and a dot product of
 `r round(compareSpectra(itraqdata2[[25]], itraqdata2[[28]], fun = "dotproduct"), 3)`
 (see `?compareSpectra` for details).
 
-> **Exercise** Use the `compareSpectra` function to compare spectra 25
->  and 28 plotted above, calculating the metrics mentioned
->  above. Don't forget to pick peaks from `itraqdata` first.
+### Exercise {-}
+
+Use the `compareSpectra` function to compare spectra 25 and 28 plotted
+above, calculating the metrics mentioned above. Don't forget to pick
+peaks from `itraqdata` first.
 
 <details>
 ```{r compspex}
@@ -360,7 +367,7 @@ msnid <- assess_missed_cleavages(msnid, missedCleavagePattern="[KR](?=[^P$])")
 
 Now, we can use the `apply_filter` function to effectively apply
 filters. The strings passed to the function represent expressions that
-will be evaluated, this keeping only PSMs that have 0 irregular
+will be evaluated, thus keeping only PSMs that have 0 irregular
 cleavages and 2 or less missed cleavages.
 
 ```{r msnidtrim}

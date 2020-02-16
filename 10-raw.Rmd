@@ -106,7 +106,7 @@ and manipulate raw data. In comes `MSnbase` and the `MSnExp` data
 structure, that provides a much smoother approach to *handle* and
 *annotate* raw data (we will see this in more details tomorrow).
 
-![MSnExp schematics](../img/pset.jpg)
+![MSnExp schematics](./img/pset.jpg)
 
 An `MSnExp` contains the data and annotation to describe an MS
 experiment. The data is composed of all the MS spectra (the output of
@@ -241,7 +241,7 @@ structured slices of data.
 
 
 ```{r, echo = FALSE, message = FALSE, out.width='100%', fig.align='center'}
-knitr::include_graphics("../img/msvisfig.png")
+knitr::include_graphics("./img/msvisfig.png")
 ```
 
 In this code chunks we start by selecting relevant spectra of
@@ -379,8 +379,8 @@ plot3D(M4)
 
 Below, we have animations build from extracting successive slices as above.
 
-![MS animation 1](../img/msanim1.gif)
-![MS animation 2](../img/msanim2.gif)
+![MS animation 1](./img/msanim1.gif)
+![MS animation 2](./img/msanim2.gif)
 
 
 
