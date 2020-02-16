@@ -2,6 +2,7 @@
 
 - Annoucement: https://www.physalia-courses.org/courses-workshops/course58/
 - Course: https://lgatto.github.io/2020-02-17-RProt-Berlin/
+- Short URL: http://bit.ly/2002rbiocprot
 
 ## Dates and location
 
