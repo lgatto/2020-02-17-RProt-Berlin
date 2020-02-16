@@ -380,16 +380,40 @@ Below, we have animations build from extracting successive slices as above.
 ![MS animation 2](../img/msanim2.gif)
 
 
-# Raw data processing
 
-`MSnbase` also provides some raw data processing functionality, that
-can be used for some targeted data exploration; for example, mz
-trimming, intensity thresholding, peak picking, smoothing, ... We
-redirect you to section 6 *Raw data processing* of the [main `MSnbase`
+## Raw data processing
+
+For raw data processing look at `MSnbase`'s `clean`, `smooth`,
+`pickPeaks`, `removePeaks` and `trimMz` for `MSnExp` and spectra
+processing methods.
+
+As an illustration, we show the `pickPeaks` function on the
+`itraqdata` data. Centoiding transforms the distribution of M/Z values
+measured for an ion (i.e. a set of M/Z and intensities, first figure
+below) into a single M/Z and intensity pair of values (second figure
+below).
+
+
+```{r peakpicking, fig.keep = "last", fig.cap = "Peak picking: profile mode."}
+library("ggplot2") ## for coord_cartesian
+data(itraqdata)
+plot(itraqdata[[10]], full = TRUE) +
+    coord_cartesian(xlim = c(915, 925))
+```
+
+```{r peakpicking2, fig.keep = "last", fig.cap = "Peak picking: centroided."}
+itraqdata2 <- pickPeaks(itraqdata)
+plot(itraqdata2[[10]], full = TRUE) +
+    coord_cartesian(xlim = c(915, 925))
+```
+
+
+See also section 6 *Raw data processing* of the [main `MSnbase`
 vignette](http://lgatto.github.io/MSnbase/articles/v01-MSnbase-demo.html)
-(available with `vignette("MSnbase-demo", package =
-"MSnbase")`). 
+and the [*centroiding of profile-mode MS
+data*](http://lgatto.github.io/MSnbase/articles/v03-MSnbase-centroiding.html).
 
 
-
-
+The `r Biocpkg("MALDIquant")` and `r Biocpkg("xcms")` packages also
+features a wide range of raw data processing methods on their own ad
+hoc data instance types.
