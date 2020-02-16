@@ -1,6 +1,7 @@
 # R/Bioconductor for Mass Spectrometry and Proteomics
 
-URL https://www.physalia-courses.org/courses-workshops/course58/
+- Annoucement: https://www.physalia-courses.org/courses-workshops/course58/
+- Course: https://lgatto.github.io/2020-02-17-RProt-Berlin/
 
 ## Dates and location
 
@@ -34,6 +35,7 @@ but not required.
 ## Program
 
 ### Day 1
+
 
 During the first day, we will focus on raw MS data, including how mass
 spectrometry works, how raw MS data looks like, MS data formats, and
