@@ -183,8 +183,10 @@ pData(res)$group
 res$group
 ```
 
-> **Exercise** Using `readMSnSet2`, load the following file that was
-> part of the supplementary information of a manuscript.
+### Exercise {-}
+
+Using `readMSnSet2`, load the following file that was part of the
+supplementary information of a manuscript.
 
 ```{r pdfile}
 csvfile <- dir(system.file("extdata", package = "pRolocdata"),
@@ -193,15 +195,15 @@ csvfile <- dir(system.file("extdata", package = "pRolocdata"),
 basename(csvfile)
 ```
 
-> You'll first need to identify which columns to use as expression
-> data. In this case however, two rows are used as header, and you'll
-> need to set `n` in `getEcols` to retrieve the appropriate one. There
-> are 20 expresion columns annotated as TMT 10 plex reporter ion M/Z
-> values (if you don't know these, you can find them out by looking at
-> the `TMT10` reporter ion object). You can now use `readMSnSet2`,
-> remembering to skip 1 line and, optionally, use the first column as
-> feature names (see the `fnames` argument). What are the number of
-> features and samples in the data?
+You'll first need to identify which columns to use as expression
+data. In this case however, two rows are used as header, and you'll
+need to set `n` in `getEcols` to retrieve the appropriate one. There
+are 20 expresion columns annotated as TMT 10 plex reporter ion M/Z
+values (if you don't know these, you can find them out by looking at
+the `TMT10` reporter ion object). You can now use `readMSnSet2`,
+remembering to skip 1 line and, optionally, use the first column as
+feature names (see the `fnames` argument). What are the number of
+features and samples in the data?
 
 
 <details>
@@ -212,11 +214,13 @@ dim(msn)
 ```
 </details>
 
-> **Exercise** Add the following experimental design to the `MSnSet`
-> created above. The 10 first samples originate from batch A, and the
-> 10 following from batch B. Sameple 1 to 5 and 11 to 15 belong to the
-> control group, and the others to the condition group. Even samples
-> are female and odd samples are male.
+### Exercise {-}
+
+Add the following experimental design to the `MSnSet` created
+above. The 10 first samples originate from batch A, and the 10
+following from batch B. Sameple 1 to 5 and 11 to 15 belong to the
+control group, and the others to the condition group. Even samples are
+female and odd samples are male.
 
 <details>
 ```{r solreadmsnset2}
@@ -356,8 +360,9 @@ used to filter the peptide-level data.
 (cptac <- cptac[fData(cptac)$Proteins %in% keep, ])
 ```
 
-**Exercise**: How many peptides have we lost by removing the proteins
-above?
+### Exercise {-}
+
+How many peptides have we lost by removing the proteins above?
 
 ## Filtering out contaminants and reverse hits
 
@@ -413,7 +418,7 @@ We now remove the peptides matched to these proteins:
 (cptac <- cptac[!fData(cptac)$Proteins %in% ptm_only, ])
 ```
 
-## Notes on missing values
+## Missing values
 
 Unfortunately, some software use 0 irrespective whether the data has
 intensity zero and when the data haven't been observer. Below we fix
@@ -465,17 +470,8 @@ filterNA(cptac)
 ```
 
 - perform **imputation**, considering the underlying nature of
-  missingness, i.e missing not at random (left-censored) or at random.
-
-
-```{r lazar, fig.cap = "Effect of the nature of missing values on their imputation. Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better.", echo = FALSE}
-knitr::include_graphics("./img/imp-sim.png")
-```
-
-See Lazar *et al.* [Accounting for the Multiple Natures of Missing
-Values in Label-Free Quantitative Proteomics Data Sets to Compare
-Imputation
-Strategies](http://dx.doi.org/10.1021/acs.jproteome.5b00981).
+  missingness, i.e missing not at random (left-censored) or at
+  random. See below.
 
 - The best solution is arguably to handle missing values at **the
   statistical test level**, which is the approach we are going to use.
@@ -548,8 +544,10 @@ visualise the protein-level data on an MDS plot.
 plotMDS(exprs(cptac_prot), col = as.numeric(cptac_prot$condition))
 ```
 
-**Exercise**: Repeat the summarisation using a the robust
-normalisation by setting`method = "robust"`, as described in [Sticker *et
+### Exercise {-}
+
+Repeat the summarisation using a the robust normalisation by setting
+`method = "robust"`, as described in [Sticker *et
 al*. (2019)](https://www.biorxiv.org/content/10.1101/668863v1) and
 visualise the data on an MDS plot. Which one do you anticipate to
 provide better results?
@@ -563,7 +561,7 @@ plotMDS(exprs(cptac_rob), col = as.numeric(cptac_rob$condition))
 </details>
 
 
-## More on issing values
+## More on missing values
 
 Finally, proteomics data analysis is generally hampered by missing
 values. Missing data imputation is a sensitive operation whose success
@@ -640,7 +638,17 @@ of missing values (as documented in this
 missing at random, and those missing not at random should be imputed
 with different methods.
 
-![Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better. (See [here](http://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981) for details)](./img/imp-sim.png)
+
+
+```{r lazar, fig.cap = "Effect of the nature of missing values on their imputation. Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better.", echo = FALSE, out.width='100%'}
+knitr::include_graphics("./img/imp-sim.png")
+```
+
+See Lazar *et al.* [Accounting for the Multiple Natures of Missing
+Values in Label-Free Quantitative Proteomics Data Sets to Compare
+Imputation
+Strategies](http://dx.doi.org/10.1021/acs.jproteome.5b00981).
+
 
 Generally, it is recommended to use **hot deck** methods (nearest
 neighbour (**left**), maximum likelihood, ...) when data are missing
@@ -660,9 +668,11 @@ functionality, including some to estimate the randomness of missing
 data.
 
 
-> **Exercise** Following the example above, apply a mixed imputation,
-> using knn for data missing at random and the deterministic minumum
-> left-cencored imputation for data missing no at random.
+### Exercise {-}
+
+Following the example above, apply a mixed imputation, using knn for
+data missing at random and the deterministic minumum left-cencored
+imputation for data missing no at random.
 
 
 <details>
@@ -673,14 +683,15 @@ impute(naset, "mixed",
 ```
 </details>
 
-> **Exercise** When assessing missing data imputation methods, such as
-> in [Lazar et
-> al. (2016)](https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981),
-> one often replaces values with missing data, imputes these with a
-> method of choice, then quantifies the difference between original
-> (expected) and observed (imputed) values. Here, using the `naset`
-> data, use this strategy to assess the difference between knn and
-> Bayesian PCA imputation.
+### Exercise {-}
+
+When assessing missing data imputation methods, such as in [Lazar et
+al. (2016)](https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981),
+one often replaces values with missing data, imputes these with a
+method of choice, then quantifies the difference between original
+(expected) and observed (imputed) values. Here, using the `naset`
+data, use this strategy to assess the difference between knn and
+Bayesian PCA imputation.
 
 <details>
 ```{r naex2, cache = TRUE}
@@ -691,12 +702,14 @@ summary(as.numeric(na.omit(exprs(naset))))
 ```
 </details>
 
-> **Exercise** When assessing the impact of missing value imputation
-> on real data, one can't use the strategy above. Another useful
-> approach is to assess the impact of the imputation method on the
-> distribution of the quantitative data. For instance, here is the
-> intensity distribution of the `naset` data. Verify the effect of
-> applying `knn`, `zero`, `MinDet` and `bpca` on this distribution.
+### Exercise {-}
+
+When assessing the impact of missing value imputation on real data,
+one can't use the strategy above. Another useful approach is to assess
+the impact of the imputation method on the distribution of the
+quantitative data. For instance, here is the intensity distribution of
+the `naset` data. Verify the effect of applying `knn`, `zero`,
+`MinDet` and `bpca` on this distribution.
 
 ```{r nasetdist, fig.cap = "Intensity disctribution of the `naset` data."}
 plot(density(na.omit(exprs(naset))))
@@ -714,8 +727,6 @@ legend("topright", legend = c("orig", "knn", "zero", "MinDet", "bpca"),
        col = cls, lwd = 2, bty = "n")
 ```
 </details>
-
-
 
 
 ## Differential expression
@@ -789,8 +800,10 @@ pv <- apply(exprs(cptac_rob_2), 1, my_t_test)
 ```
 
 
-**Exercise** Do you think we have any statistically differentially
-expressed proteins?
+### Exercise {-}
+
+Do you think we have any statistically differentially expressed
+proteins?
 
 <details>
 ```{r}
@@ -845,7 +858,199 @@ ggplot(fData(cptac_rob),
 
 ```
 
-### [Differential expression with `MSqRob`](https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html#differential-expression-analysis)
+### Differential expression with `MSqRob`
+
+**Exercise**: In this section, the median-summarised protein data will
+be used. As an exercice, you are advised to use the best of the
+median- or robust-summerised data and compare your results with those
+shown below.
+
+```{r, message = FALSE}
+library("MSqRob")
+```
+
+#### Estimation {-}
+
+`MSqRob` is currently working with a format where we have one
+dataframe for each protein.  This will be changed in the next release
+to use the `MSnSet` directly. Therefore we first have to reorganise
+the data.
+
+```{r dfprot, cache = TRUE}
+protMSqRob <- MSnSet2protdata(cptac_prot, "Proteins")
+```
+
+Next the models are fitted. This is done using the `fit.model`
+function.  We only have to model the data using the factor condition
+from the sample metadata (the `pData` slot) of the protein level
+`MSnSet`.  The name of the factor variable is specified in the fixed
+argument (if multiple predictors have to be incorporated in the model,
+a vector of variable names has to be provided in this argument). The
+argument shrinkage is used to specify if ridge regression has to be
+adopted.  For the sake of speed we do not do this in the tutorial. The
+shrinkage has to be specified for each variable in the fixed
+effects. We also have to indicate this for the intercept (which we
+never shrink).  So we specify it at `c(0, 0)` to indicate that the
+intercept (first 0) and the parameters for the factor condition
+(second 0) are not penalized.  We set the `robust_var` function equal
+to `FALSE` - this functionality will be removed from the package in
+the next release.
+
+
+```{r models, cache = TRUE}
+models <- fit.model(protdata = protMSqRob,
+                    response = "quant_value",
+                    fixed = "condition",
+                    shrinkage.fixed = c(0, 0),
+                    robust_var = FALSE)
+```
+
+#### Inference {-}
+
+Often, biologists have problems with the reference coding. In MSqRob
+we have opted to formulate contrasts using all levels of a factor.
+Internally, the contrasts are than recasted according to the factor
+level that is the reference class.
+
+```{r inference}
+L <- makeContrast("conditionB - conditionA",
+                  levels = c("conditionA", "conditionB"))
+res <- test.contrast_adjust(models, L)
+head(res)
+```
+
+Below, we put the results of the statistical analysis back into the
+`MSnSet` feature data, to keep the data and their analysis
+together. We need however to rearrange the proteins in the result
+dataframe (ordered by adjusted p-value) to match the order in the
+`MSnSet`.
+
+
+```{r inf_in_msnset}
+fData(cptac_prot)$res <- res[featureNames(cptac_prot), ]
+```
+
+There are `r sum(fData(cptac_prot)$res$signif, na.rm = TRUE)` 
+protein groups identified as differentially expressed at a significant
+effect at the 5% FDR level.
+
+
+## Visualising DE results
+
+### Volcano plot
+
+```{r volc}
+library("ggplot2")
+volc <- ggplot(fData(cptac_prot)$res,
+               aes(x = estimate,
+                   y = -log10(pval),
+                   color = signif)) +
+    geom_point() +
+    scale_color_manual(values = c("black", "red"))
+volc
+```
+
+It is easy to generate an interactive graph to explore the results
+using the `plotly` package and passing the ggplot-object to the
+`ggplotly` function:
+
+```{r volcly, eval = FALSE}
+plotly::ggplotly(volc)
+```
+
+### Heatmap
+
+```{r hmap}
+sign <- which(fData(cptac_prot)$res$sig)
+heatmap(exprs(cptac_prot)[sign,])
+```
+
+### Expression data for proteins of interest
+
+Below, we extract the peptide data matching the differentially
+expressed proteins.
+
+```{r de_peps}
+sign_prots <- featureNames(cptac_prot)[sign]
+(cptac_sign <- cptac[fData(cptac)$Proteins %in% sign_prots, ])
+```
+
+In the following code chunk, we convert the peptide-level `MSnSet`
+containing the significant peptides using the `ms2df` helper function,
+convert that wide format dataframe to a long format and visualise the
+expression distributions in each group.
+
+```{r de_peps_ggplot, warning = FALSE}
+library("magrittr")
+ms2df(cptac_sign) %>%
+    tidyr::gather(key = sample, value = expression, 1:6) %>%
+    ggplot(aes(x = sample, y = expression)) +
+    geom_boxplot() +
+    geom_jitter(aes(colour = Sequence)) +
+    facet_grid(Proteins ~ .)
+```
+
+### Global fold-changes
+
+Because we know the ground truth for the cptac study, i.e. we know
+that only the spike-in proteins (UPS) are differentially expressed, we
+can evalute the fold changes. Yeast proteins should be not
+differentially expressed and their log fold changes should be centered
+around 0. These of UPS proteins are spiked at differt concentrations
+and their log2 fold changes should be centered around $log2(concB/concA)$, 
+i.e $log2(0.74/0.25) = 1.56$.
+
+```{r lfc}
+fData(cptac_prot)$res$spike <- grepl("UPS", fData(cptac_prot)$Proteins)
+
+ggplot(fData(cptac_prot)$res,
+       aes(x = spike, y = estimate)) +
+    geom_boxplot() +
+    ylab("log2 FC") + 
+    geom_hline(yintercept = c(0, log(0.74/0.25, base = 2)),
+               color = "red")
+```
+
+### Sensitivity FDP plot
+
+Because we know the ground truth for the cptac study, i.e. we know
+that only the spike-in proteins (UPS) are differentially expressed, we
+can calculate
+
+- the sensitivity or true positive rate (TPR), the proportion of
+  actual positives that are correctly identified, in the protein list
+  that we return
+
+  $$TPR=\frac{TP}{\text{#actual positives}},$$
+
+  here TP are the true positives in the list. The TPR is thus the
+  fraction of ups proteins that we can recall.
+
+- false discovery proportion (FPD): fraction of false positives in the
+  protein list that we return:
+
+  $$FPD=\frac{FP}{FP+TP},$$
+
+  with FP the false positives. In our case the yeast proteins that are
+  in our list.
+
+Instead of only calculating that for the protein list that is returned
+for the chosen FDR level, we can do this for all possible FDR cutoffs
+so that we get an overview of the quality of the ranking of the
+proteins in the protein list.
+
+```{r sens}
+
+fData(cptac_prot)$res %>%
+                    dplyr::arrange(qval) %>%
+                    dplyr::mutate(FDP = cumsum(!spike)/(1:length(spike)),
+                                  TPR = cumsum(spike)/sum(spike)) %>% 
+                    ggplot(aes(x = FDP, y = TPR)) +
+                    geom_path() +
+                    geom_point() + 
+                    geom_vline(xintercept = 0.05, lty = 2)
+```
+
 
 ## Machine learning 
 

@@ -16,6 +16,12 @@
 
 <meta name="date" content="2020-02-16" />
 
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
 <meta name="description" content="Chapter 4 Identification data | R/Bioconductor for Mass Spectrometry and Proteomics">
 
@@ -702,11 +708,12 @@ common peaks, a correlation of
 and a dot product of
 0.21
 (see <code>?compareSpectra</code> for details).</p>
-<blockquote>
-<p><strong>Exercise</strong> Use the <code>compareSpectra</code> function to compare spectra 25
-and 28 plotted above, calculating the metrics mentioned
-above. Don’t forget to pick peaks from <code>itraqdata</code> first.</p>
-</blockquote>
+</div>
+<div id="exercise-6" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>Use the <code>compareSpectra</code> function to compare spectra 25 and 28 plotted
+above, calculating the metrics mentioned above. Don’t forget to pick
+peaks from <code>itraqdata</code> first.</p>
 <details><div class="sourceCode" id="cb148"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb148-1" data-line-number="1"><span class="kw">data</span>(itraqdata)</a>
 <a class="sourceLine" id="cb148-2" data-line-number="2">itraqdata2 &lt;-<span class="st"> </span><span class="kw">pickPeaks</span>(itraqdata, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
 <a class="sourceLine" id="cb148-3" data-line-number="3"><span class="kw">compareSpectra</span>(itraqdata2[[<span class="dv">25</span>]], itraqdata2[[<span class="dv">28</span>]], <span class="dt">fun =</span> <span class="st">"common"</span>)</a></code></pre></div>
@@ -822,7 +829,7 @@ columns in the <code>MSnID</code> object</p>
 <span class="header-section-number">4.7</span> Trimming the data</h2>
 <p>Now, we can use the <code>apply_filter</code> function to effectively apply
 filters. The strings passed to the function represent expressions that
-will be evaluated, this keeping only PSMs that have 0 irregular
+will be evaluated, thus keeping only PSMs that have 0 irregular
 cleavages and 2 or less missed cleavages.</p>
 <div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"numIrregCleavages == 0"</span>)</a>
 <a class="sourceLine" id="cb167-2" data-line-number="2">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"numMissCleavages &lt;= 2"</span>)</a>

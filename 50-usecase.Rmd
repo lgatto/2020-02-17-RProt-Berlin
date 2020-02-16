@@ -16,7 +16,7 @@ will reveal likely interacting partners of `X`.
 
 Identify the most likely interactors of protein `X`.
 
-**Exercise**
+### Exercise {-}
 
 - Load the data in `bioid.csv` file into R.
 - Explore the missing data pattern.

@@ -16,6 +16,12 @@
 
 <meta name="date" content="2020-02-16" />
 
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
 <meta name="description" content="Chapter 5 Quantitative data | R/Bioconductor for Mass Spectrometry and Proteomics">
 
@@ -138,12 +144,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <li class="toc"><a href="#handling-overlapping-protein-groups"> Handling overlapping protein groups</a></li>
 <li class="toc"><a href="#filtering-out-contaminants-and-reverse-hits"> Filtering out contaminants and reverse hits</a></li>
 <li class="toc"><a href="#removing-ptm-only-proteins"> Removing PTM-only proteins</a></li>
-<li class="toc"><a href="#notes-on-missing-values"> Notes on missing values</a></li>
+<li class="toc"><a href="#missing-values"> Missing values</a></li>
 <li class="toc"><a href="#log-transformation"> Log transformation</a></li>
 <li class="toc"><a href="#normalisation"> Normalisation</a></li>
 <li class="toc"><a href="#summarisation"> Summarisation</a></li>
-<li class="toc"><a href="#more-on-issing-values"> More on issing values</a></li>
+<li class="toc"><a href="#more-on-missing-values"> More on missing values</a></li>
 <li class="toc"><a href="#differential-expression"> Differential expression</a></li>
+<li class="toc"><a href="#visualising-de-results"> Visualising DE results</a></li>
 <li class="toc"><a href="#machine-learning"> Machine learning</a></li>
 </ul>
 <a href="sec-r4ms.html"><span class="toc-section-number">6</span> R for Mass Spectrometry</a>
@@ -327,8 +334,8 @@ created <code>MSnSet</code> object.</p>
 undergone since their creation.</p>
 <div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="kw">processingData</span>(msset)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Sun Feb 16 21:32:12 2020 
-## iTRAQ4 quantification by max: Sun Feb 16 21:32:15 2020 
+## Data loaded: Sun Feb 16 22:32:44 2020 
+## iTRAQ4 quantification by max: Sun Feb 16 22:32:47 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="spectral-counting" class="section level2">
@@ -466,16 +473,16 @@ valid when setting new metadata, as shown above.</p>
 <pre><code>## [1] "A" "A" "B" "B"</code></pre>
 <div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1">res<span class="op">$</span>group</a></code></pre></div>
 <pre><code>## [1] "A" "A" "B" "B"</code></pre>
-<blockquote>
-<p><strong>Exercise</strong> Using <code>readMSnSet2</code>, load the following file that was
-part of the supplementary information of a manuscript.</p>
-</blockquote>
+</div>
+<div id="exercise-7" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>Using <code>readMSnSet2</code>, load the following file that was part of the
+supplementary information of a manuscript.</p>
 <div class="sourceCode" id="cb226"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb226-1" data-line-number="1">csvfile &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="dt">package =</span> <span class="st">"pRolocdata"</span>),</a>
 <a class="sourceLine" id="cb226-2" data-line-number="2">               <span class="dt">pattern =</span> <span class="st">"hyperLOPIT-SIData-ms3-rep12-intersect.csv"</span>,</a>
 <a class="sourceLine" id="cb226-3" data-line-number="3">               <span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb226-4" data-line-number="4"><span class="kw">basename</span>(csvfile)</a></code></pre></div>
 <pre><code>## [1] "hyperLOPIT-SIData-ms3-rep12-intersect.csv.gz"</code></pre>
-<blockquote>
 <p>You’ll first need to identify which columns to use as expression
 data. In this case however, two rows are used as header, and you’ll
 need to set <code>n</code> in <code>getEcols</code> to retrieve the appropriate one. There
@@ -485,7 +492,6 @@ the <code>TMT10</code> reporter ion object). You can now use <code>readMSnSet2</
 remembering to skip 1 line and, optionally, use the first column as
 feature names (see the <code>fnames</code> argument). What are the number of
 features and samples in the data?</p>
-</blockquote>
 <details><div class="sourceCode" id="cb228"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb228-1" data-line-number="1"><span class="kw">getEcols</span>(csvfile, <span class="dt">split =</span> <span class="st">","</span>, <span class="dt">n =</span> <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>##  [1] ""                                  ""                                 
 ##  [3] ""                                  "Experiment 1"                     
@@ -513,13 +519,15 @@ features and samples in the data?</p>
 <div class="sourceCode" id="cb230"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb230-1" data-line-number="1">msn &lt;-<span class="st"> </span><span class="kw">readMSnSet2</span>(csvfile, <span class="dt">ecol =</span> <span class="dv">8</span><span class="op">:</span><span class="dv">27</span>, <span class="dt">fnames =</span> <span class="dv">1</span>, <span class="dt">skip =</span> <span class="dv">1</span>)</a>
 <a class="sourceLine" id="cb230-2" data-line-number="2"><span class="kw">dim</span>(msn)</a></code></pre></div>
 <pre><code>## [1] 5032   20</code></pre>
-</details><blockquote>
-<p><strong>Exercise</strong> Add the following experimental design to the <code>MSnSet</code>
-created above. The 10 first samples originate from batch A, and the
-10 following from batch B. Sameple 1 to 5 and 11 to 15 belong to the
-control group, and the others to the condition group. Even samples
-are female and odd samples are male.</p>
-</blockquote>
+</details>
+</div>
+<div id="exercise-8" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>Add the following experimental design to the <code>MSnSet</code> created
+above. The 10 first samples originate from batch A, and the 10
+following from batch B. Sameple 1 to 5 and 11 to 15 belong to the
+control group, and the others to the condition group. Even samples are
+female and odd samples are male.</p>
 <details><div class="sourceCode" id="cb232"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb232-1" data-line-number="1">msn<span class="op">$</span>batch &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"A"</span>, <span class="st">"B"</span>), <span class="dt">each =</span> <span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb232-2" data-line-number="2">msn<span class="op">$</span>group &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"CTRL"</span>, <span class="st">"COND"</span>), <span class="dt">each =</span> <span class="dv">5</span>), <span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb232-3" data-line-number="3">msn<span class="op">$</span>gender &lt;-<span class="st"> </span><span class="kw">rep</span>(<span class="kw">c</span>(<span class="st">"M"</span>, <span class="st">"F"</span>), <span class="dv">10</span>)</a>
@@ -771,10 +779,12 @@ used to filter the peptide-level data.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 22:32:50 2020 
 ##  MSnbase version: 2.12.0</code></pre>
-<p><strong>Exercise</strong>: How many peptides have we lost by removing the proteins
-above?</p>
+<div id="exercise-9" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>How many peptides have we lost by removing the proteins above?</p>
+</div>
 </div>
 <div id="filtering-out-contaminants-and-reverse-hits" class="section level2">
 <h2>
@@ -809,8 +819,8 @@ feature variables.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 22:32:50 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 22:32:50 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <p>You can keep track of the data processing steps in the object’s
 processing log.</p>
@@ -854,14 +864,14 @@ list of proteins.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 22:32:50 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 22:32:50 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 22:32:51 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
-<div id="notes-on-missing-values" class="section level2">
+<div id="missing-values" class="section level2">
 <h2>
-<span class="header-section-number">5.9</span> Notes on missing values</h2>
+<span class="header-section-number">5.9</span> Missing values</h2>
 <p>Unfortunately, some software use 0 irrespective whether the data has
 intensity zero and when the data haven’t been observer. Below we fix
 this by setting all 0 values to <code>NA</code>.</p>
@@ -926,31 +936,19 @@ of data.</li>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
-## Subset [10659,6][3675,6] Sun Feb 16 21:32:20 2020 
-## Removed features with more than 0 NAs: Sun Feb 16 21:32:20 2020 
-## Dropped featureData's levels Sun Feb 16 21:32:20 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 22:32:50 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 22:32:50 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 22:32:51 2020 
+## Subset [10659,6][3675,6] Sun Feb 16 22:32:52 2020 
+## Removed features with more than 0 NAs: Sun Feb 16 22:32:52 2020 
+## Dropped featureData's levels Sun Feb 16 22:32:52 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <ul>
-<li>perform <strong>imputation</strong>, considering the underlying nature of
-missingness, i.e missing not at random (left-censored) or at random.</li>
-</ul>
-<div class="figure">
-<span id="fig:lazar"></span>
-<p class="caption marginnote shownote">
-Figure 5.4: Effect of the nature of missing values on their imputation. Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better.
-</p>
-<img src="img/imp-sim.png" alt="Effect of the nature of missing values on their imputation. Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better." width="480">
-</div>
-<p>See Lazar <em>et al.</em> <a href="http://dx.doi.org/10.1021/acs.jproteome.5b00981">Accounting for the Multiple Natures of Missing
-Values in Label-Free Quantitative Proteomics Data Sets to Compare
-Imputation
-Strategies</a>.</p>
-<ul>
-<li>The best solution is arguably to handle missing values at <strong>the
-statistical test level</strong>, which is the approach we are going to use.</li>
+<li><p>perform <strong>imputation</strong>, considering the underlying nature of
+missingness, i.e missing not at random (left-censored) or at
+random. See below.</p></li>
+<li><p>The best solution is arguably to handle missing values at <strong>the
+statistical test level</strong>, which is the approach we are going to use.</p></li>
 </ul>
 <p>We are going to keep peptides that had a least two observations. This
 can be done with the <code>nNA</code> variable that we compute above</p>
@@ -971,10 +969,10 @@ can be done with the <code>nNA</code> variable that we compute above</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
-## Subset [10659,6][7006,6] Sun Feb 16 21:32:20 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 22:32:50 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 22:32:50 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 22:32:51 2020 
+## Subset [10659,6][7006,6] Sun Feb 16 22:32:52 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="log-transformation" class="section level2">
@@ -997,11 +995,11 @@ can be done with the <code>nNA</code> variable that we compute above</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
-## Subset [10659,6][7006,6] Sun Feb 16 21:32:20 2020 
-## Log transformed (base 2) Sun Feb 16 21:32:20 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 22:32:50 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 22:32:50 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 22:32:51 2020 
+## Subset [10659,6][7006,6] Sun Feb 16 22:32:52 2020 
+## Log transformed (base 2) Sun Feb 16 22:32:52 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="normalisation" class="section level2">
@@ -1033,12 +1031,12 @@ can be done with the <code>nNA</code> variable that we compute above</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
-## Subset [10659,6][7006,6] Sun Feb 16 21:32:20 2020 
-## Log transformed (base 2) Sun Feb 16 21:32:20 2020 
-## Normalised (quantiles): Sun Feb 16 21:32:20 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 22:32:50 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 22:32:50 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 22:32:51 2020 
+## Subset [10659,6][7006,6] Sun Feb 16 22:32:52 2020 
+## Log transformed (base 2) Sun Feb 16 22:32:52 2020 
+## Normalised (quantiles): Sun Feb 16 22:32:52 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="kw">plotDensities</span>(<span class="kw">exprs</span>(cptac))</a></code></pre></div>
 <p><img src="_main_files/figure-html/norm-2.png" width="672"></p>
@@ -1064,7 +1062,7 @@ variable, and aggregate them using an summary function of choice.</p>
 <div class="figure">
 <span id="fig:featsfig2"></span>
 <p class="caption marginnote shownote">
-Figure 5.5: Multiple levels of summarisation. Examples of aggregation from PSMs, peptides to proteins using median aggregation (from the <a href="https://rformassspectrometry.github.io/Features/articles/Features.html"><code>Features</code></a> package).
+Figure 5.4: Multiple levels of summarisation. Examples of aggregation from PSMs, peptides to proteins using median aggregation (from the <a href="https://rformassspectrometry.github.io/Features/articles/Features.html"><code>Features</code></a> package).
 </p>
 <img src="img/features.png" alt="Multiple levels of summarisation. Examples of aggregation from PSMs, peptides to proteins using median aggregation (from the [`Features`](https://rformassspectrometry.github.io/Features/articles/Features.html) package)." width="1892">
 </div>
@@ -1091,20 +1089,22 @@ Figure 5.5: Multiple levels of summarisation. Examples of aggregation from PSMs,
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Sun Feb 16 21:32:18 2020 
-## Subset [10740,6][10678,6] Sun Feb 16 21:32:18 2020 
-## Subset [10678,6][10659,6] Sun Feb 16 21:32:18 2020 
-## Subset [10659,6][7006,6] Sun Feb 16 21:32:20 2020 
-## Log transformed (base 2) Sun Feb 16 21:32:20 2020 
-## Normalised (quantiles): Sun Feb 16 21:32:20 2020 
-## Combined 7006 features into 1384 using median: Sun Feb 16 21:32:21 2020 
+## Subset [11466,6][10740,6] Sun Feb 16 22:32:50 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 22:32:50 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 22:32:51 2020 
+## Subset [10659,6][7006,6] Sun Feb 16 22:32:52 2020 
+## Log transformed (base 2) Sun Feb 16 22:32:52 2020 
+## Normalised (quantiles): Sun Feb 16 22:32:52 2020 
+## Combined 7006 features into 1384 using median: Sun Feb 16 22:32:54 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <p>We obtain 1384 proteins. Note how the processing steps are recorded. Below, we
 visualise the protein-level data on an MDS plot.</p>
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb296-1" data-line-number="1"><span class="kw">plotMDS</span>(<span class="kw">exprs</span>(cptac_prot), <span class="dt">col =</span> <span class="kw">as.numeric</span>(cptac_prot<span class="op">$</span>condition))</a></code></pre></div>
 <p><img src="_main_files/figure-html/mds1-1.png" width="672"></p>
-<p><strong>Exercise</strong>: Repeat the summarisation using a the robust
-normalisation by setting<code>method = "robust"</code>, as described in <a href="https://www.biorxiv.org/content/10.1101/668863v1">Sticker <em>et
+<div id="exercise-10" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>Repeat the summarisation using a the robust normalisation by setting
+<code>method = "robust"</code>, as described in <a href="https://www.biorxiv.org/content/10.1101/668863v1">Sticker <em>et
 al</em>. (2019)</a> and
 visualise the data on an MDS plot. Which one do you anticipate to
 provide better results?</p>
@@ -1116,9 +1116,10 @@ provide better results?</p>
 <div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" data-line-number="1"><span class="kw">plotMDS</span>(<span class="kw">exprs</span>(cptac_rob), <span class="dt">col =</span> <span class="kw">as.numeric</span>(cptac_rob<span class="op">$</span>condition))</a></code></pre></div>
 <img src="_main_files/figure-html/combine_rob-1.png" width="672"></details>
 </div>
-<div id="more-on-issing-values" class="section level2">
+</div>
+<div id="more-on-missing-values" class="section level2">
 <h2>
-<span class="header-section-number">5.13</span> More on issing values</h2>
+<span class="header-section-number">5.13</span> More on missing values</h2>
 <p>Finally, proteomics data analysis is generally hampered by missing
 values. Missing data imputation is a sensitive operation whose success
 will be guided by many factors, such as degree and (non-)random nature
@@ -1139,7 +1140,7 @@ right summarise the number of missing values in the respective samples
 <div class="figure">
 <span id="fig:naplot"></span>
 <p class="caption marginnote shownote">
-Figure 5.6: Overview of missing values.
+Figure 5.5: Overview of missing values.
 </p>
 <img src="_main_files/figure-html/naplot-1.png" alt="Overview of missing values." width="672">
 </div>
@@ -1153,9 +1154,9 @@ least <code>NA</code> value.</p>
 <a class="sourceLine" id="cb303-2" data-line-number="2">tmp &lt;-<span class="st"> </span><span class="kw">filterNA</span>(naset)</a>
 <a class="sourceLine" id="cb303-3" data-line-number="3"><span class="kw">processingData</span>(tmp)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Subset [689,16][301,16] Sun Feb 16 21:32:26 2020 
-## Removed features with more than 0 NAs: Sun Feb 16 21:32:26 2020 
-## Dropped featureData's levels Sun Feb 16 21:32:26 2020 
+## Subset [689,16][301,16] Sun Feb 16 22:32:58 2020 
+## Removed features with more than 0 NAs: Sun Feb 16 22:32:58 2020 
+## Dropped featureData's levels Sun Feb 16 22:32:58 2020 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>It is of course possible to impute missing values (<code>?impute</code>). This is
 however not a straightforward thing, as is likely to dramatically fail
@@ -1180,7 +1181,7 @@ distributed in the data and are defined as <strong>missing not at random</strong
 <div class="figure">
 <span id="fig:naheatmap"></span>
 <p class="caption marginnote shownote">
-Figure 5.7: Random and non-random missing values.
+Figure 5.6: Random and non-random missing values.
 </p>
 <img src="_main_files/figure-html/naheatmap-1.png" alt="Random and non-random missing values." width="672">
 </div>
@@ -1190,8 +1191,16 @@ of missing values (as documented in this
 missing at random, and those missing not at random should be imputed
 with different methods.</p>
 <div class="figure">
-<img src="img/imp-sim.png" alt="Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better. (See here for details)"><p class="caption">Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better. (See <a href="http://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981">here</a> for details)</p>
+<span id="fig:lazar"></span>
+<p class="caption marginnote shownote">
+Figure 5.7: Effect of the nature of missing values on their imputation. Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better.
+</p>
+<img src="img/imp-sim.png" alt="Effect of the nature of missing values on their imputation. Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better." width="100%">
 </div>
+<p>See Lazar <em>et al.</em> <a href="http://dx.doi.org/10.1021/acs.jproteome.5b00981">Accounting for the Multiple Natures of Missing
+Values in Label-Free Quantitative Proteomics Data Sets to Compare
+Imputation
+Strategies</a>.</p>
 <p>Generally, it is recommended to use <strong>hot deck</strong> methods (nearest
 neighbour (<strong>left</strong>), maximum likelihood, …) when data are missing
 at random.Conversely, MNAR features should ideally be imputed with a
@@ -1202,18 +1211,18 @@ at random.Conversely, MNAR features should ideally be imputed with a
 ##  mean imputation used for these rows</code></pre>
 <div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb307-1" data-line-number="1"><span class="kw">processingData</span>(tmp)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using knn Sun Feb 16 21:32:27 2020 
+## Data imputation using knn Sun Feb 16 22:32:59 2020 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>There are various methods to perform data imputation, as described in
 <code>?impute</code>. The <em><a href="https://CRAN.R-project.org/package=imp4p">imp4p</a></em> package contains additional
 functionality, including some to estimate the randomness of missing
 data.</p>
-<blockquote>
-<p><strong>Exercise</strong> Following the example above, apply a mixed imputation,
-using knn for data missing at random and the deterministic minumum
-left-cencored imputation for data missing no at random.</p>
-</blockquote>
+<div id="exercise-11" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>Following the example above, apply a mixed imputation, using knn for
+data missing at random and the deterministic minumum left-cencored
+imputation for data missing no at random.</p>
 <details><div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" data-line-number="1"><span class="kw">impute</span>(naset, <span class="st">"mixed"</span>,</a>
 <a class="sourceLine" id="cb309-2" data-line-number="2">       <span class="dt">randna =</span> <span class="kw">fData</span>(naset)<span class="op">$</span>randna,</a>
 <a class="sourceLine" id="cb309-3" data-line-number="3">       <span class="dt">mar =</span> <span class="st">"knn"</span>, <span class="dt">mnar =</span> <span class="st">"MinDet"</span>)</a></code></pre></div>
@@ -1232,19 +1241,20 @@ left-cencored imputation for data missing no at random.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Sun Feb 16 21:32:27 2020 
+## Data imputation using mixed Sun Feb 16 22:32:59 2020 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
-</details><blockquote>
-<p><strong>Exercise</strong> When assessing missing data imputation methods, such as
-in <a href="https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981">Lazar et
+</details>
+</div>
+<div id="exercise-12" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>When assessing missing data imputation methods, such as in <a href="https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981">Lazar et
 al. (2016)</a>,
 one often replaces values with missing data, imputes these with a
 method of choice, then quantifies the difference between original
 (expected) and observed (imputed) values. Here, using the <code>naset</code>
 data, use this strategy to assess the difference between knn and
 Bayesian PCA imputation.</p>
-</blockquote>
 <details><div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb311-1" data-line-number="1">imp1 &lt;-<span class="st"> </span><span class="kw">impute</span>(naset, <span class="dt">method =</span> <span class="st">"knn"</span>)</a></code></pre></div>
 <pre><code>## Warning in knnimp(x, k, maxmiss = rowmax, maxp = maxp): 12 rows with more than 50 % entries missing;
 ##  mean imputation used for these rows</code></pre>
@@ -1255,14 +1265,16 @@ Bayesian PCA imputation.</p>
 <div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">as.numeric</span>(<span class="kw">na.omit</span>(<span class="kw">exprs</span>(naset))))</a></code></pre></div>
 <pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 ##  0.0170  0.1865  0.2440  0.2500  0.3080  0.6587</code></pre>
-</details><blockquote>
-<p><strong>Exercise</strong> When assessing the impact of missing value imputation
-on real data, one can’t use the strategy above. Another useful
-approach is to assess the impact of the imputation method on the
-distribution of the quantitative data. For instance, here is the
-intensity distribution of the <code>naset</code> data. Verify the effect of
-applying <code>knn</code>, <code>zero</code>, <code>MinDet</code> and <code>bpca</code> on this distribution.</p>
-</blockquote>
+</details>
+</div>
+<div id="exercise-13" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>When assessing the impact of missing value imputation on real data,
+one can’t use the strategy above. Another useful approach is to assess
+the impact of the imputation method on the distribution of the
+quantitative data. For instance, here is the intensity distribution of
+the <code>naset</code> data. Verify the effect of applying <code>knn</code>, <code>zero</code>,
+<code>MinDet</code> and <code>bpca</code> on this distribution.</p>
 <div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" data-line-number="1"><span class="kw">plot</span>(<span class="kw">density</span>(<span class="kw">na.omit</span>(<span class="kw">exprs</span>(naset))))</a></code></pre></div>
 <div class="figure">
 <span id="fig:nasetdist"></span>
@@ -1282,6 +1294,7 @@ Figure 5.8: Intensity disctribution of the <code>naset</code> data.
 <a class="sourceLine" id="cb320-4" data-line-number="4"><span class="kw">legend</span>(<span class="st">"topright"</span>, <span class="dt">legend =</span> <span class="kw">c</span>(<span class="st">"orig"</span>, <span class="st">"knn"</span>, <span class="st">"zero"</span>, <span class="st">"MinDet"</span>, <span class="st">"bpca"</span>),</a>
 <a class="sourceLine" id="cb320-5" data-line-number="5">       <span class="dt">col =</span> cls, <span class="dt">lwd =</span> <span class="dv">2</span>, <span class="dt">bty =</span> <span class="st">"n"</span>)</a></code></pre></div>
 <img src="_main_files/figure-html/naex3-1.png" width="672"></details>
+</div>
 </div>
 <div id="differential-expression" class="section level2">
 <h2>
@@ -1350,8 +1363,11 @@ refined, but see below).</p>
 <a class="sourceLine" id="cb325-4" data-line-number="4"></a>
 <a class="sourceLine" id="cb325-5" data-line-number="5">cptac_rob_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">filterNA</span>(cptac_rob)                     </a>
 <a class="sourceLine" id="cb325-6" data-line-number="6">pv &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">exprs</span>(cptac_rob_<span class="dv">2</span>), <span class="dv">1</span>, my_t_test)</a></code></pre></div>
-<p><strong>Exercise</strong> Do you think we have any statistically differentially
-expressed proteins?</p>
+</div>
+<div id="exercise-14" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>Do you think we have any statistically differentially expressed
+proteins?</p>
 <details><div class="sourceCode" id="cb326"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb326-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">sort</span>(pv))</a></code></pre></div>
 <pre><code>##  P63279ups|UBC9_HUMAN_UPS   P99999ups|CYC_HUMAN_UPS P10636-8ups|TAU_HUMAN_UPS 
 ##              5.571678e-05              8.461009e-05              2.612725e-04 
@@ -1449,13 +1465,218 @@ for a longer discussion of hypothesis testing.</p>
 </div>
 <div id="differential-expression-with-msqrob" class="section level3">
 <h3>
-<span class="header-section-number">5.14.3</span> <a href="https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html#differential-expression-analysis">Differential expression with <code>MSqRob</code></a>
+<span class="header-section-number">5.14.3</span> Differential expression with <code>MSqRob</code>
 </h3>
+<p><strong>Exercise</strong>: In this section, the median-summarised protein data will
+be used. As an exercice, you are advised to use the best of the
+median- or robust-summerised data and compare your results with those
+shown below.</p>
+<div class="sourceCode" id="cb345"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb345-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"MSqRob"</span>)</a></code></pre></div>
+<div id="estimation" class="section level4 unnumbered">
+<h4>Estimation</h4>
+<p><code>MSqRob</code> is currently working with a format where we have one
+dataframe for each protein. This will be changed in the next release
+to use the <code>MSnSet</code> directly. Therefore we first have to reorganise
+the data.</p>
+<div class="sourceCode" id="cb346"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb346-1" data-line-number="1">protMSqRob &lt;-<span class="st"> </span><span class="kw">MSnSet2protdata</span>(cptac_prot, <span class="st">"Proteins"</span>)</a></code></pre></div>
+<p>Next the models are fitted. This is done using the <code>fit.model</code>
+function. We only have to model the data using the factor condition
+from the sample metadata (the <code>pData</code> slot) of the protein level
+<code>MSnSet</code>. The name of the factor variable is specified in the fixed
+argument (if multiple predictors have to be incorporated in the model,
+a vector of variable names has to be provided in this argument). The
+argument shrinkage is used to specify if ridge regression has to be
+adopted. For the sake of speed we do not do this in the tutorial. The
+shrinkage has to be specified for each variable in the fixed
+effects. We also have to indicate this for the intercept (which we
+never shrink). So we specify it at <code>c(0, 0)</code> to indicate that the
+intercept (first 0) and the parameters for the factor condition
+(second 0) are not penalized. We set the <code>robust_var</code> function equal
+to <code>FALSE</code> - this functionality will be removed from the package in
+the next release.</p>
+<div class="sourceCode" id="cb347"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb347-1" data-line-number="1">models &lt;-<span class="st"> </span><span class="kw">fit.model</span>(<span class="dt">protdata =</span> protMSqRob,</a>
+<a class="sourceLine" id="cb347-2" data-line-number="2">                    <span class="dt">response =</span> <span class="st">"quant_value"</span>,</a>
+<a class="sourceLine" id="cb347-3" data-line-number="3">                    <span class="dt">fixed =</span> <span class="st">"condition"</span>,</a>
+<a class="sourceLine" id="cb347-4" data-line-number="4">                    <span class="dt">shrinkage.fixed =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb347-5" data-line-number="5">                    <span class="dt">robust_var =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+</div>
+<div id="inference" class="section level4 unnumbered">
+<h4>Inference</h4>
+<p>Often, biologists have problems with the reference coding. In MSqRob
+we have opted to formulate contrasts using all levels of a factor.
+Internally, the contrasts are than recasted according to the factor
+level that is the reference class.</p>
+<div class="sourceCode" id="cb348"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb348-1" data-line-number="1">L &lt;-<span class="st"> </span><span class="kw">makeContrast</span>(<span class="st">"conditionB - conditionA"</span>,</a>
+<a class="sourceLine" id="cb348-2" data-line-number="2">                  <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">"conditionA"</span>, <span class="st">"conditionB"</span>))</a>
+<a class="sourceLine" id="cb348-3" data-line-number="3">res &lt;-<span class="st"> </span><span class="kw">test.contrast_adjust</span>(models, L)</a>
+<a class="sourceLine" id="cb348-4" data-line-number="4"><span class="kw">head</span>(res)</a></code></pre></div>
+<pre><code>##                            estimate        se       df      Tval         pval
+## P99999ups|CYC_HUMAN_UPS    2.152716 0.1663700 7.230582 12.939331 2.914470e-06
+## P63279ups|UBC9_HUMAN_UPS   1.822164 0.1531925 7.230582 11.894609 5.227860e-06
+## P08311ups|CATG_HUMAN_UPS   1.316092 0.1817428 7.230582  7.241510 1.463569e-04
+## P06732ups|KCRM_HUMAN_UPS   1.274376 0.1986088 7.230582  6.416512 3.158129e-04
+## sp|P12688|YPK1_YEAST      -1.655782 0.2398832 6.230582 -6.902449 3.879161e-04
+## O00762ups|UBE2C_HUMAN_UPS  1.604233 0.2339066 6.230582  6.858435 4.020442e-04
+##                                  qval signif
+## P99999ups|CYC_HUMAN_UPS   0.003419021   TRUE
+## P63279ups|UBC9_HUMAN_UPS  0.003419021   TRUE
+## P08311ups|CATG_HUMAN_UPS  0.063811592  FALSE
+## P06732ups|KCRM_HUMAN_UPS  0.083831332  FALSE
+## sp|P12688|YPK1_YEAST      0.083831332  FALSE
+## O00762ups|UBE2C_HUMAN_UPS 0.083831332  FALSE</code></pre>
+<p>Below, we put the results of the statistical analysis back into the
+<code>MSnSet</code> feature data, to keep the data and their analysis
+together. We need however to rearrange the proteins in the result
+dataframe (ordered by adjusted p-value) to match the order in the
+<code>MSnSet</code>.</p>
+<div class="sourceCode" id="cb350"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb350-1" data-line-number="1"><span class="kw">fData</span>(cptac_prot)<span class="op">$</span>res &lt;-<span class="st"> </span>res[<span class="kw">featureNames</span>(cptac_prot), ]</a></code></pre></div>
+<p>There are 2
+protein groups identified as differentially expressed at a significant
+effect at the 5% FDR level.</p>
+</div>
+</div>
+</div>
+<div id="visualising-de-results" class="section level2">
+<h2>
+<span class="header-section-number">5.15</span> Visualising DE results</h2>
+<div id="volcano-plot" class="section level3">
+<h3>
+<span class="header-section-number">5.15.1</span> Volcano plot</h3>
+<div class="sourceCode" id="cb351"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb351-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"ggplot2"</span>)</a>
+<a class="sourceLine" id="cb351-2" data-line-number="2">volc &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">fData</span>(cptac_prot)<span class="op">$</span>res,</a>
+<a class="sourceLine" id="cb351-3" data-line-number="3">               <span class="kw">aes</span>(<span class="dt">x =</span> estimate,</a>
+<a class="sourceLine" id="cb351-4" data-line-number="4">                   <span class="dt">y =</span> <span class="op">-</span><span class="kw">log10</span>(pval),</a>
+<a class="sourceLine" id="cb351-5" data-line-number="5">                   <span class="dt">color =</span> signif)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb351-6" data-line-number="6"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb351-7" data-line-number="7"><span class="st">    </span><span class="kw">scale_color_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">"black"</span>, <span class="st">"red"</span>))</a>
+<a class="sourceLine" id="cb351-8" data-line-number="8">volc</a></code></pre></div>
+<pre><code>## Warning: Removed 76 rows containing missing values (geom_point).</code></pre>
+<p><img src="_main_files/figure-html/volc-1.png" width="672"></p>
+<p>It is easy to generate an interactive graph to explore the results
+using the <code>plotly</code> package and passing the ggplot-object to the
+<code>ggplotly</code> function:</p>
+<div class="sourceCode" id="cb353"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb353-1" data-line-number="1">plotly<span class="op">::</span><span class="kw">ggplotly</span>(volc)</a></code></pre></div>
+</div>
+<div id="heatmap" class="section level3">
+<h3>
+<span class="header-section-number">5.15.2</span> Heatmap</h3>
+<div class="sourceCode" id="cb354"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb354-1" data-line-number="1">sign &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">fData</span>(cptac_prot)<span class="op">$</span>res<span class="op">$</span>sig)</a>
+<a class="sourceLine" id="cb354-2" data-line-number="2"><span class="kw">heatmap</span>(<span class="kw">exprs</span>(cptac_prot)[sign,])</a></code></pre></div>
+<p><img src="_main_files/figure-html/hmap-1.png" width="672"></p>
+</div>
+<div id="expression-data-for-proteins-of-interest" class="section level3">
+<h3>
+<span class="header-section-number">5.15.3</span> Expression data for proteins of interest</h3>
+<p>Below, we extract the peptide data matching the differentially
+expressed proteins.</p>
+<div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" data-line-number="1">sign_prots &lt;-<span class="st"> </span><span class="kw">featureNames</span>(cptac_prot)[sign]</a>
+<a class="sourceLine" id="cb355-2" data-line-number="2">(cptac_sign &lt;-<span class="st"> </span>cptac[<span class="kw">fData</span>(cptac)<span class="op">$</span>Proteins <span class="op">%in%</span><span class="st"> </span>sign_prots, ])</a></code></pre></div>
+<pre><code>## MSnSet (storageMode: lockedEnvironment)
+## assayData: 4 features, 6 samples 
+##   element names: exprs 
+## protocolData: none
+## phenoData
+##   sampleNames: A_7 A_8 ... B_9 (6 total)
+##   varLabels: condition sample
+##   varMetadata: labelDescription
+## featureData
+##   featureNames: ADLIAYLK ADLIAYLKK GTPWEGGLFK TGQAPGYSYTAANK
+##   fvarLabels: Proteins Potential.contaminant ... nNA (5 total)
+##   fvarMetadata: labelDescription
+## experimentData: use 'experimentData(object)'
+## Annotation:  
+## - - - Processing information - - -
+## Subset [11466,6][10740,6] Sun Feb 16 22:32:50 2020 
+## Subset [10740,6][10678,6] Sun Feb 16 22:32:50 2020 
+## Subset [10678,6][10659,6] Sun Feb 16 22:32:51 2020 
+## Subset [10659,6][7006,6] Sun Feb 16 22:32:52 2020 
+## Log transformed (base 2) Sun Feb 16 22:32:52 2020 
+## Normalised (quantiles): Sun Feb 16 22:32:52 2020 
+## Subset [7006,6][4,6] Sun Feb 16 22:33:04 2020 
+##  MSnbase version: 2.12.0</code></pre>
+<p>In the following code chunk, we convert the peptide-level <code>MSnSet</code>
+containing the significant peptides using the <code>ms2df</code> helper function,
+convert that wide format dataframe to a long format and visualise the
+expression distributions in each group.</p>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"magrittr"</span>)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: 'magrittr'</code></pre>
+<pre><code>## The following object is masked from 'package:purrr':
+## 
+##     set_names</code></pre>
+<pre><code>## The following object is masked from 'package:tidyr':
+## 
+##     extract</code></pre>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb361-1" data-line-number="1"><span class="kw">ms2df</span>(cptac_sign) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb361-2" data-line-number="2"><span class="st">    </span>tidyr<span class="op">::</span><span class="kw">gather</span>(<span class="dt">key =</span> sample, <span class="dt">value =</span> expression, <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb361-3" data-line-number="3"><span class="st">    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> sample, <span class="dt">y =</span> expression)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb361-4" data-line-number="4"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb361-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_jitter</span>(<span class="kw">aes</span>(<span class="dt">colour =</span> Sequence)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb361-6" data-line-number="6"><span class="st">    </span><span class="kw">facet_grid</span>(Proteins <span class="op">~</span><span class="st"> </span>.)</a></code></pre></div>
+<p><img src="_main_files/figure-html/de_peps_ggplot-1.png" width="672"></p>
+</div>
+<div id="global-fold-changes" class="section level3">
+<h3>
+<span class="header-section-number">5.15.4</span> Global fold-changes</h3>
+<p>Because we know the ground truth for the cptac study, i.e. we know
+that only the spike-in proteins (UPS) are differentially expressed, we
+can evalute the fold changes. Yeast proteins should be not
+differentially expressed and their log fold changes should be centered
+around 0. These of UPS proteins are spiked at differt concentrations
+and their log2 fold changes should be centered around <span class="math inline">\(log2(concB/concA)\)</span>,
+i.e <span class="math inline">\(log2(0.74/0.25) = 1.56\)</span>.</p>
+<div class="sourceCode" id="cb362"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb362-1" data-line-number="1"><span class="kw">fData</span>(cptac_prot)<span class="op">$</span>res<span class="op">$</span>spike &lt;-<span class="st"> </span><span class="kw">grepl</span>(<span class="st">"UPS"</span>, <span class="kw">fData</span>(cptac_prot)<span class="op">$</span>Proteins)</a>
+<a class="sourceLine" id="cb362-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb362-3" data-line-number="3"><span class="kw">ggplot</span>(<span class="kw">fData</span>(cptac_prot)<span class="op">$</span>res,</a>
+<a class="sourceLine" id="cb362-4" data-line-number="4">       <span class="kw">aes</span>(<span class="dt">x =</span> spike, <span class="dt">y =</span> estimate)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb362-5" data-line-number="5"><span class="st">    </span><span class="kw">geom_boxplot</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb362-6" data-line-number="6"><span class="st">    </span><span class="kw">ylab</span>(<span class="st">"log2 FC"</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb362-7" data-line-number="7"><span class="st">    </span><span class="kw">geom_hline</span>(<span class="dt">yintercept =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="kw">log</span>(<span class="fl">0.74</span><span class="op">/</span><span class="fl">0.25</span>, <span class="dt">base =</span> <span class="dv">2</span>)),</a>
+<a class="sourceLine" id="cb362-8" data-line-number="8">               <span class="dt">color =</span> <span class="st">"red"</span>)</a></code></pre></div>
+<pre><code>## Warning: Removed 23 rows containing non-finite values (stat_boxplot).</code></pre>
+<p><img src="_main_files/figure-html/lfc-1.png" width="672"></p>
+</div>
+<div id="sensitivity-fdp-plot" class="section level3">
+<h3>
+<span class="header-section-number">5.15.5</span> Sensitivity FDP plot</h3>
+<p>Because we know the ground truth for the cptac study, i.e. we know
+that only the spike-in proteins (UPS) are differentially expressed, we
+can calculate</p>
+<ul>
+<li>
+<p>the sensitivity or true positive rate (TPR), the proportion of
+actual positives that are correctly identified, in the protein list
+that we return</p>
+<p><span class="math display">\[TPR=\frac{TP}{\text{#actual positives}},\]</span></p>
+<p>here TP are the true positives in the list. The TPR is thus the
+fraction of ups proteins that we can recall.</p>
+</li>
+<li>
+<p>false discovery proportion (FPD): fraction of false positives in the
+protein list that we return:</p>
+<p><span class="math display">\[FPD=\frac{FP}{FP+TP},\]</span></p>
+<p>with FP the false positives. In our case the yeast proteins that are
+in our list.</p>
+</li>
+</ul>
+<p>Instead of only calculating that for the protein list that is returned
+for the chosen FDR level, we can do this for all possible FDR cutoffs
+so that we get an overview of the quality of the ranking of the
+proteins in the protein list.</p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" data-line-number="1"><span class="kw">fData</span>(cptac_prot)<span class="op">$</span>res <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb364-2" data-line-number="2"><span class="st">                    </span>dplyr<span class="op">::</span><span class="kw">arrange</span>(qval) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb364-3" data-line-number="3"><span class="st">                    </span>dplyr<span class="op">::</span><span class="kw">mutate</span>(<span class="dt">FDP =</span> <span class="kw">cumsum</span>(<span class="op">!</span>spike)<span class="op">/</span>(<span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(spike)),</a>
+<a class="sourceLine" id="cb364-4" data-line-number="4">                                  <span class="dt">TPR =</span> <span class="kw">cumsum</span>(spike)<span class="op">/</span><span class="kw">sum</span>(spike)) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb364-5" data-line-number="5"><span class="st">                    </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> FDP, <span class="dt">y =</span> TPR)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb364-6" data-line-number="6"><span class="st">                    </span><span class="kw">geom_path</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb364-7" data-line-number="7"><span class="st">                    </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb364-8" data-line-number="8"><span class="st">                    </span><span class="kw">geom_vline</span>(<span class="dt">xintercept =</span> <span class="fl">0.05</span>, <span class="dt">lty =</span> <span class="dv">2</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/sens-1.png" width="672"></p>
 </div>
 </div>
 <div id="machine-learning" class="section level2">
 <h2>
-<span class="header-section-number">5.15</span> Machine learning</h2>
+<span class="header-section-number">5.16</span> Machine learning</h2>
 <p>If of interest, see <a href="https://uclouvain-cbio.github.io/WSBIM1322/sec-mlintro.html">chapters 8, 9 and
 10</a>.</p>
 
