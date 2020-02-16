@@ -1,6 +1,7 @@
 # Raw MS data: `mzR` and `MSnbase`
 
 ```{r env, echo = FALSE, warning=FALSE}
+suppressPackageStartupMessages(library("BiocStyle"))
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("lattice"))
 suppressPackageStartupMessages(library("gridExtra"))

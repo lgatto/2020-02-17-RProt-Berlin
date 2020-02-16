@@ -265,7 +265,7 @@ rw1
 ##  Number of spectra: 6103 
 ##  MSn retention times: 3:22 - 60:2 minutes
 ## - - - Processing information - - -
-## Data loaded: Sat Feb 15 22:20:17 2020 
+## Data loaded: Sun Feb 16 08:13:13 2020 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -297,7 +297,7 @@ rw2
 ##  Number of spectra: 7534 
 ##  MSn retention times: 0:0 - 60:2 minutes
 ## - - - Processing information - - -
-## Data loaded [Sat Feb 15 22:20:40 2020] 
+## Data loaded [Sun Feb 16 08:13:27 2020] 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -402,8 +402,8 @@ rw1[1:5]
 ##  Number of spectra: 5 
 ##  MSn retention times: 3:22 - 3:24 minutes
 ## - - - Processing information - - -
-## Data loaded: Sat Feb 15 22:20:17 2020 
-## Data [numerically] subsetted 5 spectra: Sat Feb 15 22:20:45 2020 
+## Data loaded: Sun Feb 16 08:13:13 2020 
+## Data [numerically] subsetted 5 spectra: Sun Feb 16 08:13:31 2020 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -433,7 +433,7 @@ rw2[1:5]
 ##  Number of spectra: 5 
 ##  MSn retention times: 0:0 - 0:4 minutes
 ## - - - Processing information - - -
-## Data loaded [Sat Feb 15 22:20:40 2020] 
+## Data loaded [Sun Feb 16 08:13:27 2020] 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -900,8 +900,8 @@ rw3
 ##  Number of spectra: 11 
 ##  MSn retention times: 30:1 - 30:4 minutes
 ## - - - Processing information - - -
-## Data loaded [Sat Feb 15 22:20:40 2020] 
-## Filter: select parent/children scans for 2807 [Sat Feb 15 22:22:17 2020] 
+## Data loaded [Sun Feb 16 08:13:27 2020] 
+## Filter: select parent/children scans for 2807 [Sun Feb 16 08:14:35 2020] 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -967,16 +967,46 @@ Below, we have animations build from extracting successive slices as above.
 ![MS animation 2](../img/msanim2.gif)
 
 
-# Raw data processing
 
-`MSnbase` also provides some raw data processing functionality, that
-can be used for some targeted data exploration; for example, mz
-trimming, intensity thresholding, peak picking, smoothing, ... We
-redirect you to section 6 *Raw data processing* of the [main `MSnbase`
+## Raw data processing
+
+For raw data processing look at `MSnbase`'s `clean`, `smooth`,
+`pickPeaks`, `removePeaks` and `trimMz` for `MSnExp` and spectra
+processing methods.
+
+As an illustration, we show the `pickPeaks` function on the
+`itraqdata` data. Centoiding transforms the distribution of M/Z values
+measured for an ion (i.e. a set of M/Z and intensities, first figure
+below) into a single M/Z and intensity pair of values (second figure
+below).
+
+
+
+```r
+library("ggplot2") ## for coord_cartesian
+data(itraqdata)
+plot(itraqdata[[10]], full = TRUE) +
+    coord_cartesian(xlim = c(915, 925))
+```
+
+![Peak picking: profile mode.](figure/peakpicking-1.png)
+
+
+```r
+itraqdata2 <- pickPeaks(itraqdata)
+plot(itraqdata2[[10]], full = TRUE) +
+    coord_cartesian(xlim = c(915, 925))
+```
+
+![Peak picking: centroided.](figure/peakpicking2-1.png)
+
+
+See also section 6 *Raw data processing* of the [main `MSnbase`
 vignette](http://lgatto.github.io/MSnbase/articles/v01-MSnbase-demo.html)
-(available with `vignette("MSnbase-demo", package =
-"MSnbase")`). 
+and the [*centroiding of profile-mode MS
+data*](http://lgatto.github.io/MSnbase/articles/v03-MSnbase-centroiding.html).
 
 
-
-
+The *[MALDIquant](https://bioconductor.org/packages/3.10/MALDIquant)* and *[xcms](https://bioconductor.org/packages/3.10/xcms)* packages also
+features a wide range of raw data processing methods on their own ad
+hoc data instance types.

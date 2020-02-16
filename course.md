@@ -17,7 +17,6 @@
 
 Pre-req: `BiocManager::install("statOmics/MSqRob")`
 
-
 - https://lgatto.github.io/bioc-ms-prot/lab.html#6_quantitative_proteomics
 - Processing: https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html#quantitative-data
 - Missing values: https://lgatto.github.io/bioc-ms-prot/lab.html#missing_values
