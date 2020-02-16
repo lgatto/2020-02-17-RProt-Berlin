@@ -113,5 +113,5 @@ example of such is the `r BiocStyle::Biocexptpkg("pRolocdata")`
 package, that offers quantitative proteomics data.
 
 ```{r prolocdata}
-pRolocdata::pRolocdata()
+knitr::kable(pRolocdata::pRolocdata()$results[, -(1:2)])
 ```

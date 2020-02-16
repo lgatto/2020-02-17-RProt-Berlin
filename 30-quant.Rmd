@@ -228,26 +228,592 @@ pData(msn)
 </details>
 
 
+## Data processing
+
+We are going to use the `cptac_a_b_peptides.txt` tab-separated file
+from the `msdata` package. These data are the 6th study of the
+Clinical Proteomic Technology Assessment for Cancer (CPTAC). In this
+experiment, the authors spiked the Sigma Universal Protein Standard
+mixture 1 (UPS1) containing 48 different human proteins in a protein
+background of 60 ng/μL Saccharomyces cerevisiae strain BY4741 . Two
+different spike-in concentrations were used: 6A (0.25 fmol UPS1
+proteins/μL) and 6B (0.74 fmol UPS1 proteins/μL). We limited ourselves
+to the data of LTQ-Orbitrap W at site 56. The data were searched with
+MaxQuant version 1.5.2.8, and detailed search settings were described
+in [Goeminne *et al.*
+(2016)](https://www.ncbi.nlm.nih.gov/pubmed/26566788). Three
+replicates are available for each concentration. The study is a
+spike-in study for which we know the ground truth so we have the
+ability to evaluate the quality of the fold change estimates and the
+list of DE genes that we return with a method.
+
+
+```{r cptacfile}
+basename(f <- msdata::quant(full.names = TRUE))
+```
+
+Before reading the spreadsheet, we need to identify which columns
+contain quantitation data (that will be used to populate the `exprs`
+slot) and the feature data (that will be put into the `fData` slot).
+
+The `getEcols` function lists the column names in the expression data
+spreadsheet. The quantitative values we want to used are those in the
+columns starting with`Intensity 6A_7`, `Intensity 6A_8`, ... 
+`Intensity 6B_9`, that we refer to with `Intensity `. 
+
+
+```{r read0}
+getEcols(f, split = "\t")
+```
+
+Using a pattern, we can set the columns to be used to populate the
+quantitation slot.
+
+
+```{r read}
+(e <- grepEcols(f, "Intensity ", split = "\t")) ## careful at the space!
+(cptac <- readMSnSet2(f, ecol = e,
+                      fnames = "Sequence",
+                      sep = "\t"))
+```
+
+
+We can access the peptide-level expression data with `exprs` and the
+feature meta-data with `fData`.
+
+```{r exprs_and_fData}
+head(exprs(cptac))
+tail(exprs(cptac))
+fvarLabels(cptac)
+```
+
+For the sake of simplicity, we can clean up the feature variables and
+only keep those of interest. It is possible to do this interactively
+with
+
+```{r selectfeats0, eval = FALSE}
+cptac <- selectFeatureData(cptac)
+```
+
+or by setting the feature variables of interest.
+
+```{r selectfeats}
+cptac <- selectFeatureData(cptac,
+                           fcol = c("Proteins",
+                                    "Potential.contaminant",
+                                    "Reverse",
+                                    "Sequence"))
+fvarLabels(cptac)
+```
+
+Let's also add sample annotations:
+
+```{r pdata}
+cptac$condition <- factor(rep(c("A", "B"), each = 3))
+cptac$sample <- rep(7:9, 2)
+pData(cptac)
+```
+
+This could also be done by reading a spreadsheet into R as a
+`data.frame`, making sure that the rownames match the sample names
+exactly, and then adding it with `pData(cptac) <- myDf`.
+
+
+The sample names are rather long and contain information on the
+spike-in concentration and the repeat. We this remove `Intensity.6`
+from the sample names:
+
+```{r snms}
+sampleNames(cptac) <- sub("Intensity\\.6", "", sampleNames(cptac))
+sampleNames(cptac) 
+```
+
+
+## Handling overlapping protein groups
+
+In our approach a peptide can map to multiple proteins, as long as
+there is none of these proteins present in a smaller subgroup.
+
+The `smallestUniqueGroups` function stems from the `MSqRob` package,
+that can be installed with:
+
+```{r, eval = FALSE}
+BiocManager::install("statOmics/MSqRob")
+```
+
+```{r smugr0}
+head(keep <- MSqRob::smallestUniqueGroups(fData(cptac)$Proteins))
+length(keep)
+length(unique(fData(cptac)$Proteins))
+```
+
+As shown above, we will keep `r length(keep)` protein groups
+from the `r length(unique(fData(cptac)$Proteins))` 
+protein groups recorded in the data. This vector of protein names is
+used to filter the peptide-level data.
+
+```{r smugr1}
+(cptac <- cptac[fData(cptac)$Proteins %in% keep, ])
+```
+
+**Exercise**: How many peptides have we lost by removing the proteins
+above?
+
+## Filtering out contaminants and reverse hits
+
+Below, we create vector of logicals (and count) recording peptides
+that are assigned to contaminant (such as keratine, trypsine, ...) and
+reverse proteins (from the decoy database). These are annotated with a
+`"+"` in the respective `"Potential.contaminant"` and `"Reverse"`
+feature variables.
+
+
+```{r conts}
+table(sel_conts <- fData(cptac)$Potential.contaminant != "+")
+```
+
+```{r rev}
+table(sel_rev <- fData(cptac)$Reverse != "+")
+```
+
+```{r filtering}
+(cptac <- cptac[sel_conts & sel_rev, ])
+```
+
+You can keep track of the data processing steps in the object's
+processing log.
+
+## Removing PTM-only proteins
+
+Proteins for which all peptides are carrying modifications (PTMs) can
+be considered as unreliable. We will filter out these proteins. This
+information is included in the `Only.identified.by.site` column of the
+`proteinGroups.txt` MaxQuant file. The code chunk below provides this
+list of proteins.
+
+```{r ptm_only}
+ptm_only <- c("REV__CON__Q3T052", "REV__sp|P01120|RAS2_YEAST",
+              "REV__sp|P32849|RAD5_YEAST",
+              "REV__sp|Q03723|OST6_YEAST", "sp|P04051|RPC1_YEAST",
+              "sp|P06367|RS14A_YEAST",
+              "sp|P0CX73|YP11A_YEAST;sp|P0CX72|YL12A_YEAST;sp|P0CX71|YE11A_YEAST;sp|P0CX70|YD15A_YEAST;sp|Q6Q5H1|YP14A_YEAST;sp|P0C2I8|YL14A_YEAST",
+              "sp|P19657|PMA2_YEAST", "sp|P32465|HXT1_YEAST",
+              "sp|P39567|IMDH1_YEAST", "sp|P40527|ATC7_YEAST",
+              "sp|P40530|PDK1_YEAST", "sp|P40989|FKS2_YEAST",
+              "sp|P49955|SF3B1_YEAST", "sp|P51401|RL9B_YEAST",
+              "sp|P53072|TAN1_YEAST", "sp|Q03964|YD17A_YEAST",
+              "sp|Q04670|YM14B_YEAST;sp|Q12088|YL11B_YEAST;sp|Q03619|YE12B_YEAST",
+              "sp|Q08649|ESA1_YEAST", "sp|Q12112|YN11B_YEAST",
+              "sp|Q12479|IRC11_YEAST", "sp|Q3E7B7|YD85C_YEAST")
+```
+
+We now remove the peptides matched to these proteins:
+
+```{r ptm_only_remove}
+(cptac <- cptac[!fData(cptac)$Proteins %in% ptm_only, ])
+```
+
+## Notes on missing values
+
+Unfortunately, some software use 0 irrespective whether the data has
+intensity zero and when the data haven't been observer. Below we fix
+this by setting all 0 values to `NA`.
+
+
+```{r setna}
+exprs(cptac)[exprs(cptac) == 0] <- NA
+table(is.na(exprs(cptac)))
+```
+
+The following figure shows the distribution of missing values for
+samples (columns) and rows (peptides). The cells have been reporder to
+emphasis the presence of missing values in the proteins shown at the
+top and the samples shown towards the right.
+
+```{r napac, fig.cap = "Overview of missing data"}
+napac <- cptac
+exprs(napac)[!is.na(exprs(napac))] <- 1
+naplot(napac)
+```
+
+The following figure the proportions of features (peptides in this
+case) with respect to their completeness (blue) and the percentage of
+missing data in the full dataset (red).
+
+```{r plotNA, fig.cap = "Data completeness."}
+plotNA(cptac)
+```
+
+Below, we count the number of missing values in each 
+
+```{r nna}
+fData(cptac)$nNA <- apply(exprs(cptac), 1, function(x) sum(is.na(x)))
+table(fData(cptac)$nNA)
+```
+
+Note that some peptides aren't seen at all because these 6 samples are
+a subset of a larger dataset, and these features are present in the
+other acquisitions only.
+
+From here on one could:
+
+- **filter** data with missing values, which however sacrifices a lot
+  of data.
+
+```{r filterNA}
+filterNA(cptac)
+```
+
+- perform **imputation**, considering the underlying nature of
+  missingness, i.e missing not at random (left-censored) or at random.
+
+
+```{r lazar, fig.cap = "Effect of the nature of missing values on their imputation. Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better.", echo = FALSE}
+knitr::include_graphics("./Figures/imp-sim.png")
+```
+
+See Lazar *et al.* [Accounting for the Multiple Natures of Missing
+Values in Label-Free Quantitative Proteomics Data Sets to Compare
+Imputation
+Strategies](http://dx.doi.org/10.1021/acs.jproteome.5b00981).
+
+- The best solution is arguably to handle missing values at **the
+  statistical test level**, which is the approach we are going to use.
+
+We are going to keep peptides that had a least two observations. This
+can be done with the `nNA` variable that we compute above
+
+```{r nNAfilt}
+(cptac <- cptac[fData(cptac)$nNA <= 4, ])
+```
+
+## Log transformation
+
+```{r log}
+(cptac <- log(cptac, base = 2))
+```
+
+## Normalisation
+
+Normalisation is handled by the `normalise` (or `normalize`) function.
+
+```{r norm}
+plotDensities(exprs(cptac))
+(cptac <- normalise(cptac, method = "quantiles"))
+plotDensities(exprs(cptac))
+```
+
+We can visualise our peptide-level data using a Multi Dimensional
+Scaling (MDS) plot, using the `plotMDS` function from the `limma`
+package. We use the condition sample variable to colour-code the
+samples.
+
+
+```{r mds0}
+plotMDS(exprs(cptac), col = as.numeric(cptac$condition))
+```
+
+The first axis in the plot is showing the leading log fold changes
+(differences on the log scale) between the samples.  We notice that
+the leading differences in the peptide data seems to be driven by
+technical variability. Indeed the samples do not seem to be clearly
+separated according to the spike in condition.
+
+## Summarisation
+
+So far we have used quantitation values at the peptide level, while
+the data of interest are proteins. We can take all peptides that are
+associated with a protein group, as defined by the `Proteins` feature
+variable, and aggregate them using an summary function of choice.
+
+
+```{r featsfig2, fig.cap = "Multiple levels of summarisation. Examples of aggregation from PSMs, peptides to proteins using median aggregation (from the [`Features`](https://rformassspectrometry.github.io/Features/articles/Features.html) package).", echo = FALSE}
+knitr::include_graphics("./Figures/features.png")
+```
+
+Below, we combine the peptides into proteins using the median, passing
+`na.rm = TRUE` to account for the missing values in the data. 
+
+```{r combine_med}
+(cptac_prot <- combineFeatures(cptac, fcol = "Proteins",
+                               method = "median", na.rm = TRUE))
+```
+
+We obtain `r nrow(cptac_prot)` proteins. Note how the processing steps are recorded. Below, we
+visualise the protein-level data on an MDS plot.
+
+
+```{r mds1}
+plotMDS(exprs(cptac_prot), col = as.numeric(cptac_prot$condition))
+```
+
+**Exercise**: Repeat the summarisation using a the robust
+normalisation by setting`method = "robust"`, as described in [Sticker *et
+al*. (2019)](https://www.biorxiv.org/content/10.1101/668863v1) and
+visualise the data on an MDS plot. Which one do you anticipate to
+provide better results?
+
+<details>
+```{r combine_rob, warning = FALSE}
+cptac_rob <- combineFeatures(cptac, fcol = "Proteins",
+                             method = "robust", na.rm = TRUE)
+plotMDS(exprs(cptac_rob), col = as.numeric(cptac_rob$condition))
+```
+</details>
+
+
+## More on issing values
+
+Finally, proteomics data analysis is generally hampered by missing
+values. Missing data imputation is a sensitive operation whose success
+will be guided by many factors, such as degree and (non-)random nature
+of the missingness.
+
+Below, we load an `MSnSet` with missing values, count the number
+missing and non-missing values.
+
+```{r impute0}
+data(naset)
+table(is.na(naset))
+```
+
+The `naplot` figure will reorder cells within the data matrix so that
+the experiments and features with many missing values will be grouped
+towards the top and right of the heatmap, and barplots at the top and
+right summarise the number of missing values in the respective samples
+(column) and rows (rows).
+
+```{r naplot, fig.cap = "Overview of missing values."}
+naplot(naset)
+```
+
+The importance of missing values in a dataset will depend on the
+quantitation technology employed. Label-free quantitation in
+particular can suffer from a very high number of missing values.
+
+Missing value in `MSnSet` instances can be filtered out with the
+`filterNA` functions. By default, it removes features that contain at
+least `NA` value.
+
+```{r filterNA2}
+## remove features with missing values
+tmp <- filterNA(naset)
+processingData(tmp)
+```
+
+
+It is of course possible to impute missing values (`?impute`). This is
+however not a straightforward thing, as is likely to dramatically fail
+when a high proportion of data is missing (10s of
+%)^[Note that when using `r Biocpkg("limma")` for instance, downstream analyses can handle missing values. Still, it is recommended to explore missingness as part of the exploratory data analysis.]. But
+also, there are two types of mechanisms resulting in missing values in
+LC/MSMS experiments.
+
+* Missing values resulting from absence of detection of a feature,
+  despite ions being present at detectable concentrations.  For
+  example in the case of ion suppression or as a result from the
+  stochastic, data-dependent nature of the MS acquisition
+  method. These missing value are expected to be randomly distributed
+  in the data and are defined as **missing at random** (MAR) or
+  **missing completely at random** (MCAR).
+
+* Biologically relevant missing values, resulting from the *absence*
+  or the low abundance of ions (below the limit of detection of the
+  instrument). These missing values are not expected to be randomly
+  distributed in the data and are defined as **missing not at random**
+  (MNAR).
+
+```{r naheatmap, echo=FALSE, fig.cap="Random and non-random missing values."}
+x <- impute(naset, "zero")
+exprs(x)[exprs(x) != 0] <- 1
+gplots::heatmap.2(exprs(x), col = c("lightgray", "black"),
+                  scale = "none", dendrogram = "none",
+                  trace = "none", keysize = 0.5, key = FALSE,
+                  RowSideColors = ifelse(fData(x)$randna, "orange", "brown"),
+                  ColSideColors = rep(c("steelblue", "darkolivegreen"), each = 8))
+```
+
+Different imputation methods are more appropriate to different classes
+of missing values (as documented in this
+[paper](http://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981)). Values
+missing at random, and those missing not at random should be imputed
+with different methods.
+
+![Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better. (See [here](http://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981) for details)](./img/imp-sim.png)
+
+Generally, it is recommended to use **hot deck** methods (nearest
+neighbour (**left**), maximum likelihood, ...) when data are missing
+at random.Conversely, MNAR features should ideally be imputed with a
+**left-censor** (minimum value (**right**), but not zero, ...) method.
+
+
+```{r impute}
+## impute missing values using knn imputation
+tmp <- impute(naset, method = "knn")
+processingData(tmp)
+```
+
+There are various methods to perform data imputation, as described in
+`?impute`. The `r CRANpkg("imp4p")` package contains additional
+functionality, including some to estimate the randomness of missing
+data.
+
+
+> **Exercise** Following the example above, apply a mixed imputation,
+> using knn for data missing at random and the deterministic minumum
+> left-cencored imputation for data missing no at random.
+
+
+<details>
+```{r naex1, message = FALSE}
+impute(naset, "mixed",
+       randna = fData(naset)$randna,
+       mar = "knn", mnar = "MinDet")
+```
+</details>
+
+> **Exercise** When assessing missing data imputation methods, such as
+> in [Lazar et
+> al. (2016)](https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981),
+> one often replaces values with missing data, imputes these with a
+> method of choice, then quantifies the difference between original
+> (expected) and observed (imputed) values. Here, using the `naset`
+> data, use this strategy to assess the difference between knn and
+> Bayesian PCA imputation.
+
+<details>
+```{r naex2, cache = TRUE}
+imp1 <- impute(naset, method = "knn")
+imp2 <- impute(naset, method = "bpca")
+summary(abs(exprs(imp1)[is.na(naset)] - exprs(imp2)[is.na(naset)]))
+summary(as.numeric(na.omit(exprs(naset))))
+```
+</details>
+
+> **Exercise** When assessing the impact of missing value imputation
+> on real data, one can't use the strategy above. Another useful
+> approach is to assess the impact of the imputation method on the
+> distribution of the quantitative data. For instance, here is the
+> intensity distribution of the `naset` data. Verify the effect of
+> applying `knn`, `zero`, `MinDet` and `bpca` on this distribution.
+
+```{r nasetdist, fig.cap = "Intensity disctribution of the `naset` data."}
+plot(density(na.omit(exprs(naset))))
+```
+
+<details>
+```{r naex3, cache = TRUE}
+cls <- c("black", "red", "blue", "steelblue", "orange")
+plot(density(na.omit(exprs(naset))), col = cls[1])
+lines(density(exprs(impute(naset, method = "knn"))), col = cls[2])
+lines(density(exprs(impute(naset, method = "zero"))), col = cls[3])
+lines(density(exprs(impute(naset, method = "MinDet"))), col = cls[4])
+lines(density(exprs(impute(naset, method = "bpca"))), col = cls[5])
+legend("topright", legend = c("orig", "knn", "zero", "MinDet", "bpca"),
+       col = cls, lwd = 2, bty = "n")
+```
+</details>
 
 
 
 
-Pre-req: `BiocManager::install("statOmics/MSqRob")`
+## Differentia expression
+
+R in general and Bioconductor in particular are well suited for the
+statistical analysis of data of quantitative proteomics data. Several
+packages provide dedicated resources for proteomics data:
+
+- `r Biocpkg("MSstats")` and `r Biocpkg("MSstatsTMT")`: A set of tools
+  for statistical relative protein significanceanalysis in Data dependent
+  (DDA), SRM, Data independent acquisition (DIA) and TMT experiments.
+
+- `r Biocpkg("msmsTests")`: Statistical tests for label-free LC-MS/MS
+  data by spectral counts, to discover differentially expressed
+  proteins between two biological conditions. Three tests are
+  available: Poisson GLM regression, quasi-likelihood GLM regression,
+  and the negative binomial of the `r Biocpkg("edgeR")`
+  package. All can be readily applied on `MSnSet` instances produced,
+  for example by `MSnID`.
+
+- `r Biocpkg("DEP")` provides an integrated analysis workflow for the
+  analysis of mass spectrometry proteomics data for differential
+  protein expression or differential enrichment.
+
+- `r BiocStyle::Githubpkg("statOmics/MSqRob")`: The `MSqRob` package allows a user to do quantitative protein-level
+  statistical inference on LC-MS proteomics data. More specifically,
+  our package makes use of peptide-level input data, thus correcting
+  for unbalancedness and peptide-specific biases. As previously shown
+  ([Goeminne et
+  al. (2015)](https://pubs.acs.org/doi/abs/10.1021/pr501223t)), this
+  approach is both more sensitive and specific than summarizing
+  peptide-level input to protein-level values. Model estimates are
+  stabilized by ridge regression, empirical Bayes variance estimation
+  and downweighing of outliers. Currently, only label-free proteomics
+  data types are supported.
+
+Others, while not specfic to proteomics, are also recommended, such as
+the `r Biocpkg("limma")` package. When analysing spectral counting
+data, methods for high throughput sequencing data are
+applicable. Below, we illustrate how to apply a typical `edgeR` test
+to count data using the `msms.edgeR` function from the `msmsTests`
+package.
 
 
-- Processing: https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html#quantitative-data
-- Missing values: https://lgatto.github.io/bioc-ms-prot/lab.html#missing_values
-- [Stats intro](https://lgatto.github.io/bioc-ms-prot/lab.html#8_statistical_analysis)
+### `t.test`
 
+
+We can start with a simpe t-test comparing the expression of the first
+protein for groups A and B.
 
 ```{r}
-## using limma
+pData(cptac_rob)
+tt1 <- t.test(exprs(cptac_rob)[1, 1:3],
+              exprs(cptac_rob)[1, 4:6])
+tt1$p.value
+```
+
+This approach can be applied on each protein (row) of our dataset by
+writing a simple helper function. This will however fail if we don't
+have at least 2 expression values per group. We thus also apply an
+additional filter to remove features with `NA` values (this could be
+refined, but see below).
+
+```{r}
+my_t_test <- function(prot_i) 
+    t.test(prot_i[1:3], prot_i[4:6])$p.value
+
+
+cptac_rob_2 <- filterNA(cptac_rob)                     
+pv <- apply(exprs(cptac_rob_2), 1, my_t_test)
+```
+
+
+**Exercise** Do you think we have any statistically differentially
+expressed proteins?
+
+<details>
+```{r}
+head(sort(pv))
+hist(pv)
+adjp <- p.adjust(pv, method = "BH")
+sum(adjp < 0.05)
+```
+</details>
+
+### `limma`
+
+```{r limmade}
 design <- model.matrix(~ cptac_rob$condition)
 fit <- lmFit(exprs(cptac_rob), design)
 fit <- eBayes(fit)
 res <- topTable(fit, coef = "cptac_rob$conditionB", number = Inf)
 
 library("tidyverse")
+res %>% filter(adj.P.Val < 0.05)
+```
+
+
+```{r limmatomsnset}
 fData(cptac_rob) <-
     full_join(rownames_to_column(fData(cptac_rob)),
               rownames_to_column(res)) %>%
@@ -273,5 +839,5 @@ ggplot(fData(cptac_rob),
 
 ```
 
-- [Differential expression with `MSqRob`](https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html#differential-expression-analysis)
+### [Differential expression with `MSqRob`](https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html#differential-expression-analysis)
 

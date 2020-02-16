@@ -71,3 +71,8 @@ labs.
 # create a bib file for the R packages used in this document
 knitr::write_bib(c('base', 'rmarkdown', 'bookdown', 'msmbstyle'), file = 'skeleton.bib')
 ```
+
+```{r env_0, echo = FALSE, message = FALSE}
+library("BiocStyle")
+suppressPackageStartupMessages(library("MSnbase"))
+```
