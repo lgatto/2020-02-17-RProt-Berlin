@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Chapter 3 Raw MS data: mzR and MSnbase | R/Bioconductor for Mass Spectrometry and Proteomics" />
+<meta property="og:type" content="book" />
+
+
+
+
+
+<meta name="author" content="Laurent Gatto" />
+
+<meta name="date" content="2020-02-16" />
+
+
+<meta name="description" content="Chapter 3 Raw MS data: mzR and MSnbase | R/Bioconductor for Mass Spectrometry and Proteomics">
+
+<title>Chapter 3 Raw MS data: mzR and MSnbase | R/Bioconductor for Mass Spectrometry and Proteomics</title>
+
+<link href="libs/tufte-css-2015.12.29/tufte.css" rel="stylesheet" />
+<link href="libs/tufte-css-2015.12.29/envisioned.css" rel="stylesheet" />
+<link href="libs/msmb-css-0/msmb.css" rel="stylesheet" />
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+
+}
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul class="navbar">
+<li class="msmb"><p class="title">R/Bioconductor for Mass Spectrometry and Proteomics<p><p class="author">Laurent Gatto</p>
+<li class="dropdown" style="float:right">
+<a href="javascript:void(0)" class="dropbtn">&#x25BE; Chapters</a>
+<div class="dropdown-content">
+<a href="index.html">Preamble</a>
+<a href="sec-setup.html"><span class="toc-section-number">1</span> Setup</a>
+<a href="sec-msintro.html"><span class="toc-section-number">2</span> MS Introduction</a>
+<a id="active-page" href="raw-ms-data-mzr-and-msnbase.html"><span class="toc-section-number">3</span> Raw MS data: <code>mzR</code> and <code>MSnbase</code></a><ul class="toc-sections">
+<li class="toc"><a href="#low-level-access"> Low level access</a></li>
+<li class="toc"><a href="#exercise"> Exercise</a></li>
+<li class="toc"><a href="#high-level-abstraction"> High level abstraction</a></li>
+<li class="toc"><a href="#visualisation-of-raw-ms-data"> Visualisation of raw MS data</a></li>
+<li class="toc"><a href="#relations-between-spectra"> Relations between spectra</a></li>
+<li class="toc"><a href="#ms-map"> MS map</a></li>
+<li class="toc"><a href="#raw-data-processing"> Raw data processing</a></li>
+</ul>
+<a href="identification-data.html"><span class="toc-section-number">4</span> Identification data</a>
+<a href="sec-quant.html"><span class="toc-section-number">5</span> Quantitative data</a>
+<a href="sec-r4ms.html"><span class="toc-section-number">6</span> R for Mass Spectrometry</a>
+<a href="sec-usecases.html"><span class="toc-section-number">7</span> Use cases</a>
+<a href="sec-si.html"><span class="toc-section-number">8</span> Session information</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div id="raw-ms-data-mzr-and-msnbase" class="section level1">
+<h1>
+<span class="header-section-number">Chapter 3</span> Raw MS data: <code>mzR</code> and <code>MSnbase</code>
+</h1>
+<pre><code>## Warning: replacing previous import 'MSnbase::plot' by 'graphics::plot' when
+## loading 'RforProteomics'</code></pre>
+<table>
+<thead><tr class="header">
+<th></th>
+<th align="left">Data type</th>
+<th align="left">File format</th>
+<th align="left">Data structure</th>
+<th align="left">Package</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td align="left">Raw</td>
+<td align="left">mzXML or mzML</td>
+<td align="left">mzRpwiz or mzRramp</td>
+<td align="left">mzR</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td align="left">Raw</td>
+<td align="left">mzXML or mzML</td>
+<td align="left">list of MassSpectrum objects</td>
+<td align="left">MALDIquantForeign</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td align="left">Raw</td>
+<td align="left">mzXML or mzML</td>
+<td align="left">MSnExp</td>
+<td align="left">MSnbase</td>
+</tr>
+<tr class="even">
+<td>7</td>
+<td align="left">Peak lists</td>
+<td align="left">mgf</td>
+<td align="left">MSnExp</td>
+<td align="left">MSnbase</td>
+</tr>
+</tbody>
+</table>
+<p>In this section, we will learn how to read raw data in one of the
+commonly used open formats (<code>mzML</code>, <code>mzXML</code> and <code>netCDF</code>) into R using
+<code>mzR</code> (low level access) and <code>MSnbase</code> (higher level abstraction).</p>
+<div id="low-level-access" class="section level2">
+<h2>
+<span class="header-section-number">3.1</span> Low level access</h2>
+<p>The <code>mzR</code> package in a direct interface to the
+<a href="http://proteowizard.sourceforge.net/">proteowizard</a> code base. It
+includes a substantial proportion of <em>pwiz</em>’s C/C++ code for fast and
+efficient parsing of these large raw data files.</p>
+<p>Let’s start by using some raw data files from the <code>msdata</code>
+package. After loading it, we use the <code>proteomics()</code> function to
+return the full file names for two raw data files. We will start by
+focusing on the second one.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb44-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"msdata"</span>)</a>
+<a class="sourceLine" id="cb44-2" data-line-number="2">f &lt;-<span class="st"> </span><span class="kw">proteomics</span>(<span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb44-3" data-line-number="3">f</a></code></pre></div>
+<pre><code>## [1] "/home/lgatto/R/x86_64-pc-linux-gnu-library/3.6/msdata/proteomics/MRM-standmix-5.mzML.gz"                                                
+## [2] "/home/lgatto/R/x86_64-pc-linux-gnu-library/3.6/msdata/proteomics/MS3TMT10_01022016_32917-33481.mzML.gz"                                 
+## [3] "/home/lgatto/R/x86_64-pc-linux-gnu-library/3.6/msdata/proteomics/MS3TMT11.mzML"                                                         
+## [4] "/home/lgatto/R/x86_64-pc-linux-gnu-library/3.6/msdata/proteomics/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz"
+## [5] "/home/lgatto/R/x86_64-pc-linux-gnu-library/3.6/msdata/proteomics/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">(f2 &lt;-<span class="st"> </span><span class="kw">grep</span>(<span class="st">"20141210"</span>, f, <span class="dt">value =</span> <span class="ot">TRUE</span>))</a></code></pre></div>
+<pre><code>## [1] "/home/lgatto/R/x86_64-pc-linux-gnu-library/3.6/msdata/proteomics/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz"</code></pre>
+<p>The three main functions of <code>mzR</code> are</p>
+<ul>
+<li>
+<code>openMSfile</code> to create a file handle to a raw data file</li>
+<li>
+<code>header</code> to extract metadata about the spectra contained in the file</li>
+<li>
+<code>peaks</code> to extract one or multiple spectra of interest.</li>
+</ul>
+<p>Other functions such as <code>instrumentInfo</code>, or <code>runInfo</code> can be used to
+gather general information about a run.</p>
+<div id="demonstration" class="section level3">
+<h3>
+<span class="header-section-number">3.1.1</span> Demonstration</h3>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb48-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"mzR"</span>)</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">ms &lt;-<span class="st"> </span><span class="kw">openMSfile</span>(f2)</a>
+<a class="sourceLine" id="cb48-3" data-line-number="3">ms</a></code></pre></div>
+<pre><code>## Mass Spectrometry file handle.
+## Filename:  TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz 
+## Number of scans:  7534</code></pre>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb50-1" data-line-number="1">hd &lt;-<span class="st"> </span><span class="kw">header</span>(ms)</a>
+<a class="sourceLine" id="cb50-2" data-line-number="2"><span class="kw">dim</span>(hd)</a></code></pre></div>
+<pre><code>## [1] 7534   31</code></pre>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb52-1" data-line-number="1"><span class="kw">names</span>(hd)</a></code></pre></div>
+<pre><code>##  [1] "seqNum"                     "acquisitionNum"            
+##  [3] "msLevel"                    "polarity"                  
+##  [5] "peaksCount"                 "totIonCurrent"             
+##  [7] "retentionTime"              "basePeakMZ"                
+##  [9] "basePeakIntensity"          "collisionEnergy"           
+## [11] "ionisationEnergy"           "lowMZ"                     
+## [13] "highMZ"                     "precursorScanNum"          
+## [15] "precursorMZ"                "precursorCharge"           
+## [17] "precursorIntensity"         "mergedScan"                
+## [19] "mergedResultScanNum"        "mergedResultStartScanNum"  
+## [21] "mergedResultEndScanNum"     "injectionTime"             
+## [23] "filterString"               "spectrumId"                
+## [25] "centroided"                 "ionMobilityDriftTime"      
+## [27] "isolationWindowTargetMZ"    "isolationWindowLowerOffset"
+## [29] "isolationWindowUpperOffset" "scanWindowLowerLimit"      
+## [31] "scanWindowUpperLimit"</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">peaks</span>(ms, <span class="dv">117</span>))</a></code></pre></div>
+<pre><code>##          [,1] [,2]
+## [1,] 399.9976    0
+## [2,] 399.9991    0
+## [3,] 400.0006    0
+## [4,] 400.0021    0
+## [5,] 400.2955    0
+## [6,] 400.2970    0</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1"><span class="kw">str</span>(<span class="kw">peaks</span>(ms, <span class="dv">1</span><span class="op">:</span><span class="dv">5</span>))</a></code></pre></div>
+<pre><code>## List of 5
+##  $ : num [1:25800, 1:2] 400 400 400 400 400 ...
+##  $ : num [1:25934, 1:2] 400 400 400 400 400 ...
+##  $ : num [1:26148, 1:2] 400 400 400 400 400 ...
+##  $ : num [1:26330, 1:2] 400 400 400 400 400 ...
+##  $ : num [1:26463, 1:2] 400 400 400 400 400 ...</code></pre>
+</div>
+</div>
+<div id="exercise" class="section level2">
+<h2>
+<span class="header-section-number">3.2</span> Exercise</h2>
+<blockquote>
+<p>Let’s extract the index of the MS2 spectrum with the highest base
+peak intensity and plot its spectrum. Is the data centroided or in
+profile mode?</p>
+</blockquote>
+<details><div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1">hd2 &lt;-<span class="st"> </span>hd[hd<span class="op">$</span>msLevel <span class="op">==</span><span class="st"> </span><span class="dv">2</span>, ]</a>
+<a class="sourceLine" id="cb58-2" data-line-number="2">i &lt;-<span class="st"> </span><span class="kw">which.max</span>(hd2<span class="op">$</span>basePeakIntensity)</a>
+<a class="sourceLine" id="cb58-3" data-line-number="3">hd2[i, ]</a></code></pre></div>
+<pre><code>##      seqNum acquisitionNum msLevel polarity peaksCount totIonCurrent
+## 5404   5404           5404       2        1        275    2283283712
+##      retentionTime basePeakMZ basePeakIntensity collisionEnergy
+## 5404      2751.313   859.5032         354288224              45
+##      ionisationEnergy    lowMZ  highMZ precursorScanNum precursorMZ
+## 5404                0 100.5031 1995.63             5403    859.1722
+##      precursorCharge precursorIntensity mergedScan mergedResultScanNum
+## 5404               3          627820480         NA                  NA
+##      mergedResultStartScanNum mergedResultEndScanNum injectionTime
+## 5404                       NA                     NA    0.03474091
+##                                                  filterString
+## 5404 FTMS + p NSI d Full ms2 859.50@hcd45.00 [100.00-2000.00]
+##                                         spectrumId centroided
+## 5404 controllerType=0 controllerNumber=1 scan=5404       TRUE
+##      ionMobilityDriftTime isolationWindowTargetMZ isolationWindowLowerOffset
+## 5404                   NA                   859.5                          1
+##      isolationWindowUpperOffset scanWindowLowerLimit scanWindowUpperLimit
+## 5404                          1                  100                 2000</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">pi &lt;-<span class="st"> </span><span class="kw">peaks</span>(ms, hd2[i, <span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2"><span class="kw">plot</span>(pi, <span class="dt">type =</span> <span class="st">"h"</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/ex_raw-1.png" width="672" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb61-1" data-line-number="1">mz &lt;-<span class="st"> </span>hd2[i, <span class="st">"basePeakMZ"</span>]</a>
+<a class="sourceLine" id="cb61-2" data-line-number="2"><span class="kw">plot</span>(pi, <span class="dt">type =</span> <span class="st">"h"</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(mz<span class="fl">-0.5</span>, mz<span class="fl">+0.5</span>))</a></code></pre></div>
+<p><img src="_main_files/figure-html/ex_raw-2.png" width="672" style="display: block; margin: auto;"></p>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="co">## Zooming into spectrum 300 (an MS1 spectrum).</span></a>
+<a class="sourceLine" id="cb62-2" data-line-number="2">j &lt;-<span class="st"> </span><span class="dv">300</span></a>
+<a class="sourceLine" id="cb62-3" data-line-number="3">pj &lt;-<span class="st"> </span><span class="kw">peaks</span>(ms, j)</a>
+<a class="sourceLine" id="cb62-4" data-line-number="4"><span class="kw">plot</span>(pj, <span class="dt">type =</span> <span class="st">"l"</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/ex_raw2-1.png" width="672"></p>
+<div class="sourceCode" id="cb63"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="kw">plot</span>(pj, <span class="dt">type =</span> <span class="st">"l"</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">480</span>, <span class="dv">485</span>))</a></code></pre></div>
+<img src="_main_files/figure-html/ex_raw2-2.png" width="672"></details><div id="exercise-1" class="section level3">
+<h3>
+<span class="header-section-number">3.2.1</span> Exercise</h3>
+<p>Using the first raw data file starting with <code>MS3TMT10</code>, answer the
+following questions:</p>
+<ul>
+<li>What type of data is returned by the <code>openMSfile</code> function?</li>
+<li>How many spectra are there in that file?</li>
+<li>How many MS levels, and how many spectra per MS level?</li>
+<li>What is the index of the MS2 spectrum with the highest precursor
+intensity?</li>
+<li>Plot one spectrum of each level.</li>
+</ul>
+</div>
+</div>
+<div id="high-level-abstraction" class="section level2">
+<h2>
+<span class="header-section-number">3.3</span> High level abstraction</h2>
+<p>While having full access to the raw data gives full control, at times
+it requires a lot of effort to achieve mundane things and can be very
+repetitive. There is a need for abstraction, i.e. that we shouldn’t
+need to know about all the details that are exposed by <code>mzR</code> to access
+and manipulate raw data. In comes <code>MSnbase</code> and the <code>MSnExp</code> data
+structure, that provides a much smoother approach to <em>handle</em> and
+<em>annotate</em> raw data (we will see this in more details tomorrow).</p>
+<div class="figure">
+<img src="../img/pset.jpg" alt="MSnExp schematics"><p class="caption">MSnExp schematics</p>
+</div>
+<p>An <code>MSnExp</code> contains the data and annotation to describe an MS
+experiment. The data is composed of all the MS spectra (the output of
+<code>mzR::peaks</code> above) and the annotation is stored in a
+<code>data.frame</code>-like structure called the <em>feature metadata</em> slot
+(<em>fData</em> for short). This feature metadata contains by default (or can
+contain, to be precise) the content the <code>mzR::header</code> seen above, but
+can be extended as need (adding identification data, for example - to
+be discussed tomorrow).</p>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"MSnbase"</span>)</a></code></pre></div>
+<p>Using the <code>readMSdata</code> function, passing one or more raw data file
+names as input, we create an <code>MSnExp</code> object.</p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb65-1" data-line-number="1">rw1 &lt;-<span class="st"> </span><span class="kw">readMSData</span>(f2, <span class="dt">mode =</span> <span class="st">"inMemory"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb65-2" data-line-number="2">rw1</a></code></pre></div>
+<pre><code>## MSn experiment data ("MSnExp")
+## Object size in memory: 41.95 Mb
+## - - - Spectra data - - -
+##  MS level(s): 2 
+##  Number of spectra: 6103 
+##  MSn retention times: 3:22 - 60:2 minutes
+## - - - Processing information - - -
+## Data loaded: Sun Feb 16 12:16:37 2020 
+##  MSnbase version: 2.12.0 
+## - - - Meta data  - - -
+## phenoData
+##   rowNames:
+##     TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz
+##   varLabels: sampleNames
+##   varMetadata: labelDescription
+## Loaded from:
+##   TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz 
+## protocolData: none
+## featureData
+##   featureNames: F1.S0001 F1.S0002 ... F1.S6103 (6103 total)
+##   fvarLabels: spectrum
+##   fvarMetadata: labelDescription
+## experimentData: use 'experimentData(object)'</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb67-1" data-line-number="1">rw2 &lt;-<span class="st"> </span><span class="kw">readMSData</span>(f2, <span class="dt">mode =</span> <span class="st">"onDisk"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb67-2" data-line-number="2">rw2</a></code></pre></div>
+<pre><code>## MSn experiment data ("OnDiskMSnExp")
+## Object size in memory: 3.31 Mb
+## - - - Spectra data - - -
+##  MS level(s): 1 2 
+##  Number of spectra: 7534 
+##  MSn retention times: 0:0 - 60:2 minutes
+## - - - Processing information - - -
+## Data loaded [Sun Feb 16 13:10:47 2020] 
+##  MSnbase version: 2.12.0 
+## - - - Meta data  - - -
+## phenoData
+##   rowNames:
+##     TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz
+##   varLabels: sampleNames
+##   varMetadata: labelDescription
+## Loaded from:
+##   TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz 
+## protocolData: none
+## featureData
+##   featureNames: F1.S0001 F1.S0002 ... F1.S7534 (7534 total)
+##   fvarLabels: fileIdx spIdx ... spectrum (35 total)
+##   fvarMetadata: labelDescription
+## experimentData: use 'experimentData(object)'</code></pre>
+<div id="exercise-2" class="section level3">
+<h3>
+<span class="header-section-number">3.3.1</span> Exercise</h3>
+<p>What differences can you spot between the <code>rw1</code> and <code>rw2</code> objects?</p>
+<p>From the outside, the two functions above are very similar. The major
+difference is that the former reads the data from only one type of MS
+level into memory. The second function, does not read any raw data
+into memory (and hence is much faster) and supports any number of MS
+levels. The raw data is accessed on demand when needed. If you are
+interested in a benchmark between the two approaches, look at the
+<a href="http://bioconductor.org/packages/devel/bioc/vignettes/MSnbase/inst/doc/benchmarking.html"><em>benchmarking</em>
+vignette</a>,
+available by typing <code>vignette("benchmarking", package = "MSnbase")</code>.</p>
+<p>Let’s extract spectra 4192 and 300, or 1 to 5, as we did above. We
+can do this using the familiar <code>[[</code> and <code>[</code> operators:</p>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb69-1" data-line-number="1"><span class="co">## i and j were defined above</span></a>
+<a class="sourceLine" id="cb69-2" data-line-number="2">rw1[[i]]</a></code></pre></div>
+<pre><code>## Object of class "Spectrum2"
+##  Precursor: 859.1722 
+##  Retention time: 45:51 
+##  Charge: 3 
+##  MSn level: 2 
+##  Peaks count: 275 
+##  Total ion count: 2269568558</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1">rw2[[i]]</a></code></pre></div>
+<pre><code>## Object of class "Spectrum2"
+##  Precursor: 472.3352 
+##  Retention time: 38:26 
+##  Charge: 2 
+##  MSn level: 2 
+##  Peaks count: 132 
+##  Total ion count: 12185289</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1">rw1[[j]]</a></code></pre></div>
+<pre><code>## Object of class "Spectrum2"
+##  Precursor: 602.8553 
+##  Retention time: 19:23 
+##  Charge: 2 
+##  MSn level: 2 
+##  Peaks count: 187 
+##  Total ion count: 2358111</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1">rw2[[j]]</a></code></pre></div>
+<pre><code>## Object of class "Spectrum1"
+##  Retention time: 4:45 
+##  MSn level: 1 
+##  Total ion count: 2661 
+##  Polarity: 1</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1">rw1[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<pre><code>## MSn experiment data ("MSnExp")
+## Object size in memory: 0.03 Mb
+## - - - Spectra data - - -
+##  MS level(s): 2 
+##  Number of spectra: 5 
+##  MSn retention times: 3:22 - 3:24 minutes
+## - - - Processing information - - -
+## Data loaded: Sun Feb 16 12:16:37 2020 
+## Data [numerically] subsetted 5 spectra: Sun Feb 16 13:10:52 2020 
+##  MSnbase version: 2.12.0 
+## - - - Meta data  - - -
+## phenoData
+##   rowNames:
+##     TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz
+##   varLabels: sampleNames
+##   varMetadata: labelDescription
+## Loaded from:
+##   TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz 
+## protocolData: none
+## featureData
+##   featureNames: F1.S0001 F1.S0002 ... F1.S0005 (5 total)
+##   fvarLabels: spectrum
+##   fvarMetadata: labelDescription
+## experimentData: use 'experimentData(object)'</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1">rw2[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]</a></code></pre></div>
+<pre><code>## MSn experiment data ("OnDiskMSnExp")
+## Object size in memory: 0.03 Mb
+## - - - Spectra data - - -
+##  MS level(s): 1 
+##  Number of spectra: 5 
+##  MSn retention times: 0:0 - 0:4 minutes
+## - - - Processing information - - -
+## Data loaded [Sun Feb 16 13:10:47 2020] 
+##  MSnbase version: 2.12.0 
+## - - - Meta data  - - -
+## phenoData
+##   rowNames:
+##     TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz
+##   varLabels: sampleNames
+##   varMetadata: labelDescription
+## Loaded from:
+##   TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz 
+## protocolData: none
+## featureData
+##   featureNames: F1.S0001 F1.S0002 ... F1.S0005 (5 total)
+##   fvarLabels: fileIdx spIdx ... spectrum (35 total)
+##   fvarMetadata: labelDescription
+## experimentData: use 'experimentData(object)'</code></pre>
+<p>And plot them</p>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb81-1" data-line-number="1"><span class="kw">plot</span>(rw1[[j]])</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-4-1.png" width="672"></p>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="kw">plot</span>(rw1[[i]], <span class="dt">full =</span> <span class="ot">TRUE</span>, <span class="dt">reporters =</span> TMT6, <span class="dt">centroided =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/unnamed-chunk-5-1.png" width="672"></p>
+<p>The feature metadata is stored as part of the <code>MSnExp</code> object and can
+be accessed with the <code>fData</code> accessor function</p>
+<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb83-1" data-line-number="1"><span class="kw">fData</span>(rw2)</a></code></pre></div>
+<pre><code>##          fileIdx spIdx smoothed seqNum acquisitionNum msLevel polarity
+## F1.S0001       1     1       NA      1              1       1        1
+## F1.S0002       1     2       NA      2              2       1        1
+## F1.S0003       1     3       NA      3              3       1        1
+## F1.S0004       1     4       NA      4              4       1        1
+## F1.S0005       1     5       NA      5              5       1        1
+## F1.S0006       1     6       NA      6              6       1        1
+## F1.S0007       1     7       NA      7              7       1        1
+## F1.S0008       1     8       NA      8              8       1        1
+## F1.S0009       1     9       NA      9              9       1        1
+## F1.S0010       1    10       NA     10             10       1        1
+## F1.S0011       1    11       NA     11             11       1        1
+## F1.S0012       1    12       NA     12             12       1        1
+## F1.S0013       1    13       NA     13             13       1        1
+## F1.S0014       1    14       NA     14             14       1        1
+##          originalPeaksCount totIonCurrent retentionTime basePeakMZ
+## F1.S0001              25800       9187505        0.4584     445.12
+## F1.S0002              25934       9118685        0.9725     445.12
+## F1.S0003              26148       9247653        1.8524     445.12
+## F1.S0004              26330       9195261        2.7424     445.12
+## F1.S0005              26463       9202081        3.6124     445.12
+## F1.S0006              25580       9451720        4.4925     445.12
+## F1.S0007              25191       9370178        5.3825     445.12
+## F1.S0008              26957       9297793        6.2525     445.12
+## F1.S0009              26608       9543710        7.1324     445.12
+## F1.S0010              27062       9437697        8.0324     445.12
+## F1.S0011              25763       9244707        8.8925     445.12
+## F1.S0012              25577       9294566        9.7724     445.12
+## F1.S0013              26282       9231183       10.6624     445.12
+## F1.S0014              24474       9163494       11.5324     445.12
+##          basePeakIntensity collisionEnergy ionisationEnergy    lowMZ   highMZ
+## F1.S0001          984171.2              NA                0 399.9987 2008.454
+## F1.S0002          989260.4              NA                0 399.9985 2008.453
+## F1.S0003          997621.7              NA                0 399.9983 2008.453
+## F1.S0004          988598.2              NA                0 399.9981 2008.451
+## F1.S0005          971233.9              NA                0 399.9983 2008.452
+## F1.S0006         1000968.4              NA                0 399.9981 2008.451
+## F1.S0007         1004060.4              NA                0 399.9980 2008.451
+## F1.S0008          985961.2              NA                0 399.9980 2008.451
+## F1.S0009         1012269.5              NA                0 399.9980 2008.451
+## F1.S0010          983832.0              NA                0 399.9980 2008.451
+## F1.S0011          976695.8              NA                0 399.9978 2008.450
+## F1.S0012          994047.6              NA                0 399.9979 2008.450
+## F1.S0013          971733.5              NA                0 399.9978 2008.450
+## F1.S0014          987855.7              NA                0 399.9977 2008.449
+##          precursorScanNum precursorMZ precursorCharge precursorIntensity
+## F1.S0001               NA          NA              NA                 NA
+## F1.S0002               NA          NA              NA                 NA
+## F1.S0003               NA          NA              NA                 NA
+## F1.S0004               NA          NA              NA                 NA
+## F1.S0005               NA          NA              NA                 NA
+## F1.S0006               NA          NA              NA                 NA
+## F1.S0007               NA          NA              NA                 NA
+## F1.S0008               NA          NA              NA                 NA
+## F1.S0009               NA          NA              NA                 NA
+## F1.S0010               NA          NA              NA                 NA
+## F1.S0011               NA          NA              NA                 NA
+## F1.S0012               NA          NA              NA                 NA
+## F1.S0013               NA          NA              NA                 NA
+## F1.S0014               NA          NA              NA                 NA
+##          mergedScan mergedResultScanNum mergedResultStartScanNum
+## F1.S0001         NA                  NA                       NA
+## F1.S0002         NA                  NA                       NA
+## F1.S0003         NA                  NA                       NA
+## F1.S0004         NA                  NA                       NA
+## F1.S0005         NA                  NA                       NA
+## F1.S0006         NA                  NA                       NA
+## F1.S0007         NA                  NA                       NA
+## F1.S0008         NA                  NA                       NA
+## F1.S0009         NA                  NA                       NA
+## F1.S0010         NA                  NA                       NA
+## F1.S0011         NA                  NA                       NA
+## F1.S0012         NA                  NA                       NA
+## F1.S0013         NA                  NA                       NA
+## F1.S0014         NA                  NA                       NA
+##          mergedResultEndScanNum injectionTime
+## F1.S0001                     NA      50.38262
+## F1.S0002                     NA      51.13650
+## F1.S0003                     NA      50.36058
+## F1.S0004                     NA      51.23796
+## F1.S0005                     NA      50.87993
+## F1.S0006                     NA      50.30515
+## F1.S0007                     NA      50.08440
+## F1.S0008                     NA      49.81701
+## F1.S0009                     NA      51.12255
+## F1.S0010                     NA      50.92492
+## F1.S0011                     NA      51.28786
+## F1.S0012                     NA      48.79818
+## F1.S0013                     NA      50.32028
+## F1.S0014                     NA      50.93900
+##                                   filterString
+## F1.S0001 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0002 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0003 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0004 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0005 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0006 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0007 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0008 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0009 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0010 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0011 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0012 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0013 FTMS + p NSI Full ms [400.00-2000.00]
+## F1.S0014 FTMS + p NSI Full ms [400.00-2000.00]
+##                                           spectrumId centroided
+## F1.S0001  controllerType=0 controllerNumber=1 scan=1      FALSE
+## F1.S0002  controllerType=0 controllerNumber=1 scan=2      FALSE
+## F1.S0003  controllerType=0 controllerNumber=1 scan=3      FALSE
+## F1.S0004  controllerType=0 controllerNumber=1 scan=4      FALSE
+## F1.S0005  controllerType=0 controllerNumber=1 scan=5      FALSE
+## F1.S0006  controllerType=0 controllerNumber=1 scan=6      FALSE
+## F1.S0007  controllerType=0 controllerNumber=1 scan=7      FALSE
+## F1.S0008  controllerType=0 controllerNumber=1 scan=8      FALSE
+## F1.S0009  controllerType=0 controllerNumber=1 scan=9      FALSE
+## F1.S0010 controllerType=0 controllerNumber=1 scan=10      FALSE
+## F1.S0011 controllerType=0 controllerNumber=1 scan=11      FALSE
+## F1.S0012 controllerType=0 controllerNumber=1 scan=12      FALSE
+## F1.S0013 controllerType=0 controllerNumber=1 scan=13      FALSE
+## F1.S0014 controllerType=0 controllerNumber=1 scan=14      FALSE
+##          ionMobilityDriftTime isolationWindowTargetMZ
+## F1.S0001                   NA                      NA
+## F1.S0002                   NA                      NA
+## F1.S0003                   NA                      NA
+## F1.S0004                   NA                      NA
+## F1.S0005                   NA                      NA
+## F1.S0006                   NA                      NA
+## F1.S0007                   NA                      NA
+## F1.S0008                   NA                      NA
+## F1.S0009                   NA                      NA
+## F1.S0010                   NA                      NA
+## F1.S0011                   NA                      NA
+## F1.S0012                   NA                      NA
+## F1.S0013                   NA                      NA
+## F1.S0014                   NA                      NA
+##          isolationWindowLowerOffset isolationWindowUpperOffset
+## F1.S0001                         NA                         NA
+## F1.S0002                         NA                         NA
+## F1.S0003                         NA                         NA
+## F1.S0004                         NA                         NA
+## F1.S0005                         NA                         NA
+## F1.S0006                         NA                         NA
+## F1.S0007                         NA                         NA
+## F1.S0008                         NA                         NA
+## F1.S0009                         NA                         NA
+## F1.S0010                         NA                         NA
+## F1.S0011                         NA                         NA
+## F1.S0012                         NA                         NA
+## F1.S0013                         NA                         NA
+## F1.S0014                         NA                         NA
+##          scanWindowLowerLimit scanWindowUpperLimit spectrum
+## F1.S0001                  400                 2000        1
+## F1.S0002                  400                 2000        2
+## F1.S0003                  400                 2000        3
+## F1.S0004                  400                 2000        4
+## F1.S0005                  400                 2000        5
+## F1.S0006                  400                 2000        6
+## F1.S0007                  400                 2000        7
+## F1.S0008                  400                 2000        8
+## F1.S0009                  400                 2000        9
+## F1.S0010                  400                 2000       10
+## F1.S0011                  400                 2000       11
+## F1.S0012                  400                 2000       12
+## F1.S0013                  400                 2000       13
+## F1.S0014                  400                 2000       14
+##  [ reached 'max' / getOption("max.print") -- omitted 7520 rows ]</code></pre>
+<p>Below, we will continue to work with the <em>in memory</em> raw data object.</p>
+</div>
+<div id="more-data-handling" class="section level3">
+<h3>
+<span class="header-section-number">3.3.2</span> More data handling</h3>
+<p>Is the data centroided or in profile mode?</p>
+<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb85-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">centroided</span>(rw2))</a></code></pre></div>
+<pre><code>## F1.S0001 F1.S0002 F1.S0003 F1.S0004 F1.S0005 F1.S0006 
+##    FALSE    FALSE    FALSE    FALSE    FALSE    FALSE</code></pre>
+<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb87-1" data-line-number="1"><span class="kw">table</span>(<span class="kw">centroided</span>(rw2))</a></code></pre></div>
+<pre><code>## 
+## FALSE  TRUE 
+##  1431  6103</code></pre>
+<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb89-1" data-line-number="1"><span class="kw">table</span>(<span class="kw">centroided</span>(rw2), <span class="kw">msLevel</span>(rw2))</a></code></pre></div>
+<pre><code>##        
+##            1    2
+##   FALSE 1431    0
+##   TRUE     0 6103</code></pre>
+<p>It is also possible to set this when readin the data or manually</p>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb91-1" data-line-number="1">tmp &lt;-<span class="st"> </span><span class="kw">readMSData</span>(f2, <span class="dt">mode =</span> <span class="st">"onDisk"</span>, <span class="dt">centroided =</span> <span class="kw">c</span>(<span class="ot">FALSE</span>, <span class="ot">TRUE</span>), <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb91-2" data-line-number="2"><span class="kw">table</span>(<span class="kw">centroided</span>(tmp), <span class="kw">msLevel</span>(tmp))</a></code></pre></div>
+<pre><code>##        
+##            1    2
+##   FALSE 1431    0
+##   TRUE     0 6103</code></pre>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb93-1" data-line-number="1">tmp &lt;-<span class="st"> </span><span class="kw">readMSData</span>(f2, <span class="dt">mode =</span> <span class="st">"onDisk"</span>, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb93-2" data-line-number="2"><span class="kw">centroided</span>(tmp, <span class="dt">msLevel =</span> <span class="dv">1</span>) &lt;-<span class="st"> </span><span class="ot">FALSE</span></a>
+<a class="sourceLine" id="cb93-3" data-line-number="3"><span class="kw">centroided</span>(tmp, <span class="dt">msLevel =</span> <span class="dv">2</span>) &lt;-<span class="st"> </span><span class="ot">TRUE</span></a>
+<a class="sourceLine" id="cb93-4" data-line-number="4"><span class="kw">table</span>(<span class="kw">centroided</span>(tmp), <span class="kw">msLevel</span>(tmp))</a></code></pre></div>
+<pre><code>##        
+##            1    2
+##   FALSE 1431    0
+##   TRUE     0 6103</code></pre>
+</div>
+<div id="peak-lists" class="section level3">
+<h3>
+<span class="header-section-number">3.3.3</span> Peak lists</h3>
+<p>Similarly as for raw data, peak lists can be read into R as <code>MSnExp</code>
+data using the <code>readMgfData</code>. See <code>?readMgfData</code> for details.</p>
+</div>
+<div id="exercise-3" class="section level3">
+<h3>
+<span class="header-section-number">3.3.4</span> Exercise</h3>
+<p>Using the file starting with <code>MS3TMT10</code>:</p>
+<ul>
+<li>Create an <code>MSnExp</code> object</li>
+<li>What MS levels do you have, and how many spectra of each</li>
+<li>What is the mode of the different MS levels</li>
+</ul>
+</div>
+</div>
+<div id="visualisation-of-raw-ms-data" class="section level2">
+<h2>
+<span class="header-section-number">3.4</span> Visualisation of raw MS data</h2>
+<p>The importance of flexible access to specialised data becomes visible
+in the figure below (taken from the <code>RforProteomics</code>
+<a href="http://bioconductor.org/packages/release/data/experiment/vignettes/RforProteomics/inst/doc/RProtVis.html">visualisation vignette</a>).
+<strong>Not only can we access specific data and understand/visualise them,
+but we can transverse all the data and extracted/visualise/understand
+structured slices of data.</strong></p>
+<div class="figure">
+<img src="../img/msvisfig.png" alt="MS visualisation"><p class="caption">MS visualisation</p>
+</div>
+<p>In this code chunks we start by selecting relevant spectra of
+interest. We will focus on the first MS1 spectrum acquired after 30
+minutes of retention time.</p>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb95-1" data-line-number="1"><span class="co">## (3) MS1 spectra indices</span></a>
+<a class="sourceLine" id="cb95-2" data-line-number="2">ms1 &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">msLevel</span>(rw2) <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb95-3" data-line-number="3"><span class="co">## (4) Select MS1 spectra with retention time between 30 and 35 minutes</span></a>
+<a class="sourceLine" id="cb95-4" data-line-number="4">rtsel &lt;-<span class="st"> </span><span class="kw">rtime</span>(rw2)[ms1] <span class="op">/</span><span class="st"> </span><span class="dv">60</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span></a>
+<a class="sourceLine" id="cb95-5" data-line-number="5"><span class="st">                  </span><span class="kw">rtime</span>(rw2)[ms1] <span class="op">/</span><span class="st"> </span><span class="dv">60</span> <span class="op">&lt;</span><span class="st"> </span><span class="dv">35</span></a>
+<a class="sourceLine" id="cb95-6" data-line-number="6"><span class="co">## (5) Indices of the 1st and 2nd MS1 spectra after 30 minutes</span></a>
+<a class="sourceLine" id="cb95-7" data-line-number="7">i &lt;-<span class="st"> </span>ms1[<span class="kw">which</span>(rtsel)][<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb95-8" data-line-number="8">j &lt;-<span class="st"> </span>ms1[<span class="kw">which</span>(rtsel)][<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb95-9" data-line-number="9"><span class="co">## (6) Interleaved MS2 spectra</span></a>
+<a class="sourceLine" id="cb95-10" data-line-number="10">ms2 &lt;-<span class="st"> </span>(i<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span>(j<span class="dv">-1</span>)</a></code></pre></div>
+<p>Now now extract and plot all relevant information:</p>
+<ul>
+<li>The upper panel represents the chromatogram of the TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz
+raw data file, produced with <code>chromatogram</code>.</li>
+</ul>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb96-1" data-line-number="1">chr &lt;-<span class="st"> </span><span class="kw">chromatogram</span>(rw2)</a>
+<a class="sourceLine" id="cb96-2" data-line-number="2">chr</a></code></pre></div>
+<pre><code>## Chromatograms with 1 row and 1 column
+##      TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz
+##                                                              &lt;Chromatogram&gt;
+## [1,]                                                           length: 1431
+## phenoData with 1 variables
+## featureData with 1 variables</code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb98-1" data-line-number="1"><span class="kw">plot</span>(chr)</a></code></pre></div>
+<p><img src="_main_files/figure-html/visfig01-1.png" width="672"></p>
+<ul>
+<li>We concentrate at a specific retention time,
+30:1 minutes (1800.6836 seconds)</li>
+</ul>
+<div class="sourceCode" id="cb99"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb99-1" data-line-number="1"><span class="kw">plot</span>(chr)</a>
+<a class="sourceLine" id="cb99-2" data-line-number="2"><span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">fData</span>(rw2)[i, <span class="st">"retentionTime"</span>], <span class="dt">col =</span> <span class="st">"red"</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/visfig02-1.png" width="672"></p>
+<ul>
+<li>This corresponds to the 2807 th MS1 spectrum, shown on the second row of figures.</li>
+</ul>
+<div class="sourceCode" id="cb100"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb100-1" data-line-number="1">p &lt;-<span class="st"> </span><span class="kw">plot</span>(rw2[[i]]) </a></code></pre></div>
+<p><img src="_main_files/figure-html/visfig03-1.png" width="672"></p>
+<div class="sourceCode" id="cb101"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb101-1" data-line-number="1">p <span class="op">+</span><span class="st"> </span>ggplot2<span class="op">::</span><span class="kw">xlim</span>(<span class="dv">400</span>, <span class="dv">1000</span>)</a></code></pre></div>
+<pre><code>## Warning: Removed 3812 rows containing missing values (geom_path).</code></pre>
+<p><img src="_main_files/figure-html/visfig03-2.png" width="672"></p>
+<p>or using base plotting:</p>
+<div class="sourceCode" id="cb103"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb103-1" data-line-number="1">pi &lt;-<span class="st"> </span><span class="kw">as</span>(rw2[[i]], <span class="st">"data.frame"</span>)</a>
+<a class="sourceLine" id="cb103-2" data-line-number="2"><span class="kw">plot</span>(pi, <span class="dt">type =</span> <span class="st">"l"</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">400</span>, <span class="dv">1000</span>))</a>
+<a class="sourceLine" id="cb103-3" data-line-number="3"><span class="kw">legend</span>(<span class="st">"topright"</span>, <span class="dt">bty =</span> <span class="st">"n"</span>,</a>
+<a class="sourceLine" id="cb103-4" data-line-number="4">       <span class="dt">legend =</span> <span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb103-5" data-line-number="5">           <span class="st">"Acquisition "</span>, <span class="kw">acquisitionNum</span>(rw2)[i],  <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</a>
+<a class="sourceLine" id="cb103-6" data-line-number="6">           <span class="st">"Retention time "</span>, <span class="kw">formatRt</span>(<span class="kw">rtime</span>(rw2)[i])))</a></code></pre></div>
+<p><img src="_main_files/figure-html/visfog03b-1.png" width="672"></p>
+<ul>
+<li>The ions that were selected for MS2 are highlighted by vertical
+lines. These are represented in the bottom part of the figure.</li>
+</ul>
+<div class="sourceCode" id="cb104"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb104-1" data-line-number="1"><span class="kw">plot</span>(pi, <span class="dt">type =</span> <span class="st">"l"</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">400</span>, <span class="dv">1000</span>))</a>
+<a class="sourceLine" id="cb104-2" data-line-number="2"><span class="kw">legend</span>(<span class="st">"topright"</span>, <span class="dt">bty =</span> <span class="st">"n"</span>,</a>
+<a class="sourceLine" id="cb104-3" data-line-number="3">       <span class="dt">legend =</span> <span class="kw">paste0</span>(</a>
+<a class="sourceLine" id="cb104-4" data-line-number="4">           <span class="st">"Acquisition "</span>, <span class="kw">acquisitionNum</span>(rw2)[i],  <span class="st">"</span><span class="ch">\n</span><span class="st">"</span>,</a>
+<a class="sourceLine" id="cb104-5" data-line-number="5">           <span class="st">"Retention time "</span>, <span class="kw">formatRt</span>(<span class="kw">rtime</span>(rw2)[i])))</a>
+<a class="sourceLine" id="cb104-6" data-line-number="6"><span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">precursorMz</span>(rw2)[ms2],</a>
+<a class="sourceLine" id="cb104-7" data-line-number="7">       <span class="dt">col =</span> <span class="kw">c</span>(<span class="st">"#FF000080"</span>,</a>
+<a class="sourceLine" id="cb104-8" data-line-number="8">           <span class="kw">rep</span>(<span class="st">"#12121280"</span>, <span class="dv">9</span>)))</a></code></pre></div>
+<p><img src="_main_files/figure-html/visfig04-1.png" width="672"></p>
+<ul>
+<li>On the right, we zoom on the isotopic envelope of one peptide in
+particular (the one highlighted with a red line).</li>
+</ul>
+<div class="sourceCode" id="cb105"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb105-1" data-line-number="1"><span class="kw">plot</span>(pi, <span class="dt">type =</span> <span class="st">"l"</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">521</span>, <span class="fl">522.5</span>))</a>
+<a class="sourceLine" id="cb105-2" data-line-number="2"><span class="kw">abline</span>(<span class="dt">v =</span> <span class="kw">precursorMz</span>(rw2)[ms2], <span class="dt">col =</span> <span class="st">"#FF000080"</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/visfig05-1.png" width="672"></p>
+<ul>
+<li>A final loop through the relevant MS2 spectra plots the
+<code>length(ms2)</code> MS2 spectra highlighted above.</li>
+</ul>
+<div class="sourceCode" id="cb106"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb106-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">5</span>, <span class="dv">2</span>), <span class="dt">mar =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">0</span>, <span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb106-2" data-line-number="2"><span class="cf">for</span> (ii <span class="cf">in</span> ms2) {</a>
+<a class="sourceLine" id="cb106-3" data-line-number="3">    pj &lt;-<span class="st"> </span><span class="kw">as</span>(rw2[[ii]], <span class="st">"data.frame"</span>)</a>
+<a class="sourceLine" id="cb106-4" data-line-number="4">    <span class="kw">plot</span>(pj, <span class="dt">xlab =</span> <span class="st">""</span>, <span class="dt">ylab =</span> <span class="st">""</span>, <span class="dt">type =</span> <span class="st">"h"</span>, <span class="dt">cex.axis =</span> <span class="fl">.6</span>)</a>
+<a class="sourceLine" id="cb106-5" data-line-number="5">    <span class="kw">legend</span>(<span class="st">"topright"</span>, <span class="dt">legend =</span> <span class="kw">paste0</span>(<span class="st">"Prec M/Z</span><span class="ch">\n</span><span class="st">"</span>,</a>
+<a class="sourceLine" id="cb106-6" data-line-number="6">                           <span class="kw">round</span>(<span class="kw">precursorMz</span>(rw2)[ii], <span class="dv">2</span>)),</a>
+<a class="sourceLine" id="cb106-7" data-line-number="7">           <span class="dt">bty =</span> <span class="st">"n"</span>, <span class="dt">cex =</span> <span class="fl">.8</span>)</a>
+<a class="sourceLine" id="cb106-8" data-line-number="8">}</a></code></pre></div>
+<p><img src="_main_files/figure-html/visfig06-1.png" width="768"></p>
+</div>
+<div id="relations-between-spectra" class="section level2">
+<h2>
+<span class="header-section-number">3.5</span> Relations between spectra</h2>
+<p>The <code>filterPrecursorScan</code> makes the above much easier by extracting
+<em>related</em> spectra:</p>
+<div class="sourceCode" id="cb107"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb107-1" data-line-number="1">i &lt;-<span class="st"> </span><span class="kw">which</span>(<span class="kw">rtime</span>(rw2)<span class="op">/</span><span class="dv">60</span> <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">&amp;</span><span class="st"> </span><span class="kw">msLevel</span>(rw2) <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)[<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb107-2" data-line-number="2"><span class="kw">acquisitionNum</span>(rw2)[i]</a></code></pre></div>
+<pre><code>## F1.S2807 
+##     2807</code></pre>
+<div class="sourceCode" id="cb109"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb109-1" data-line-number="1">rw3 &lt;-<span class="st"> </span><span class="kw">filterPrecursorScan</span>(rw2, <span class="dv">2807</span>)</a>
+<a class="sourceLine" id="cb109-2" data-line-number="2">rw3</a></code></pre></div>
+<pre><code>## MSn experiment data ("OnDiskMSnExp")
+## Object size in memory: 0.04 Mb
+## - - - Spectra data - - -
+##  MS level(s): 1 2 
+##  Number of spectra: 11 
+##  MSn retention times: 30:1 - 30:4 minutes
+## - - - Processing information - - -
+## Data loaded [Sun Feb 16 13:10:47 2020] 
+## Filter: select parent/children scans for 2807 [Sun Feb 16 13:12:05 2020] 
+##  MSnbase version: 2.12.0 
+## - - - Meta data  - - -
+## phenoData
+##   rowNames:
+##     TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz
+##   varLabels: sampleNames
+##   varMetadata: labelDescription
+## Loaded from:
+##   TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz 
+## protocolData: none
+## featureData
+##   featureNames: F1.S2807 F1.S2808 ... F1.S2817 (11 total)
+##   fvarLabels: fileIdx spIdx ... spectrum (35 total)
+##   fvarMetadata: labelDescription
+## experimentData: use 'experimentData(object)'</code></pre>
+</div>
+<div id="ms-map" class="section level2">
+<h2>
+<span class="header-section-number">3.6</span> MS map</h2>
+<p>Below, we illustrate some additional visualisation and animations of
+raw MS data, also taken from the <code>RforProteomics</code>
+<a href="http://bioconductor.org/packages/release/data/experiment/vignettes/RforProteomics/inst/doc/RProtVis.html">visualisation vignette</a>. On
+the left, we have a heatmap visualisation of a MS map and a 3
+dimensional representation of the same data. On the right, 2 MS1
+spectra in blue and the set of interleaves 10 MS2 spectra.</p>
+<div class="sourceCode" id="cb111"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb111-1" data-line-number="1"><span class="co">## Additional packages</span></a>
+<a class="sourceLine" id="cb111-2" data-line-number="2"><span class="kw">library</span>(<span class="st">"lattice"</span>)</a>
+<a class="sourceLine" id="cb111-3" data-line-number="3"><span class="kw">library</span>(<span class="st">"gridExtra"</span>)</a>
+<a class="sourceLine" id="cb111-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb111-5" data-line-number="5">M3 &lt;-<span class="st"> </span><span class="kw">MSmap</span>(rw2, ms1[rtsel], <span class="dv">521</span>, <span class="dv">523</span>, <span class="fl">.005</span>)</a>
+<a class="sourceLine" id="cb111-6" data-line-number="6"><span class="kw">plot</span>(M3, <span class="dt">aspect =</span> <span class="dv">1</span>, <span class="dt">allTicks =</span> <span class="ot">FALSE</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/msmap1-1.png" width="672"></p>
+<div class="sourceCode" id="cb112"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb112-1" data-line-number="1"><span class="kw">plot3D</span>(M3)</a></code></pre></div>
+<p><img src="_main_files/figure-html/msmap1-2.png" width="672"></p>
+<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1"><span class="cf">if</span> (<span class="kw">require</span>(<span class="st">"rgl"</span>) <span class="op">&amp;</span><span class="st"> </span><span class="kw">interactive</span>())</a>
+<a class="sourceLine" id="cb113-2" data-line-number="2">    <span class="kw">plot3D</span>(M3, <span class="dt">rgl =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb114-1" data-line-number="1">i &lt;-<span class="st"> </span>ms1[<span class="kw">which</span>(rtsel)][<span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb114-2" data-line-number="2">j &lt;-<span class="st"> </span>ms1[<span class="kw">which</span>(rtsel)][<span class="dv">2</span>]</a>
+<a class="sourceLine" id="cb114-3" data-line-number="3">M4 &lt;-<span class="st"> </span><span class="kw">MSmap</span>(rw2, i<span class="op">:</span>j, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb114-4" data-line-number="4"><span class="kw">plot3D</span>(M4)    </a></code></pre></div>
+<p><img src="_main_files/figure-html/msmap2-1.png" width="1440"></p>
+<p>Below, we have animations build from extracting successive slices as above.</p>
+<p><img src="../img/msanim1.gif" alt="MS animation 1"><img src="../img/msanim2.gif" alt="MS animation 2"></p>
+</div>
+<div id="raw-data-processing" class="section level2">
+<h2>
+<span class="header-section-number">3.7</span> Raw data processing</h2>
+<p>For raw data processing look at <code>MSnbase</code>’s <code>clean</code>, <code>smooth</code>,
+<code>pickPeaks</code>, <code>removePeaks</code> and <code>trimMz</code> for <code>MSnExp</code> and spectra
+processing methods.</p>
+<p>As an illustration, we show the <code>pickPeaks</code> function on the
+<code>itraqdata</code> data. Centoiding transforms the distribution of M/Z values
+measured for an ion (i.e. a set of M/Z and intensities, first figure
+below) into a single M/Z and intensity pair of values (second figure
+below).</p>
+<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"ggplot2"</span>) <span class="co">## for coord_cartesian</span></a>
+<a class="sourceLine" id="cb115-2" data-line-number="2"><span class="kw">data</span>(itraqdata)</a>
+<a class="sourceLine" id="cb115-3" data-line-number="3"><span class="kw">plot</span>(itraqdata[[<span class="dv">10</span>]], <span class="dt">full =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb115-4" data-line-number="4"><span class="st">    </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">915</span>, <span class="dv">925</span>))</a></code></pre></div>
+<div class="figure">
+<span id="fig:peakpicking"></span>
+<p class="caption marginnote shownote">
+Figure 3.1: Peak picking: profile mode.
+</p>
+<img src="_main_files/figure-html/peakpicking-1.png" alt="Peak picking: profile mode." width="672">
+</div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1">itraqdata2 &lt;-<span class="st"> </span><span class="kw">pickPeaks</span>(itraqdata)</a>
+<a class="sourceLine" id="cb116-2" data-line-number="2"><span class="kw">plot</span>(itraqdata2[[<span class="dv">10</span>]], <span class="dt">full =</span> <span class="ot">TRUE</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb116-3" data-line-number="3"><span class="st">    </span><span class="kw">coord_cartesian</span>(<span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">915</span>, <span class="dv">925</span>))</a></code></pre></div>
+<div class="figure">
+<span id="fig:peakpicking2"></span>
+<p class="caption marginnote shownote">
+Figure 3.2: Peak picking: centroided.
+</p>
+<img src="_main_files/figure-html/peakpicking2-1.png" alt="Peak picking: centroided." width="672">
+</div>
+<p>See also section 6 <em>Raw data processing</em> of the <a href="http://lgatto.github.io/MSnbase/articles/v01-MSnbase-demo.html">main <code>MSnbase</code>
+vignette</a>
+and the <a href="http://lgatto.github.io/MSnbase/articles/v03-MSnbase-centroiding.html"><em>centroiding of profile-mode MS
+data</em></a>.</p>
+<p>The <em><a href="https://bioconductor.org/packages/3.10/MALDIquant">MALDIquant</a></em> and <em><a href="https://bioconductor.org/packages/3.10/xcms">xcms</a></em> packages also
+features a wide range of raw data processing methods on their own ad
+hoc data instance types.</p>
+
+</div>
+</div></body></html>
+
+<p style="text-align: center;">
+<a href="sec-msintro.html"><button class="btn btn-default">Previous</button></a>
+<a href="identification-data.html"><button class="btn btn-default">Next</button></a>
+</p>
+<p class="build-date">Page built: 
+2020-02-16
+</p>
+</div>
+</div>
+
+
+
+</body>
+</html>

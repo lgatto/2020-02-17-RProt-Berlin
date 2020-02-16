@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Chapter 8 Session information | R/Bioconductor for Mass Spectrometry and Proteomics" />
+<meta property="og:type" content="book" />
+
+
+
+
+
+<meta name="author" content="Laurent Gatto" />
+
+<meta name="date" content="2020-02-16" />
+
+
+<meta name="description" content="Chapter 8 Session information | R/Bioconductor for Mass Spectrometry and Proteomics">
+
+<title>Chapter 8 Session information | R/Bioconductor for Mass Spectrometry and Proteomics</title>
+
+<link href="libs/tufte-css-2015.12.29/tufte.css" rel="stylesheet" />
+<link href="libs/tufte-css-2015.12.29/envisioned.css" rel="stylesheet" />
+<link href="libs/msmb-css-0/msmb.css" rel="stylesheet" />
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+
+}
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul class="navbar">
+<li class="msmb"><p class="title">R/Bioconductor for Mass Spectrometry and Proteomics<p><p class="author">Laurent Gatto</p>
+<li class="dropdown" style="float:right">
+<a href="javascript:void(0)" class="dropbtn">&#x25BE; Chapters</a>
+<div class="dropdown-content">
+<a href="index.html">Preamble</a>
+<a href="sec-setup.html"><span class="toc-section-number">1</span> Setup</a>
+<a href="sec-msintro.html"><span class="toc-section-number">2</span> MS Introduction</a>
+<a href="raw-ms-data-mzr-and-msnbase.html"><span class="toc-section-number">3</span> Raw MS data: <code>mzR</code> and <code>MSnbase</code></a>
+<a href="identification-data.html"><span class="toc-section-number">4</span> Identification data</a>
+<a href="sec-quant.html"><span class="toc-section-number">5</span> Quantitative data</a>
+<a href="sec-r4ms.html"><span class="toc-section-number">6</span> R for Mass Spectrometry</a>
+<a href="sec-usecases.html"><span class="toc-section-number">7</span> Use cases</a>
+<a id="active-page" href="sec-si.html"><span class="toc-section-number">8</span> Session information</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div id="sec:si" class="section level1">
+<h1>
+<span class="header-section-number">Chapter 8</span> Session information</h1>
+<p>The following packages have been used to generate this document.</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1"><span class="kw">sessionInfo</span>()</a></code></pre></div>
+<pre><code>## R version 3.6.2 (2019-12-12)
+## Platform: x86_64-pc-linux-gnu (64-bit)
+## Running under: Ubuntu 18.04.4 LTS
+## 
+## Matrix products: default
+## BLAS:   /usr/lib/x86_64-linux-gnu/atlas/libblas.so.3.10.3
+## LAPACK: /usr/lib/x86_64-linux-gnu/atlas/liblapack.so.3.10.3
+## 
+## locale:
+##  [1] LC_CTYPE=en_US.UTF-8       LC_NUMERIC=C              
+##  [3] LC_TIME=fr_FR.UTF-8        LC_COLLATE=en_US.UTF-8    
+##  [5] LC_MONETARY=fr_FR.UTF-8    LC_MESSAGES=en_US.UTF-8   
+##  [7] LC_PAPER=fr_FR.UTF-8       LC_NAME=C                 
+##  [9] LC_ADDRESS=C               LC_TELEPHONE=C            
+## [11] LC_MEASUREMENT=fr_FR.UTF-8 LC_IDENTIFICATION=C       
+## 
+## attached base packages:
+## [1] stats4    parallel  stats     graphics  grDevices utils     datasets 
+## [8] methods   base     
+## 
+## other attached packages:
+##  [1] ggrepel_0.8.1        forcats_0.4.0        stringr_1.4.0       
+##  [4] purrr_0.3.3          readr_1.3.1          tidyr_1.0.2         
+##  [7] tibble_2.1.3         tidyverse_1.3.0      imputeLCMD_2.0      
+## [10] impute_1.60.0        pcaMethods_1.78.0    norm_1.0-9.5        
+## [13] tmvtnorm_1.4-10      gmm_1.6-4            sandwich_2.5-1      
+## [16] Matrix_1.2-18        mvtnorm_1.0-12       limma_3.42.2        
+## [19] mzID_1.24.0          dplyr_0.8.4          MSnID_1.20.0        
+## [22] ggplot2_3.2.1        rgl_0.100.47         gridExtra_2.3       
+## [25] lattice_0.20-38      msdata_0.26.0        AnnotationHub_2.18.0
+## [28] BiocFileCache_1.10.2 dbplyr_1.4.2         rpx_1.22.0          
+## [31] MSnbase_2.12.0       ProtGenerics_1.19.3  S4Vectors_0.24.3    
+## [34] mzR_2.20.0           Rcpp_1.0.3           Biobase_2.46.0      
+## [37] BiocGenerics_0.32.0  BiocStyle_2.14.4    
+## 
+## loaded via a namespace (and not attached):
+##   [1] readxl_1.3.1                  backports_1.1.5              
+##   [3] plyr_1.8.5                    lazyeval_0.2.2               
+##   [5] splines_3.6.2                 BiocParallel_1.20.1          
+##   [7] crosstalk_1.0.0               digest_0.6.24                
+##   [9] msmbstyle_0.0.11              foreach_1.4.8                
+##  [11] htmltools_0.4.0               fansi_0.4.1                  
+##  [13] gdata_2.18.0                  magrittr_1.5                 
+##  [15] memoise_1.1.0                 doParallel_1.0.15            
+##  [17] modelr_0.1.5                  R.utils_2.9.2                
+##  [19] MSqRob_0.7.6                  colorspace_1.4-1             
+##  [21] rvest_0.3.5                   blob_1.2.1                   
+##  [23] rappdirs_0.3.1                haven_2.2.0                  
+##  [25] xfun_0.12                     crayon_1.3.4                 
+##  [27] RCurl_1.98-1.1                jsonlite_1.6.1               
+##  [29] graph_1.64.0                  lme4_1.1-21                  
+##  [31] zoo_1.8-7                     iterators_1.0.12             
+##  [33] glue_1.3.1                    gtable_0.3.0                 
+##  [35] zlibbioc_1.32.0               webshot_0.5.2                
+##  [37] R.cache_0.14.0                scales_1.1.0                 
+##  [39] vsn_3.54.0                    DBI_1.1.0                    
+##  [41] miniUI_0.1.1.1                RforProteomics_1.24.0        
+##  [43] xtable_1.8-4                  bit_1.1-15.2                 
+##  [45] preprocessCore_1.48.0         htmlwidgets_1.5.1            
+##  [47] httr_1.4.1                    gplots_3.0.1.2               
+##  [49] pkgconfig_2.0.3               XML_3.99-0.3                 
+##  [51] R.methodsS3_1.8.0             farver_2.0.3                 
+##  [53] tidyselect_1.0.0              labeling_0.3                 
+##  [55] rlang_0.4.4                   manipulateWidget_0.10.0      
+##  [57] reshape2_1.4.3                later_1.0.0                  
+##  [59] AnnotationDbi_1.48.0          cellranger_1.1.0             
+##  [61] munsell_0.5.0                 biocViews_1.54.0             
+##  [63] BiocVersion_3.10.1            tools_3.6.2                  
+##  [65] cli_2.0.1                     generics_0.0.2               
+##  [67] RSQLite_2.2.0                 broom_0.5.4                  
+##  [69] evaluate_0.14                 fastmap_1.0.1                
+##  [71] yaml_2.2.1                    fs_1.3.1                     
+##  [73] knitr_1.28                    bit64_0.9-7                  
+##  [75] caTools_1.18.0                ncdf4_1.17                   
+##  [77] RBGL_1.62.1                   nlme_3.1-143                 
+##  [79] mime_0.9                      R.oo_1.23.0                  
+##  [81] xml2_1.2.2                    compiler_3.6.2               
+##  [83] rstudioapi_0.11               curl_4.3                     
+##  [85] png_0.1-7                     interactiveDisplayBase_1.24.0
+##  [87] affyio_1.56.0                 reprex_0.3.0                 
+##  [89] stringi_1.4.5                 highr_0.8                    
+##  [91] pRolocdata_1.24.0             nloptr_1.2.1                 
+##  [93] vctrs_0.2.2                   pillar_1.4.3                 
+##  [95] lifecycle_0.1.0               RUnit_0.4.32                 
+##  [97] BiocManager_1.30.10           MALDIquant_1.19.3            
+##  [99] data.table_1.12.8             bitops_1.0-6                 
+## [101] httpuv_1.5.2                  R6_2.4.1                     
+## [103] affy_1.64.0                   bookdown_0.17                
+## [105] promises_1.1.0                KernSmooth_2.23-16           
+## [107] IRanges_2.20.2                codetools_0.2-16             
+## [109] boot_1.3-24                   MASS_7.3-51.5                
+## [111] gtools_3.8.1                  assertthat_0.2.1             
+## [113] withr_2.1.2                   hms_0.5.3                    
+## [115] grid_3.6.2                    minqa_1.2.4                  
+## [117] rmarkdown_2.1                 lubridate_1.7.4              
+## [119] shiny_1.4.0</code></pre>
+
+</div></body></html>
+
+<p style="text-align: center;">
+<a href="sec-usecases.html"><button class="btn btn-default">Previous</button></a>
+</p>
+<p class="build-date">Page built: 
+2020-02-16
+</p>
+</div>
+</div>
+
+
+
+</body>
+</html>

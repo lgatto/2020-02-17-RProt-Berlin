@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Preamble | R/Bioconductor for Mass Spectrometry and Proteomics" />
+<meta property="og:type" content="book" />
+
+
+
+
+
+<meta name="author" content="Laurent Gatto" />
+
+<meta name="date" content="2020-02-16" />
+
+
+<meta name="description" content="Preamble | R/Bioconductor for Mass Spectrometry and Proteomics">
+
+<title>Preamble | R/Bioconductor for Mass Spectrometry and Proteomics</title>
+
+<link href="libs/tufte-css-2015.12.29/tufte.css" rel="stylesheet" />
+<link href="libs/tufte-css-2015.12.29/envisioned.css" rel="stylesheet" />
+<link href="libs/msmb-css-0/msmb.css" rel="stylesheet" />
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+
+}
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul class="navbar">
+<li class="msmb"><p class="title">R/Bioconductor for Mass Spectrometry and Proteomics<p><p class="author">Laurent Gatto</p>
+<li class="dropdown" style="float:right">
+<a href="javascript:void(0)" class="dropbtn">&#x25BE; Chapters</a>
+<div class="dropdown-content">
+<a id="active-page" href="index.html">Preamble</a><ul class="toc-sections">
+<li class="toc"><a href="#targeted-audience-and-assumed-background">Targeted audience and assumed background</a></li>
+<li class="toc"><a href="#program">Program</a></li>
+</ul>
+<a href="sec-setup.html"><span class="toc-section-number">1</span> Setup</a>
+<a href="sec-msintro.html"><span class="toc-section-number">2</span> MS Introduction</a>
+<a href="raw-ms-data-mzr-and-msnbase.html"><span class="toc-section-number">3</span> Raw MS data: <code>mzR</code> and <code>MSnbase</code></a>
+<a href="identification-data.html"><span class="toc-section-number">4</span> Identification data</a>
+<a href="sec-quant.html"><span class="toc-section-number">5</span> Quantitative data</a>
+<a href="sec-r4ms.html"><span class="toc-section-number">6</span> R for Mass Spectrometry</a>
+<a href="sec-usecases.html"><span class="toc-section-number">7</span> Use cases</a>
+<a href="sec-si.html"><span class="toc-section-number">8</span> Session information</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<!--bookdown:title:end--><!--bookdown:title:start--><html><body><div id="preamble" class="section level1 unnumbered">
+<h1>Preamble</h1>
+<p>This course will introduce participants to the analysis and
+exploration of mass spectrometry (MS) based proteomics data using R
+and Bioconductor. The course will cover all levels of MS data, from
+raw data to identification and quantitation data, up to the
+statistical interpretation of a typical shotgun MS experiment and will
+focus on hands-on tutorials. At the end of this course, the
+participants will be able to manipulate MS data in R and use existing
+packages for their exploratory and statistical proteomics data
+analysis.</p>
+<ul>
+<li>17 - 19 Feb 2020, Free University (FU) Berlin</li>
+<li>
+<a href="https://lgatto.github.io/about/">Prof Laurent Gatto</a>, de Duve Institute, UCLouvain, Belgium</li>
+</ul>
+<div id="targeted-audience-and-assumed-background" class="section level2 unnumbered">
+<h2>Targeted audience and assumed background</h2>
+<p>The course is targeted to either proteomics practitioners or data
+analysts/bioinformaticians that would like to learn how to use R and
+Bioconductor to analyse proteomics data. Familiarity with MS or
+proteomics in general is desirable, but not essential as we will walk
+through and describe a typical MS data as part of learning about the
+tools. Participants need to have a working knowledge of R (R syntax,
+commonly used functions, basic data structures such as data frames,
+vectors, matrices, … and their manipulation). Familiarity with other
+Bioconductor omics data classes and the tidyverse syntax is useful,
+but not required.</p>
+</div>
+<div id="program" class="section level2 unnumbered">
+<h2>Program</h2>
+<ul>
+<li><p>In the first part of this course, we will focus on raw MS data,
+including how mass spectrometry works, how raw MS data looks like,
+MS data formats, and how to extract, manipulate and visualise raw
+data.</p></li>
+<li><p>The second part will focus in identification data, how to combine
+them with raw data, quantitation of MS data, and introduce data
+structure of quantitative proteomics data.</p></li>
+<li><p>The last part will focus on quantitative proteomics, including data
+structures, data processing, visualisation statistical analysis to
+identify differentially expression proteins between two groups.</p></li>
+</ul>
+<p>The matriel from this course is compiled from various documents, from
+the <a href="https://lgatto.github.io/bioc-ms-prot/lab.html"><em>bioc-ms-prot</em></a>
+and
+<a href="https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html"><em>CSAMA</em></a>
+labs.</p>
+
+</div>
+</div></body></html>
+
+<p style="text-align: center;">
+<a href="sec-setup.html"><button class="btn btn-default">Next</button></a>
+</p>
+<p class="build-date">Page built: 
+2020-02-16
+</p>
+</div>
+</div>
+
+
+
+</body>
+</html>
