@@ -1,13 +1,6 @@
 # Identification data
 
 
-```{r env_id, echo=FALSE, warning = FALSE}
-library(BiocStyle)
-suppressPackageStartupMessages(library("mzR"))
-suppressPackageStartupMessages(library("MSnbase"))
-suppressPackageStartupMessages(library("MSnID"))
-```
-
 ## Identification data.frame
 
 Let's use the identification from from `msdata`:

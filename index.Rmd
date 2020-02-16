@@ -73,6 +73,11 @@ knitr::write_bib(c('base', 'rmarkdown', 'bookdown', 'msmbstyle'), file = 'skelet
 ```
 
 ```{r env_0, echo = FALSE, message = FALSE, warning = FALSE}
-library("BiocStyle")
+suppressPackageStartupMessages(library("BiocStyle"))
+suppressPackageStartupMessages(library("mzR"))
 suppressPackageStartupMessages(library("MSnbase"))
+suppressPackageStartupMessages(library("AnnotationHub"))
+suppressPackageStartupMessages(library("lattice"))
+suppressPackageStartupMessages(library("gridExtra"))
+suppressPackageStartupMessages(library("MSnID"))
 ```

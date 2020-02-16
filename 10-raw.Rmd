@@ -1,12 +1,5 @@
 # Raw MS data: `mzR` and `MSnbase`
 
-```{r env_raw, echo = FALSE, warning=FALSE}
-suppressPackageStartupMessages(library("BiocStyle"))
-suppressPackageStartupMessages(library("MSnbase"))
-suppressPackageStartupMessages(library("lattice"))
-suppressPackageStartupMessages(library("gridExtra"))
-```
-
 ```{r rwpkgs, echo = FALSE}
 x <- RforProteomics:::msDataTab()
 sel <- x[, 1] %in% c("Raw", "Peak lists")
