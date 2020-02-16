@@ -1,0 +1,277 @@
+# Quantitative data {#sec:quant}
+
+
+There are a wide range of proteomics quantitation techniques that can
+broadly be classified as labelled vs. label-free, depending whether
+the features are labelled prior the MS acquisition and the MS level at
+which quantitation is inferred, namely MS1 or MS2.
+
+```{r quanttab, echo=FALSE, results='asis'}
+qtb <- matrix(c("XIC", "Counting", "SILAC, 15N", "iTRAQ, TMT"),
+              nrow = 2, ncol = 2)
+dimnames(qtb) <- list(
+    'MS level' = c("MS1", "MS2"),
+    'Quantitation' = c("Label-free", "Labelled"))
+
+knitr::kable(qtb)
+```
+
+In terms of raw data quantitation, most efforts have been devoted to
+MS2-level quantitation. Label-free XIC quantitation has however been
+addressed in the frame of metabolomics data processing by the
+`r Biocpkg("xcms")` infrastructure.
+
+Below is a list of suggested packages for some common proteomics
+quantitation technologies:
+
+* Isobaric tagging (iTRAQ and TMT): `r Biocpkg("MSnbase")` and `r Biocpkg("isobar")`.
+* Label-free: `r Biocpkg("xcms")` (metabolomics).
+* Counting: `r Biocpkg("MSnbase")` and `r Biocpkg("MSnID")` for
+  peptide-spectrum matching confidence assessment.
+* `r Githubpkg("vladpetyuk/N14N15")` for heavy Nitrogen-labelled data.
+
+## The `MSnSet` class for quantitative data
+
+Quantitative data is stored in a dedicated data structure called
+`MSnSet`. The figure below gives a schematics of an `MSnSet` instance
+and the relation between the assay data and the respective feature and
+sample metadata, accessible respectively with the `exprs`, `fData` and
+`pData` functions.
+
+![The MSnSet structure](./img/msnset.png)
+
+
+Storing quantitative data in an `MSnSet` quaranties that the feature
+(peptides or proteins) and sample annotations are correctly aligned
+with the quantitative data, i.e.
+
+- there is a one-to-one match between the expression data rows and
+  feature meta data rows;
+- there is a one-to-one match between the expression data columns and
+  sample meta data rows.
+
+This correspondance is also guaranteed during all data processing and
+manipulation.
+
+
+## Isobaric tagging
+
+An `MSnExp` is converted to an `MSnSet` by the `quantitation`
+method. Below, we use the iTRAQ 4-plex isobaric tagging strategy
+(defined by the `iTRAQ4` parameter; other tags are available: see
+`?ReporterIons`) and the `max` method to calculate the use the maximum
+of the reporter peak for quantitation.
+
+```{r itraq4plot, fig.cap = "MS2 spectrum and it's iTRAQ4 reporter ions."}
+plot(msexp[[1]], full=TRUE, reporters = iTRAQ4)
+```
+
+```{r quantitraq}
+msset <- quantify(msexp, method = "max", reporters = iTRAQ4)
+```
+
+Below, we access the quantitative and metadata slots of the newly
+created `MSnSet` object.
+
+
+```{r msnsetslots1}
+exprs(msset)
+head(fData(msset))
+pData(msset)
+```
+
+New columns can be added to the metadata slots.
+
+
+```{r msnsetslots2}
+pData(msset)$groups <- rep(c("Treat", "Cond"), each = 2)
+pData(msset)
+```
+
+Another useful slot is `processingData`, accessed with
+`processingData(.)`, that records all the processing that objects have
+undergone since their creation.
+
+
+```{r msnsetslots3}
+processingData(msset)
+```
+
+## Spectral counting
+
+Other MS2 quantitation methods available in `quantify` include the
+(normalised) spectral index `SI` and (normalised) spectral abundance
+factor `SAF` or simply a simple count
+method^[The code below is for illustration only - it doesn't make much sense to perform any of these quantitations on such a multiplexed data].
+
+```{r lfms2}
+exprs(si <- quantify(msexp, method = "SIn"))
+exprs(saf <- quantify(msexp, method = "NSAF"))
+```
+
+Note that spectra that have not been assigned any peptide (`NA`) or
+that match non-unique peptides (`npsm > 1`) are discarded in the
+counting process.
+
+
+As shown above, the `r Biocpkg("MSnID")` package enables to explore
+and assess the confidence of identification data using `mzid` files. A
+subset of all peptide-spectrum matches, that pass a specific false
+discovery rate threshold can them be converted to an `MSnSet`, where
+the number of peptide occurrences are used to populate the assay data.
+
+## Importing third-party quantitation data
+
+### From `MzTab` files {-}
+
+<div class="boxed yellow">On-line</div>
+
+The Proteomics Standard Initiative (PSI) `mzTab` file format is aimed
+at providing a simpler (than XML formats) and more accessible file
+format to the wider community. It is composed of a key-value metadata
+section and peptide/protein/small molecule tabular sections. These
+data can be imported with the `readMzTabData`
+function^[We specify version 0.9 (which generates the warning) to fit with the version of that file. For recent files, the `version` argument should be ignored to use the importer for the current file version 1.0.].
+
+
+```{r mztab, cache=TRUE}
+mztf <- pxget(px, "F063721.dat-mztab.txt")
+(mzt <- readMzTabData(mztf, what = "PEP", version = "0.9"))
+```
+
+### From spreadsheets {-}
+
+It is also possible to import arbitrary spreadsheets (such as those
+exported by MaxQuant, ProteomeDiscoverer, ...) as `MSnSet` objects
+into R with the `readMSnSet2` function. The main 2 arguments of the
+function are (1) a text-based spreadsheet and (2) column names of
+indices that identify the quantitation data. The latter can be queried
+with the `getEcols` function.
+
+```{r readmsnset2}
+csv <- dir(system.file ("extdata" , package = "pRolocdata"),
+           full.names = TRUE, pattern = "pr800866n_si_004-rep1.csv")
+getEcols(csv, split = ",")
+ecols <- 7:10
+res <- readMSnSet2(csv, ecols)
+head(exprs(res))
+head(fData(res))
+```
+
+However, as we see below, we do not have any metadata about samples,
+i.e. about the design of the experiment.
+
+```{r respd}
+pData(res)
+```
+
+This can be done manually, or by importing a csv file containing that
+design. Below, we define two groups and two operators for the 4
+samples of the `res` object created above:
+
+```{r}
+pData(res)$group <- rep(c("A", "B"), each = 2)
+pData(res)$operator <- rep(1:2, 2)
+pData(res)
+```
+
+Note that `pData(res)$` can be shortened with `res$`. This is also
+valid when setting new metadata, as shown above.
+
+```{r}
+pData(res)$group
+res$group
+```
+
+> **Exercise** Using `readMSnSet2`, load the following file that was
+> part of the supplementary information of a manuscript.
+
+```{r pdfile}
+csvfile <- dir(system.file("extdata", package = "pRolocdata"),
+               pattern = "hyperLOPIT-SIData-ms3-rep12-intersect.csv",
+               full.names = TRUE)
+basename(csvfile)
+```
+
+> You'll first need to identify which columns to use as expression
+> data. In this case however, two rows are used as header, and you'll
+> need to set `n` in `getEcols` to retrieve the appropriate one. There
+> are 20 expresion columns annotated as TMT 10 plex reporter ion M/Z
+> values (if you don't know these, you can find them out by looking at
+> the `TMT10` reporter ion object). You can now use `readMSnSet2`,
+> remembering to skip 1 line and, optionally, use the first column as
+> feature names (see the `fnames` argument). What are the number of
+> features and samples in the data?
+
+
+<details>
+```{r solreadmsnset}
+getEcols(csvfile, split = ",", n = 2)
+msn <- readMSnSet2(csvfile, ecol = 8:27, fnames = 1, skip = 1)
+dim(msn)
+```
+</details>
+
+> **Exercise** Add the following experimental design to the `MSnSet`
+> created above. The 10 first samples originate from batch A, and the
+> 10 following from batch B. Sameple 1 to 5 and 11 to 15 belong to the
+> control group, and the others to the condition group. Even samples
+> are female and odd samples are male.
+
+<details>
+```{r solreadmsnset2}
+msn$batch <- rep(c("A", "B"), each = 10)
+msn$group <- rep(rep(c("CTRL", "COND"), each = 5), 2)
+msn$gender <- rep(c("M", "F"), 10)
+pData(msn)
+```
+</details>
+
+
+
+
+
+
+Pre-req: `BiocManager::install("statOmics/MSqRob")`
+
+
+- Processing: https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html#quantitative-data
+- Missing values: https://lgatto.github.io/bioc-ms-prot/lab.html#missing_values
+- [Stats intro](https://lgatto.github.io/bioc-ms-prot/lab.html#8_statistical_analysis)
+
+
+```{r}
+## using limma
+design <- model.matrix(~ cptac_rob$condition)
+fit <- lmFit(exprs(cptac_rob), design)
+fit <- eBayes(fit)
+res <- topTable(fit, coef = "cptac_rob$conditionB", number = Inf)
+
+library("tidyverse")
+fData(cptac_rob) <-
+    full_join(rownames_to_column(fData(cptac_rob)),
+              rownames_to_column(res)) %>%
+    column_to_rownames()
+
+library("ggrepel")
+ggplot(fData(cptac_rob),
+       aes(x = logFC,
+           y = -log10(adj.P.Val))) +
+    geom_point()
+
+ggplot(fData(cptac_rob),
+       aes(x = logFC,
+           y = -log10(adj.P.Val),
+           label = sub("\\[OS.+\\]", "", Proteins))) +
+    geom_point() +
+    geom_text_repel(
+        data = subset(fData(cptac_rob), adj.P.Val < 0.05),
+        nudge_x = 0.05,
+        nudge_y = -0.05,
+        segment.size = 0.5,
+    )
+
+```
+
+- [Differential expression with `MSqRob`](https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html#differential-expression-analysis)
+

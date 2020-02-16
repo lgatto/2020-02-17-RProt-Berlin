@@ -1,7 +1,7 @@
 # Identification data
 
 
-```{r env, echo=FALSE, warning = FALSE}
+```{r env_id, echo=FALSE, warning = FALSE}
 library(BiocStyle)
 suppressPackageStartupMessages(library("mzR"))
 suppressPackageStartupMessages(library("MSnbase"))
@@ -93,18 +93,10 @@ major difference is that the former leverages C++ code from
 `proteowizard` and is hence faster than the latter (which uses the
 `XML` R package). They both work in similar ways.
 
-```{r, echo = FALSE}
+```{r idpkgs, echo = FALSE}
 x <- RforProteomics:::msDataTab()
 sel <- x[, 1] %in% c("Identification")
 knitr::kable(x[sel, ])
-```
-
-We are going to use the following identification file in this practical:
-
-```{r}
-library("msdata")
-idf <- ident(full.names = TRUE)
-basename(idf)
 ```
 
 ### `mzID`
@@ -112,7 +104,8 @@ basename(idf)
 The main functions are `mzID` to read the data into a dedicated data
 class and `flatten` to transform it into a `data.frame`. 
 
-```{r id}
+```{r mzid1}
+idf
 library("mzID")
 id <- mzID(idf)
 id
@@ -123,7 +116,7 @@ accessor functions such as `database`, `software`, `scans`, `peptides`,
 ... The object can also be converted into a `data.frame` using the
 `flatten` function.
 
-```{r fid}
+```{r flatmzid}
 head(flatten(id))
 ```
 
@@ -135,7 +128,7 @@ relevant data on demand. It has also accessor functions such as
 `softwareInfo`, `mzidInfo`, ... (use `showMethods(classes = "mzRident", where = "package:mzR")`)
 to see all available methods.
 
-```{r id2}
+```{r idmzr}
 library("mzR")
 id2 <- openIDfile(idf)
 id2
@@ -145,7 +138,7 @@ softwareInfo(id2)
 The identification data can be accessed as a `data.frame` with the
 `psms` accessor.
 
-```{r fid2}
+```{r psmsmzr}
 head(psms(id2))
 ```
 
@@ -153,7 +146,7 @@ head(psms(id2))
 
 Here are two matching raw and identification data files:
 
-```{r}
+```{r addid}
 library("MSnbase")
 ## find path to a mzXML file
 rwf <- dir(system.file(package = "MSnbase", dir = "extdata"),
@@ -173,7 +166,7 @@ head(fData(msexp))
 The simply add identification data. The matching of spectra from the
 raw data and the PSMs from the identification data is done internally.
 
-```{r}
+```{r addid2}
 msexp <- addIdentificationData(msexp, idf)
 head(fData(msexp))
 ```

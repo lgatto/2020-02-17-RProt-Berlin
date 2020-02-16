@@ -1,13 +1,13 @@
 # Raw MS data: `mzR` and `MSnbase`
 
-```{r env, echo = FALSE, warning=FALSE}
+```{r env_raw, echo = FALSE, warning=FALSE}
 suppressPackageStartupMessages(library("BiocStyle"))
 suppressPackageStartupMessages(library("MSnbase"))
 suppressPackageStartupMessages(library("lattice"))
 suppressPackageStartupMessages(library("gridExtra"))
 ```
 
-```{r, echo = FALSE}
+```{r rwpkgs, echo = FALSE}
 x <- RforProteomics:::msDataTab()
 sel <- x[, 1] %in% c("Raw", "Peak lists")
 knitr::kable(x[sel, ])
@@ -29,7 +29,7 @@ package. After loading it, we use the `proteomics()` function to
 return the full file names for two raw data files. We will start by
 focusing on the second one.
 
-```{r}
+```{r rwfiles}
 library("msdata")
 f <- proteomics(full.names = TRUE)
 f
@@ -133,12 +133,12 @@ library("MSnbase")
 Using the `readMSdata` function, passing one or more raw data file
 names as input, we create an `MSnExp` object.
 
-```{r}
+```{r readrw1, cache = TRUE}
 rw1 <- readMSData(f2, mode = "inMemory", verbose = FALSE)
 rw1
 ```
 
-```{r}
+```{r readrw2}
 rw2 <- readMSData(f2, mode = "onDisk", verbose = FALSE)
 rw2
 ```
@@ -288,7 +288,7 @@ p + ggplot2::xlim(400, 1000)
  
 or using base plotting:
  
-```{r}
+```{r visfog03b}
 pi <- as(rw2[[i]], "data.frame")
 plot(pi, type = "l", xlim = c(400, 1000))
 legend("topright", bty = "n",
@@ -339,7 +339,7 @@ The `filterPrecursorScan` makes the above much easier by extracting
 *related* spectra:
 
 
-```{r}
+```{r rel1}
 i <- which(rtime(rw2)/60 > 30 & msLevel(rw2) == 1)[1]
 acquisitionNum(rw2)[i]
 rw3 <- filterPrecursorScan(rw2, 2807)

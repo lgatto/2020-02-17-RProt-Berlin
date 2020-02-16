@@ -1,0 +1,117 @@
+# MS Introduction {#sec:msintro}
+
+
+## How does mass spectrometry work?
+
+See [here](https://lgatto.github.io/bioc-ms-prot/lab.html#2_how_does_mass_spectrometry_work)
+
+## Accessing raw data
+
+### From the ProteomeXchange database
+
+MS-based proteomics data is disseminated through the
+[ProteomeXchange](http://www.proteomexchange.org/) infrastructure,
+which centrally coordinates submission, storage and dissemination
+through multiple data repositories, such as the
+[PRoteomics IDEntifications (PRIDE)](https://www.ebi.ac.uk/pride/archive/)
+database at the EBI for mass spectrometry-based experiments (including
+quantitative data, as opposed as the name suggests),
+[PASSEL](http://www.peptideatlas.org/passel/) at the ISB for Selected
+Reaction Monitoring (SRM, i.e. targeted) data and the
+[MassIVE](http://massive.ucsd.edu/ProteoSAFe/static/massive.jsp)
+resource. These data can be downloaded within R using the
+`r Biocpkg("rpx")` package.
+
+
+```{r rpx}
+library("rpx")
+pxannounced()
+```
+
+Using the unique `PXD000001` identifier, we can retrieve the relevant
+metadata that will be stored in a `PXDataset` object. The names of the
+files available in this data can be retrieved with the `pxfiles`
+accessor function.
+
+```{r pxd}
+px <- PXDataset("PXD000001")
+px
+pxfiles(px)
+```
+
+Other metadata for the `px` data set:
+
+```{r pxvar}
+pxtax(px)
+pxurl(px)
+pxref(px)
+```
+
+Data files can then be downloaded with the `pxget` function. Below, we
+retrieve the raw data file. The file is
+downloaded^[If the file is already available, it is not downloaded a second time.]
+in the working directory and the name of the file is return by the
+function and stored in the `mzf` variable for later use ^[This and other files are also availabel in the `msdata` package, described below].
+
+```{r pxget}
+fn <- "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"
+mzf <- pxget(px, fn)
+mzf
+```
+
+### From AnnotationHub
+
+`r Biocpkg("AnnotationHub")` is a cloud resource set up and managed by
+the Bioconductor project that serves various omics datasets. It is
+possible to contribute and access (albeit currently only a limited
+number of)
+[proteomics data](http://bioconductor.org/packages/devel/bioc/vignettes/ProteomicsAnnotationHubData/inst/doc/ProteomicsAnnotationHubData.html).
+
+```{r ah0}
+library("AnnotationHub")
+ah <- AnnotationHub()
+query(ah, "proteomics")
+```
+
+```{r ah, message=FALSE}
+ms <- ah[["AH49008"]]
+ms
+```
+
+```{r mshd, echo=FALSE}
+lms <- length(ms)
+hd <- header(ms)
+nms1 <- table(hd$msLevel)[[1]]
+nms2 <- table(hd$msLevel)[[2]]
+```
+
+The data contains `r lms` spectra - `r nms1` MS1 spectra and `r nms2`
+MS2 spectra. The file name, `r basename(fileName(ms))`, is not very
+descriptive because the data originates from the `AnnotationHub` cloud
+repository. If the data was read from a local file, is would be named
+as the `mzML` (or `mzXML`) file (see below).
+
+### Data packages
+
+Some data are also distributed through dedicated packages. The
+`r BiocStyle::Biocexptpkg("msdata")`, for example, provides some
+general raw data files relevant for both proteomics and
+metabolomics.
+
+```{r msdatafiles}
+library("msdata")
+## proteomics raw data
+proteomics()
+## proteomics identification data
+ident()
+## quantitative data
+quant()
+```
+
+More often, such *experiment packages* distribute processed data; an
+example of such is the `r BiocStyle::Biocexptpkg("pRolocdata")`
+package, that offers quantitative proteomics data.
+
+```{r prolocdata}
+pRolocdata::pRolocdata()
+```

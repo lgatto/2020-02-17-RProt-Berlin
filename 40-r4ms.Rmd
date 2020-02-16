@@ -1,0 +1,16 @@
+# R for Mass Spectrometry {#sec:r4ms}
+
+The aim of the [R for mass
+spectrometry](https://www.rformassspectrometry.org/)
+RforMassSpectrometry initiative is to provide efficient, thoroughly
+documented, tested and flexible R software for the analysis and
+interpretation of high throughput mass spectrometry assays, including
+proteomics and metabolomics experiments. The project formalises the
+longtime collaborative development efforts of its core members under
+the RforMassSpectrometry organisation to facilitate dissemination and
+accessibility of their work.
+
+Two packages of interest:
+
+- [Specra](https://rformassspectrometry.github.io/Spectra/)
+- [Features](https://rformassspectrometry.github.io/Features/)

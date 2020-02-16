@@ -1,4 +1,6 @@
+all:
+	make book
 
-%.md: %.Rmd
-	/opt/Rpatched/lib/R/bin/Rscript -e 'require("knitr"); knit("$^")'
+book:
+	R -e 'bookdown::render_book(".")'
 

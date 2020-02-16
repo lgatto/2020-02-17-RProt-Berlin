@@ -1,0 +1,73 @@
+---
+title: "R/Bioconductor for Mass Spectrometry and Proteomics"
+subtitle: "Physalia course, Berlin"
+author: "Laurent Gatto"
+date: "`r Sys.Date()`"
+output:
+  msmbstyle::msmb_html_book:
+    highlight: tango
+    toc: TRUE
+    toc_depth: 1
+    split_by: chapter
+    margin_references: FALSE
+    css: msmb.css
+bibliography: skeleton.bib
+link-citations: yes
+---
+
+# Preamble {-}
+
+This course will introduce participants to the analysis and
+exploration of mass spectrometry (MS) based proteomics data using R
+and Bioconductor. The course will cover all levels of MS data, from
+raw data to identification and quantitation data, up to the
+statistical interpretation of a typical shotgun MS experiment and will
+focus on hands-on tutorials. At the end of this course, the
+participants will be able to manipulate MS data in R and use existing
+packages for their exploratory and statistical proteomics data
+analysis.
+
+- 17 - 19 Feb 2020, Free University (FU) Berlin
+- [Prof Laurent Gatto](https://lgatto.github.io/about/), de Duve Institute, UCLouvain, Belgium
+
+
+## Targeted audience and assumed background
+
+The course is targeted to either proteomics practitioners or data
+analysts/bioinformaticians that would like to learn how to use R and
+Bioconductor to analyse proteomics data. Familiarity with MS or
+proteomics in general is desirable, but not essential as we will walk
+through and describe a typical MS data as part of learning about the
+tools. Participants need to have a working knowledge of R (R syntax,
+commonly used functions, basic data structures such as data frames,
+vectors, matrices, ... and their manipulation). Familiarity with other
+Bioconductor omics data classes and the tidyverse syntax is useful,
+but not required.
+
+## Program
+
+- In the first part of this course, we will focus on raw MS data,
+  including how mass spectrometry works, how raw MS data looks like,
+  MS data formats, and how to extract, manipulate and visualise raw
+  data.
+
+- The second part will focus in identification data, how to combine
+  them with raw data, quantitation of MS data, and introduce data
+  structure of quantitative proteomics data.
+
+- The last part will focus on quantitative proteomics, including data
+ structures, data processing, visualisation statistical analysis to
+ identify differentially expression proteins between two groups.
+
+
+The matriel from this course is compiled from various documents, from
+the [*bioc-ms-prot*](https://lgatto.github.io/bioc-ms-prot/lab.html)
+and
+[*CSAMA*](https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html)
+labs.
+
+
+```{r bib, include=FALSE}
+# create a bib file for the R packages used in this document
+knitr::write_bib(c('base', 'rmarkdown', 'bookdown', 'msmbstyle'), file = 'skeleton.bib')
+```

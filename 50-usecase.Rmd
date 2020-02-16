@@ -1,0 +1,4 @@
+# Use cases {#sec:usecases}
+
+- (Differential expression)
+- Protein-protein interaction (BioID2)

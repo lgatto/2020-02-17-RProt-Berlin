@@ -1,0 +1,6 @@
+# Setup {#sec:setup}
+
+
+- Set-up: [R and RStudio](https://uclouvain-cbio.github.io/WSBIM1207/sec-startr.html)
+- [Bioconductor](https://uclouvain-cbio.github.io/WSBIM1207/sec-bioinfo.html)
+- [Objects](https://uclouvain-cbio.github.io/WSBIM1322/sec-obj.html)
