@@ -28,7 +28,7 @@ packages for their exploratory and statistical proteomics data
 analysis.
 
 - 17 - 19 Feb 2020, Free University (FU) Berlin
-- [Prof Laurent Gatto](https://lgatto.github.io/about/), de Duve Institute, UCLouvain, Belgium
+- [Laurent Gatto](https://lgatto.github.io/about/), de Duve Institute, UCLouvain, Belgium
 
 
 ## Targeted audience and assumed background  {-}
@@ -80,4 +80,5 @@ suppressPackageStartupMessages(library("AnnotationHub"))
 suppressPackageStartupMessages(library("lattice"))
 suppressPackageStartupMessages(library("gridExtra"))
 suppressPackageStartupMessages(library("MSnID"))
+suppressPackageStartupMessages(library("RforProteomics"))
 ```

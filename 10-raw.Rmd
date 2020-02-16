@@ -38,8 +38,6 @@ The three main functions of `mzR` are
 Other functions such as `instrumentInfo`, or `runInfo` can be used to
 gather general information about a run.
 
-### Demonstration
-
 
 ```{r rawms}
 library("mzR")
@@ -58,11 +56,11 @@ head(peaks(ms, 117))
 str(peaks(ms, 1:5))
 ```
 
-## Exercise
+### Exercise {-}
 
-> Let's extract the index of the MS2 spectrum with the highest base
-> peak intensity and plot its spectrum. Is the data centroided or in
-> profile mode?
+Let's extract the index of the MS2 spectrum with the highest base peak
+intensity and plot its spectrum. Is the data centroided or in profile
+mode?
 
 <details>
 
@@ -86,7 +84,7 @@ plot(pj, type = "l", xlim = c(480, 485))
 ```
 </details>
 
-### Exercise
+### Exercise {-}
 
 Using the first raw data file starting with `MS3TMT10`, answer the
 following questions:
@@ -115,9 +113,9 @@ experiment. The data is composed of all the MS spectra (the output of
 `mzR::peaks` above) and the annotation is stored in a
 `data.frame`-like structure called the *feature metadata* slot
 (*fData* for short). This feature metadata contains by default (or can
-contain, to be precise) the content the `mzR::header` seen above, but
-can be extended as need (adding identification data, for example - to
-be discussed tomorrow).
+contain, to be precise) the content the `mzR::header` seen above, 
+but can be extended as need (adding
+identification data, for example).
 
 ```{r}
 library("MSnbase")
@@ -136,10 +134,19 @@ rw2 <- readMSData(f2, mode = "onDisk", verbose = FALSE)
 rw2
 ```
 
-### Exercise
+### Exercise {-}
 
 What differences can you spot between the `rw1` and `rw2` objects?
+Hint: compare their length.
 
+<details>
+```{r}
+length(rw1)
+length(rw2)
+table(msLevel(rw1))
+table(msLevel(rw2))
+```
+</details>
 
 From the outside, the two functions above are very similar. The major
 difference is that the former reads the data from only one type of MS
@@ -181,12 +188,12 @@ The feature metadata is stored as part of the `MSnExp` object and can
 be accessed with the `fData` accessor function
 
 ```{r}
-fData(rw2)
+head(fData(rw2))
 ```
 
-Below, we will continue to work with the *in memory* raw data object.
+Below, we will continue to work with the *on disk* raw data object.
 
-### More data handling
+## More data handling
 
 Is the data centroided or in profile mode?
 
@@ -209,13 +216,12 @@ centroided(tmp, msLevel = 1) <- FALSE
 centroided(tmp, msLevel = 2) <- TRUE
 table(centroided(tmp), msLevel(tmp))
 ```
-
 ### Peak lists
 
 Similarly as for raw data, peak lists can be read into R as `MSnExp`
 data using the `readMgfData`. See `?readMgfData` for details.
 
-### Exercise
+### Exercise {-}
 
 Using the file starting with `MS3TMT10`:
 
@@ -223,17 +229,20 @@ Using the file starting with `MS3TMT10`:
 * What MS levels do you have, and how many spectra of each
 * What is the mode of the different MS levels
 
+
 ## Visualisation of raw MS data
 
-
 The importance of flexible access to specialised data becomes visible
-in the figure below (taken from the `RforProteomics`
-[visualisation vignette](http://bioconductor.org/packages/release/data/experiment/vignettes/RforProteomics/inst/doc/RProtVis.html)).
-**Not only can we access specific data and understand/visualise them,
+in the figure below (taken from the `RforProteomics` [visualisation
+vignette](http://bioconductor.org/packages/release/data/experiment/vignettes/RforProteomics/inst/doc/RProtVis.html)).
+Not only can we access specific data and understand/visualise them,
 but we can transverse all the data and extracted/visualise/understand
-structured slices of data.**
+structured slices of data.
 
-![MS visualisation](../img/msvisfig.png)
+
+```{r, echo = FALSE, message = FALSE, out.width='100%', fig.align='center'}
+knitr::include_graphics("../img/msvisfig.png")
+```
 
 In this code chunks we start by selecting relevant spectra of
 interest. We will focus on the first MS1 spectrum acquired after 30

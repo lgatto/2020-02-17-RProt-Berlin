@@ -5,7 +5,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta property="og:title" content="Chapter 7 Use cases | R/Bioconductor for Mass Spectrometry and Proteomics" />
+<meta property="og:title" content="Chapter 7 Use case | R/Bioconductor for Mass Spectrometry and Proteomics" />
 <meta property="og:type" content="book" />
 
 
@@ -17,9 +17,9 @@
 <meta name="date" content="2020-02-16" />
 
 
-<meta name="description" content="Chapter 7 Use cases | R/Bioconductor for Mass Spectrometry and Proteomics">
+<meta name="description" content="Chapter 7 Use case | R/Bioconductor for Mass Spectrometry and Proteomics">
 
-<title>Chapter 7 Use cases | R/Bioconductor for Mass Spectrometry and Proteomics</title>
+<title>Chapter 7 Use case | R/Bioconductor for Mass Spectrometry and Proteomics</title>
 
 <link href="libs/tufte-css-2015.12.29/tufte.css" rel="stylesheet" />
 <link href="libs/tufte-css-2015.12.29/envisioned.css" rel="stylesheet" />
@@ -131,7 +131,7 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <a href="identification-data.html"><span class="toc-section-number">4</span> Identification data</a>
 <a href="sec-quant.html"><span class="toc-section-number">5</span> Quantitative data</a>
 <a href="sec-r4ms.html"><span class="toc-section-number">6</span> R for Mass Spectrometry</a>
-<a id="active-page" href="sec-usecases.html"><span class="toc-section-number">7</span> Use cases</a>
+<a id="active-page" href="sec-usecases.html"><span class="toc-section-number">7</span> Use case</a>
 <a href="sec-si.html"><span class="toc-section-number">8</span> Session information</a>
 </div>
 </li>
@@ -144,11 +144,130 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html><body><div id="sec:usecases" class="section level1">
 <h1>
-<span class="header-section-number">Chapter 7</span> Use cases</h1>
+<span class="header-section-number">Chapter 7</span> Use case</h1>
+<p>This use case features a proximity tagging protein-protein interaction
+dataset. In this experiment, a bait protein <code>X</code> was tagged using
+<a href="https://www.ncbi.nlm.nih.gov/pubmed/26912792">BioID2</a>. BioID
+biotinylates proteins in close proximity of the bait <code>X</code>, in
+particular, but not only, proteins interacting with <code>X</code>. These
+proteins are then be recovered using streptavidin beads and
+identified/quantified using mass spectrometry. The expectation is
+that the proteins contain interaction partners of <code>X</code>. However, given
+that a substantial number of false positives will also be
+biotinylated, it is necessary to complement this data with a negative
+control, where <code>X</code> is blocked from interacting with its partners. A
+differential analysis between the wild type and the negative control
+will reveal likely interacting partners of <code>X</code>.</p>
+<p>Identify the most likely interactors of protein <code>X</code>.</p>
+<p><strong>Exercise</strong></p>
 <ul>
-<li>(Differential expression)</li>
-<li>Protein-protein interaction (BioID2)</li>
+<li>Load the data in <code>bioid.csv</code> file into R.</li>
+<li>Explore the missing data pattern.</li>
+<li>Try to identify interactors using a plain t-test. What are the
+issues? What solutions would you suggest?</li>
 </ul>
+<details><div class="sourceCode" id="cb355"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb355-1" data-line-number="1">e &lt;-<span class="st"> </span><span class="kw">readMSnSet2</span>(<span class="st">"./data/bioid.csv"</span>, <span class="dt">ecol =</span> <span class="dv">1</span><span class="op">:</span><span class="dv">6</span>, <span class="dt">fnames =</span> <span class="st">"ids"</span>)</a>
+<a class="sourceLine" id="cb355-2" data-line-number="2">e<span class="op">$</span>grp &lt;-<span class="st"> </span><span class="kw">sub</span>(<span class="st">"[1-3]"</span>, <span class="st">""</span>, <span class="kw">sampleNames</span>(e))</a>
+<a class="sourceLine" id="cb355-3" data-line-number="3"><span class="kw">exprs</span>(e)[<span class="kw">exprs</span>(e) <span class="op">==</span><span class="st"> </span><span class="dv">0</span>] &lt;-<span class="st"> </span><span class="ot">NA</span></a>
+<a class="sourceLine" id="cb355-4" data-line-number="4">e<span class="op">$</span>nNA &lt;-<span class="st"> </span><span class="kw">colSums</span>(<span class="kw">is.na</span>(e))</a>
+<a class="sourceLine" id="cb355-5" data-line-number="5"><span class="kw">fData</span>(e)<span class="op">$</span>nNA &lt;-<span class="st"> </span><span class="kw">rowSums</span>(<span class="kw">is.na</span>(e))</a></code></pre></div>
+<div class="sourceCode" id="cb356"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb356-1" data-line-number="1">sel1 &lt;-<span class="st"> </span><span class="kw">fData</span>(e)<span class="op">$</span>Reverse <span class="op">==</span><span class="st"> ""</span></a>
+<a class="sourceLine" id="cb356-2" data-line-number="2">sel2 &lt;-<span class="st"> </span><span class="kw">fData</span>(e)<span class="op">$</span>Potential.contaminant <span class="op">==</span><span class="st"> ""</span></a>
+<a class="sourceLine" id="cb356-3" data-line-number="3">e &lt;-<span class="st"> </span>e[sel1 <span class="op">&amp;</span><span class="st"> </span>sel2, ]</a>
+<a class="sourceLine" id="cb356-4" data-line-number="4"><span class="kw">fData</span>(e) &lt;-<span class="st"> </span><span class="kw">fData</span>(e)[, <span class="kw">c</span>(<span class="st">"pos"</span>, <span class="st">"ids"</span>, <span class="st">"nNA"</span>)] </a></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb357-1" data-line-number="1">e_norm &lt;-<span class="st"> </span>e <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb357-2" data-line-number="2"><span class="st">    </span><span class="kw">log</span>(<span class="dt">base =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb357-3" data-line-number="3"><span class="st">    </span><span class="kw">normalise</span>(<span class="dt">method =</span> <span class="st">"center.median"</span>)</a>
+<a class="sourceLine" id="cb357-4" data-line-number="4"><span class="kw">exprs</span>(e_norm) &lt;-<span class="st"> </span><span class="kw">exprs</span>(e_norm) <span class="op">+</span><span class="st"> </span><span class="dv">5</span> <span class="co">## to remove negative values</span></a></code></pre></div>
+</details><p>We will now try the <code>proDA</code> package for <em>inference of protein
+differential abundance by probabilistic dropout analysis</em>
+(<a href="https://www.biorxiv.org/content/10.1101/661496v1">Ahlman-Eltze and Anders
+(2019)</a>) that
+explicity models missing values as lowly expressed features.</p>
+<div class="sourceCode" id="cb358"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb358-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"proDA"</span>)</a></code></pre></div>
+<p>Below, we first fit the model using the <code>grp</code> variable.</p>
+<div class="sourceCode" id="cb359"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb359-1" data-line-number="1">proDA_fit &lt;-<span class="st"> </span><span class="kw">proDA</span>(e_norm,</a>
+<a class="sourceLine" id="cb359-2" data-line-number="2">                   <span class="dt">design =</span> <span class="op">~</span><span class="st"> </span>grp,</a>
+<a class="sourceLine" id="cb359-3" data-line-number="3">                   <span class="dt">data_is_log_transformed =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb359-4" data-line-number="4">proDA_fit</a></code></pre></div>
+<pre><code>##  Parameters of the probabilistic dropout model
+## 
+## The dataset contains 6 samples and 671 proteins
+## 42% of the values are missing
+## 
+## Experimental design: y~grp
+## The model has successfully converged.
+## 
+## The inferred parameters are:
+## location_prior_mean:     3.61
+## location_prior_scale:    11.2
+## location_prior_df:       3
+## variance_prior_scale:    0.696
+## variance_prior_df:       1.58
+## dropout_curve_position:  3.55, 2.78, 3.39, 2.95, ...
+## dropout_curve_scale:     -1.45, -1.41, -1.8, -1.22, ...</code></pre>
+<p>Here we extract the contract of interest, setting the alternative to
+greater to perform a one-sided test (we are only interested in
+proteins with greater expression in the wild type),</p>
+<div class="sourceCode" id="cb361"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb361-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="kw">test_diff</span>(proDA_fit,</a>
+<a class="sourceLine" id="cb361-2" data-line-number="2">          <span class="dt">contrast =</span> <span class="st">"grpWT"</span>,</a>
+<a class="sourceLine" id="cb361-3" data-line-number="3">          <span class="dt">alternative =</span> <span class="st">"greater"</span>,</a>
+<a class="sourceLine" id="cb361-4" data-line-number="4">          <span class="dt">pval_adjust_method =</span> <span class="st">"BH"</span>)</a>
+<a class="sourceLine" id="cb361-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb361-6" data-line-number="6">res <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb361-7" data-line-number="7"><span class="st">    </span><span class="kw">arrange</span>(adj_pval) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb361-8" data-line-number="8"><span class="st">    </span><span class="kw">filter</span>(adj_pval <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</a></code></pre></div>
+<pre><code>##       name         pval   adj_pval     diff t_statistic        se df
+## 1 P8706942 8.201344e-05 0.02751551 7.174425   13.708698 0.5233484  4
+## 2 P6582309 7.533477e-05 0.02751551 5.927149   14.008069 0.4231239  4
+## 3 P2936078 2.031653e-04 0.04544132 4.164316   10.871534 0.3830476  4
+## 4 P3615987 5.216715e-04 0.07000831 6.304989    8.515371 0.7404245  4
+## 5 P8350629 4.461788e-04 0.07000831 5.799404    8.869924 0.6538279  4
+##   avg_abundance n_approx n_obs
+## 1      6.419291 5.024494     5
+## 2     10.944913 6.000000     6
+## 3      9.892036 6.000000     6
+## 4      5.991898 4.074015     4
+## 5      6.922041 3.809590     4</code></pre>
+<p>Below, we integrate the results in the <code>MSnSet</code> and visualise them
+using a volcano plot. We observe an enrichment in true positives.</p>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1"><span class="kw">stopifnot</span>(<span class="kw">identical</span>(res<span class="op">$</span>name, <span class="kw">featureNames</span>(e_norm)))</a>
+<a class="sourceLine" id="cb363-2" data-line-number="2"><span class="kw">fData</span>(e_norm) &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">fData</span>(e_norm), res)</a>
+<a class="sourceLine" id="cb363-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb363-4" data-line-number="4"><span class="kw">with</span>(<span class="kw">fData</span>(e_norm),</a>
+<a class="sourceLine" id="cb363-5" data-line-number="5">     <span class="kw">plot</span>(diff, <span class="op">-</span><span class="kw">log10</span>(adj_pval),</a>
+<a class="sourceLine" id="cb363-6" data-line-number="6">          <span class="dt">col =</span> <span class="kw">as.numeric</span>(pos) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb363-7" data-line-number="7"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="kw">log10</span>(<span class="fl">0.05</span>))</a>
+<a class="sourceLine" id="cb363-8" data-line-number="8"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="kw">log10</span>(<span class="fl">0.1</span>), <span class="dt">lty =</span> <span class="st">"dotted"</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/prodares1-1.png" width="672"></p>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" data-line-number="1"><span class="kw">ms2df</span>(e_norm) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb364-2" data-line-number="2"><span class="st">    </span><span class="kw">arrange</span>(adj_pval) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb364-3" data-line-number="3"><span class="st">    </span><span class="kw">filter</span>(adj_pval <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</a></code></pre></div>
+<pre><code>##         WT1       WT2       WT3     NEG1     NEG2     NEG3   pos      ids nNA
+## 1  9.809723  9.843454 10.614666 2.675320 3.021770       NA FALSE P8706942   1
+## 2 13.886493 13.917121 14.096700 7.771562 8.530842 7.837897  TRUE P6582309   0
+## 3 11.811807 12.003624 12.264089 7.771879 7.920089 7.896690  TRUE P2936078   0
+## 4  8.934746  9.958431  8.888658 3.014097       NA       NA  TRUE P3615987   2
+## 5 10.046591 10.039421  9.638563 4.409438       NA       NA  TRUE P8350629   2
+##       name         pval   adj_pval     diff t_statistic        se df
+## 1 P8706942 8.201344e-05 0.02751551 7.174425   13.708698 0.5233484  4
+## 2 P6582309 7.533477e-05 0.02751551 5.927149   14.008069 0.4231239  4
+## 3 P2936078 2.031653e-04 0.04544132 4.164316   10.871534 0.3830476  4
+## 4 P3615987 5.216715e-04 0.07000831 6.304989    8.515371 0.7404245  4
+## 5 P8350629 4.461788e-04 0.07000831 5.799404    8.869924 0.6538279  4
+##   avg_abundance n_approx n_obs
+## 1      6.419291 5.024494     5
+## 2     10.944913 6.000000     6
+## 3      9.892036 6.000000     6
+## 4      5.991898 4.074015     4
+## 5      6.922041 3.809590     4</code></pre>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" data-line-number="1"><span class="kw">table</span>(<span class="kw">fData</span>(e_norm)<span class="op">$</span>pos,</a>
+<a class="sourceLine" id="cb366-2" data-line-number="2">      <span class="kw">fData</span>(e_norm)<span class="op">$</span>nNA)</a></code></pre></div>
+<pre><code>##        
+##           0   1   2   3   4   5
+##   FALSE 176  70  73  78  99 165
+##   TRUE    4   0   2   2   2   0</code></pre>
+
 </div></body></html>
 
 <p style="text-align: center;">

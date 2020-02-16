@@ -1,4 +1,106 @@
-# Use cases {#sec:usecases}
+# Use case {#sec:usecases}
 
-- (Differential expression)
-- Protein-protein interaction (BioID2)
+This use case features a proximity tagging protein-protein interaction
+dataset. In this experiment, a bait protein `X` was tagged using
+[BioID2](https://www.ncbi.nlm.nih.gov/pubmed/26912792). BioID
+biotinylates proteins in close proximity of the bait `X`, in
+particular, but not only, proteins interacting with `X`. These
+proteins are then be recovered using streptavidin beads and
+identified/quantified using mass spectrometry. The expectation is
+that the proteins contain interaction partners of `X`. However, given
+that a substantial number of false positives will also be
+biotinylated, it is necessary to complement this data with a negative
+control, where `X` is blocked from interacting with its partners. A
+differential analysis between the wild type and the negative control
+will reveal likely interacting partners of `X`.
+
+Identify the most likely interactors of protein `X`.
+
+**Exercise**
+
+- Load the data in `bioid.csv` file into R.
+- Explore the missing data pattern.
+- Try to identify interactors using a plain t-test. What are the
+  issues? What solutions would you suggest?
+
+<details>
+```{r bioiddata}
+e <- readMSnSet2("./data/bioid.csv", ecol = 1:6, fnames = "ids")
+e$grp <- sub("[1-3]", "", sampleNames(e))
+exprs(e)[exprs(e) == 0] <- NA
+e$nNA <- colSums(is.na(e))
+fData(e)$nNA <- rowSums(is.na(e))
+```
+
+```{r biodata2}
+sel1 <- fData(e)$Reverse == ""
+sel2 <- fData(e)$Potential.contaminant == ""
+e <- e[sel1 & sel2, ]
+fData(e) <- fData(e)[, c("pos", "ids", "nNA")] 
+```
+
+```{r biodata3}
+e_norm <- e %>%
+    log(base = 2) %>%
+    normalise(method = "center.median")
+exprs(e_norm) <- exprs(e_norm) + 5 ## to remove negative values
+```
+</details>
+
+We will now try the `proDA` package for *inference of protein
+differential abundance by probabilistic dropout analysis*
+([Ahlman-Eltze and Anders
+(2019)](https://www.biorxiv.org/content/10.1101/661496v1)) that
+explicity models missing values as lowly expressed features.
+
+```{r}
+library("proDA")
+```
+
+Below, we first fit the model using the `grp` variable.
+
+```{r proda1, cache = TRUE}
+proDA_fit <- proDA(e_norm,
+                   design = ~ grp,
+                   data_is_log_transformed = TRUE)
+proDA_fit
+```
+
+Here we extract the contract of interest, setting the alternative to
+greater to perform a one-sided test (we are only interested in
+proteins with greater expression in the wild type),
+
+```{r proda2}
+res <- test_diff(proDA_fit,
+          contrast = "grpWT",
+          alternative = "greater",
+          pval_adjust_method = "BH")
+
+res %>%
+    arrange(adj_pval) %>%
+    filter(adj_pval < 0.1)
+```
+
+Below, we integrate the results in the `MSnSet` and visualise them
+using a volcano plot. We observe an enrichment in true positives.
+
+
+```{r prodares1}
+stopifnot(identical(res$name, featureNames(e_norm)))
+fData(e_norm) <- cbind(fData(e_norm), res)
+
+with(fData(e_norm),
+     plot(diff, -log10(adj_pval),
+          col = as.numeric(pos) + 1))
+abline(h = -log10(0.05))
+abline(h = -log10(0.1), lty = "dotted")
+```
+
+```{r prodares2}
+ms2df(e_norm) %>%
+    arrange(adj_pval) %>%
+    filter(adj_pval < 0.1)
+
+table(fData(e_norm)$pos,
+      fData(e_norm)$nNA)
+```
