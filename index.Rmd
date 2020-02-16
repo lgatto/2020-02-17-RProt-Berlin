@@ -10,7 +10,7 @@ output:
     toc_depth: 1
     split_by: chapter
     margin_references: FALSE
-    css: msmb.css
+    css: style.css
 bibliography: skeleton.bib
 link-citations: yes
 ---
@@ -31,7 +31,7 @@ analysis.
 - [Prof Laurent Gatto](https://lgatto.github.io/about/), de Duve Institute, UCLouvain, Belgium
 
 
-## Targeted audience and assumed background
+## Targeted audience and assumed background  {-}
 
 The course is targeted to either proteomics practitioners or data
 analysts/bioinformaticians that would like to learn how to use R and
@@ -44,7 +44,7 @@ vectors, matrices, ... and their manipulation). Familiarity with other
 Bioconductor omics data classes and the tidyverse syntax is useful,
 but not required.
 
-## Program
+## Program  {-}
 
 - In the first part of this course, we will focus on raw MS data,
   including how mass spectrometry works, how raw MS data looks like,
@@ -72,7 +72,7 @@ labs.
 knitr::write_bib(c('base', 'rmarkdown', 'bookdown', 'msmbstyle'), file = 'skeleton.bib')
 ```
 
-```{r env_0, echo = FALSE, message = FALSE}
+```{r env_0, echo = FALSE, message = FALSE, warning = FALSE}
 library("BiocStyle")
 suppressPackageStartupMessages(library("MSnbase"))
 ```

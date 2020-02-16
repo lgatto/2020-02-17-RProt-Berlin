@@ -469,7 +469,7 @@ filterNA(cptac)
 
 
 ```{r lazar, fig.cap = "Effect of the nature of missing values on their imputation. Root-mean-square error (RMSE) observations standard deviation ratio (RSR), KNN and MinDet imputation. Lower (blue) is better.", echo = FALSE}
-knitr::include_graphics("./Figures/imp-sim.png")
+knitr::include_graphics("./img/imp-sim.png")
 ```
 
 See Lazar *et al.* [Accounting for the Multiple Natures of Missing
@@ -498,6 +498,7 @@ can be done with the `nNA` variable that we compute above
 Normalisation is handled by the `normalise` (or `normalize`) function.
 
 ```{r norm}
+library("limma")
 plotDensities(exprs(cptac))
 (cptac <- normalise(cptac, method = "quantiles"))
 plotDensities(exprs(cptac))
@@ -528,7 +529,7 @@ variable, and aggregate them using an summary function of choice.
 
 
 ```{r featsfig2, fig.cap = "Multiple levels of summarisation. Examples of aggregation from PSMs, peptides to proteins using median aggregation (from the [`Features`](https://rformassspectrometry.github.io/Features/articles/Features.html) package).", echo = FALSE}
-knitr::include_graphics("./Figures/features.png")
+knitr::include_graphics("./img/features.png")
 ```
 
 Below, we combine the peptides into proteins using the median, passing
@@ -717,7 +718,7 @@ legend("topright", legend = c("orig", "knn", "zero", "MinDet", "bpca"),
 
 
 
-## Differentia expression
+## Differential expression
 
 R in general and Bioconductor in particular are well suited for the
 statistical analysis of data of quantitative proteomics data. Several
@@ -800,9 +801,14 @@ sum(adjp < 0.05)
 ```
 </details>
 
+See also [this
+chapter](https://uclouvain-cbio.github.io/WSBIM1322/sec-testing.html)
+for a longer discussion of hypothesis testing.
+
 ### `limma`
 
 ```{r limmade}
+library("limma")
 design <- model.matrix(~ cptac_rob$condition)
 fit <- lmFit(exprs(cptac_rob), design)
 fit <- eBayes(fit)
@@ -841,3 +847,7 @@ ggplot(fData(cptac_rob),
 
 ### [Differential expression with `MSqRob`](https://lgatto.github.io/bioc-ms-prot/csama2019-lab.html#differential-expression-analysis)
 
+## Machine learning 
+
+If of interest, see [chapters 8, 9 and
+10](https://uclouvain-cbio.github.io/WSBIM1322/sec-mlintro.html).
