@@ -304,17 +304,24 @@ mode?</p>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="kw">plot</span>(pi, <span class="dt">type =</span> <span class="st">"h"</span>)</a></code></pre></div>
 <p><img src="_main_files/figure-html/ex_raw-1.png" width="672" style="display: block; margin: auto;"></p>
 <div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb35-1" data-line-number="1">mz &lt;-<span class="st"> </span>hd2[i, <span class="st">"basePeakMZ"</span>]</a>
-<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw">plot</span>(pi, <span class="dt">type =</span> <span class="st">"h"</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(mz<span class="fl">-0.5</span>, mz<span class="fl">+0.5</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb35-2" data-line-number="2"><span class="kw">plot</span>(pi, <span class="dt">type =</span> <span class="st">"h"</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(mz <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>, mz <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>))</a></code></pre></div>
 <p><img src="_main_files/figure-html/ex_raw-2.png" width="672" style="display: block; margin: auto;"></p>
+</details>
+</div>
+<div id="exercise-1" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<p>Pick an MS1 spectrum and visually check whether it is centroided or in
+profile mode.</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1"><span class="co">## Zooming into spectrum 300 (an MS1 spectrum).</span></a>
 <a class="sourceLine" id="cb36-2" data-line-number="2">j &lt;-<span class="st"> </span><span class="dv">300</span></a>
 <a class="sourceLine" id="cb36-3" data-line-number="3">pj &lt;-<span class="st"> </span><span class="kw">peaks</span>(ms, j)</a>
 <a class="sourceLine" id="cb36-4" data-line-number="4"><span class="kw">plot</span>(pj, <span class="dt">type =</span> <span class="st">"l"</span>)</a></code></pre></div>
 <p><img src="_main_files/figure-html/ex_raw2-1.png" width="672"></p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="kw">plot</span>(pj, <span class="dt">type =</span> <span class="st">"l"</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(<span class="dv">480</span>, <span class="dv">485</span>))</a></code></pre></div>
-<img src="_main_files/figure-html/ex_raw2-2.png" width="672"></details>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb37-1" data-line-number="1">mz &lt;-<span class="st"> </span>hd[j, <span class="st">"basePeakMZ"</span>]</a>
+<a class="sourceLine" id="cb37-2" data-line-number="2"><span class="kw">plot</span>(pj, <span class="dt">type =</span> <span class="st">"l"</span>, <span class="dt">xlim =</span> <span class="kw">c</span>(mz <span class="op">-</span><span class="st"> </span><span class="fl">0.5</span>, mz <span class="op">+</span><span class="st"> </span><span class="fl">0.5</span>))</a></code></pre></div>
+<img src="_main_files/figure-html/ex_raw2-2.png" width="672">
 </div>
-<div id="exercise-1" class="section level3 unnumbered">
+<div id="exercise-2" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>Using the first raw data file starting with <code>MS3TMT10</code>, answer the
 following questions:</p>
@@ -324,7 +331,8 @@ following questions:</p>
 <li>How many MS levels, and how many spectra per MS level?</li>
 <li>What is the index of the MS2 spectrum with the highest precursor
 intensity?</li>
-<li>Plot one spectrum of each level.</li>
+<li>Plot one spectrum of each level. Are they centroided or in profile
+mode?</li>
 </ul>
 </div>
 </div>
@@ -386,7 +394,7 @@ names as input, we create an <code>MSnExp</code> object.</p>
 ##  Number of spectra: 7534 
 ##  MSn retention times: 0:0 - 60:2 minutes
 ## - - - Processing information - - -
-## Data loaded [Mon Feb 17 06:21:05 2020] 
+## Data loaded [Mon Feb 17 07:52:38 2020] 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -402,7 +410,7 @@ names as input, we create an <code>MSnExp</code> object.</p>
 ##   fvarLabels: fileIdx spIdx ... spectrum (35 total)
 ##   fvarMetadata: labelDescription
 ## experimentData: use 'experimentData(object)'</code></pre>
-<div id="exercise-2" class="section level3 unnumbered">
+<div id="exercise-3" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>What differences can you spot between the <code>rw1</code> and <code>rw2</code> objects?
 Hint: compare their length.</p>
@@ -469,7 +477,7 @@ can do this using the familiar <code>[[</code> and <code>[</code> operators:</p>
 ##  MSn retention times: 3:22 - 3:24 minutes
 ## - - - Processing information - - -
 ## Data loaded: Sun Feb 16 12:16:37 2020 
-## Data [numerically] subsetted 5 spectra: Mon Feb 17 06:21:11 2020 
+## Data [numerically] subsetted 5 spectra: Mon Feb 17 07:52:43 2020 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -493,7 +501,7 @@ can do this using the familiar <code>[[</code> and <code>[</code> operators:</p>
 ##  Number of spectra: 5 
 ##  MSn retention times: 0:0 - 0:4 minutes
 ## - - - Processing information - - -
-## Data loaded [Mon Feb 17 06:21:05 2020] 
+## Data loaded [Mon Feb 17 07:52:38 2020] 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData
@@ -634,7 +642,7 @@ be accessed with the <code>fData</code> accessor function</p>
 <p>Similarly as for raw data, peak lists can be read into R as <code>MSnExp</code>
 data using the <code>readMgfData</code>. See <code>?readMgfData</code> for details.</p>
 </div>
-<div id="exercise-3" class="section level3 unnumbered">
+<div id="exercise-4" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>Using the file starting with <code>MS3TMT10</code>:</p>
 <ul>
@@ -667,10 +675,10 @@ minutes of retention time.</p>
 <a class="sourceLine" id="cb77-8" data-line-number="8">j &lt;-<span class="st"> </span>ms1[<span class="kw">which</span>(rtsel)][<span class="dv">2</span>]</a>
 <a class="sourceLine" id="cb77-9" data-line-number="9"><span class="co">## (6) Interleaved MS2 spectra</span></a>
 <a class="sourceLine" id="cb77-10" data-line-number="10">ms2 &lt;-<span class="st"> </span>(i<span class="op">+</span><span class="dv">1</span>)<span class="op">:</span>(j<span class="dv">-1</span>)</a></code></pre></div>
-<p>Now now extract and plot all relevant information:</p>
+<p>Now let’s extract and plot all relevant information:</p>
 <ul>
 <li>The upper panel represents the chromatogram of the TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz
-raw data file, produced with <code>chromatogram</code>.</li>
+raw data file, produced with <code>chromatogram</code>. See <code>?chromatogram</code> for details.</li>
 </ul>
 <div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb78-1" data-line-number="1">chr &lt;-<span class="st"> </span><span class="kw">chromatogram</span>(rw2)</a>
 <a class="sourceLine" id="cb78-2" data-line-number="2">chr</a></code></pre></div>
@@ -757,8 +765,8 @@ particular (the one highlighted with a red line).</li>
 ##  Number of spectra: 11 
 ##  MSn retention times: 30:1 - 30:4 minutes
 ## - - - Processing information - - -
-## Data loaded [Mon Feb 17 06:21:05 2020] 
-## Filter: select parent/children scans for 2807 [Mon Feb 17 06:22:33 2020] 
+## Data loaded [Mon Feb 17 07:52:38 2020] 
+## Filter: select parent/children scans for 2807 [Mon Feb 17 07:53:51 2020] 
 ##  MSnbase version: 2.12.0 
 ## - - - Meta data  - - -
 ## phenoData

@@ -71,18 +71,24 @@ hd2[i, ]
 pi <- peaks(ms, hd2[i, 1])
 plot(pi, type = "h")
 mz <- hd2[i, "basePeakMZ"]
-plot(pi, type = "h", xlim = c(mz-0.5, mz+0.5))
+plot(pi, type = "h", xlim = c(mz - 0.5, mz + 0.5))
 ```
 
+### Exercise {-}
+
+Pick an MS1 spectrum and visually check whether it is centroided or in
+profile mode.
 
 ```{r ex_raw2}
 ## Zooming into spectrum 300 (an MS1 spectrum).
 j <- 300
 pj <- peaks(ms, j)
 plot(pj, type = "l")
-plot(pj, type = "l", xlim = c(480, 485))
+mz <- hd[j, "basePeakMZ"]
+plot(pj, type = "l", xlim = c(mz - 0.5, mz + 0.5))
 ```
 </details>
+
 
 ### Exercise {-}
 
@@ -94,7 +100,8 @@ following questions:
 * How many MS levels, and how many spectra per MS level?
 * What is the index of the MS2 spectrum with the highest precursor
   intensity?
-* Plot one spectrum of each level.
+* Plot one spectrum of each level. Are they centroided or in profile
+  mode?
 
 ## High level abstraction
 
@@ -262,10 +269,10 @@ j <- ms1[which(rtsel)][2]
 ms2 <- (i+1):(j-1)
 ```
 
-Now now extract and plot all relevant information:
+Now let's extract and plot all relevant information:
 
 * The upper panel represents the chromatogram of the `r basename(fileName(ms))`
-  raw data file, produced with `chromatogram`.
+  raw data file, produced with `chromatogram`. See `?chromatogram` for details.
 
 ```{r visfig01}
 chr <- chromatogram(rw2)

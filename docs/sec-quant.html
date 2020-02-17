@@ -333,8 +333,8 @@ created <code>MSnSet</code> object.</p>
 undergone since their creation.</p>
 <div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="kw">processingData</span>(msset)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data loaded: Mon Feb 17 06:22:50 2020 
-## iTRAQ4 quantification by max: Mon Feb 17 06:22:52 2020 
+## Data loaded: Mon Feb 17 07:54:09 2020 
+## iTRAQ4 quantification by max: Mon Feb 17 07:54:11 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="spectral-counting" class="section level2">
@@ -473,7 +473,7 @@ valid when setting new metadata, as shown above.</p>
 <div class="sourceCode" id="cb224"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb224-1" data-line-number="1">res<span class="op">$</span>group</a></code></pre></div>
 <pre><code>## [1] "A" "A" "B" "B"</code></pre>
 </div>
-<div id="exercise-7" class="section level3 unnumbered">
+<div id="exercise-8" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>Using <code>readMSnSet2</code>, load the following file that was part of the
 supplementary information of a manuscript.</p>
@@ -520,7 +520,7 @@ features and samples in the data?</p>
 <pre><code>## [1] 5032   20</code></pre>
 </details>
 </div>
-<div id="exercise-8" class="section level3 unnumbered">
+<div id="exercise-9" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>Add the following experimental design to the <code>MSnSet</code> created
 above. The 10 first samples originate from batch A, and the 10
@@ -778,9 +778,9 @@ used to filter the peptide-level data.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Mon Feb 17 06:22:55 2020 
+## Subset [11466,6][10740,6] Mon Feb 17 07:54:15 2020 
 ##  MSnbase version: 2.12.0</code></pre>
-<div id="exercise-9" class="section level3 unnumbered">
+<div id="exercise-10" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>How many peptides have we lost by removing the proteins above?</p>
 </div>
@@ -818,8 +818,8 @@ feature variables.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Mon Feb 17 06:22:55 2020 
-## Subset [10740,6][10678,6] Mon Feb 17 06:22:55 2020 
+## Subset [11466,6][10740,6] Mon Feb 17 07:54:15 2020 
+## Subset [10740,6][10678,6] Mon Feb 17 07:54:15 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <p>You can keep track of the data processing steps in the object’s
 processing log.</p>
@@ -863,9 +863,9 @@ list of proteins.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Mon Feb 17 06:22:55 2020 
-## Subset [10740,6][10678,6] Mon Feb 17 06:22:55 2020 
-## Subset [10678,6][10659,6] Mon Feb 17 06:22:55 2020 
+## Subset [11466,6][10740,6] Mon Feb 17 07:54:15 2020 
+## Subset [10740,6][10678,6] Mon Feb 17 07:54:15 2020 
+## Subset [10678,6][10659,6] Mon Feb 17 07:54:15 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="missing-values" class="section level2">
@@ -935,12 +935,12 @@ of data.</li>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Mon Feb 17 06:22:55 2020 
-## Subset [10740,6][10678,6] Mon Feb 17 06:22:55 2020 
-## Subset [10678,6][10659,6] Mon Feb 17 06:22:55 2020 
-## Subset [10659,6][3675,6] Mon Feb 17 06:22:56 2020 
-## Removed features with more than 0 NAs: Mon Feb 17 06:22:56 2020 
-## Dropped featureData's levels Mon Feb 17 06:22:56 2020 
+## Subset [11466,6][10740,6] Mon Feb 17 07:54:15 2020 
+## Subset [10740,6][10678,6] Mon Feb 17 07:54:15 2020 
+## Subset [10678,6][10659,6] Mon Feb 17 07:54:15 2020 
+## Subset [10659,6][3675,6] Mon Feb 17 07:54:16 2020 
+## Removed features with more than 0 NAs: Mon Feb 17 07:54:16 2020 
+## Dropped featureData's levels Mon Feb 17 07:54:16 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <ul>
 <li><p>perform <strong>imputation</strong>, considering the underlying nature of
@@ -968,10 +968,10 @@ can be done with the <code>nNA</code> variable that we compute above</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Mon Feb 17 06:22:55 2020 
-## Subset [10740,6][10678,6] Mon Feb 17 06:22:55 2020 
-## Subset [10678,6][10659,6] Mon Feb 17 06:22:55 2020 
-## Subset [10659,6][7006,6] Mon Feb 17 06:22:56 2020 
+## Subset [11466,6][10740,6] Mon Feb 17 07:54:15 2020 
+## Subset [10740,6][10678,6] Mon Feb 17 07:54:15 2020 
+## Subset [10678,6][10659,6] Mon Feb 17 07:54:15 2020 
+## Subset [10659,6][7006,6] Mon Feb 17 07:54:16 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="log-transformation" class="section level2">
@@ -994,11 +994,11 @@ can be done with the <code>nNA</code> variable that we compute above</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Mon Feb 17 06:22:55 2020 
-## Subset [10740,6][10678,6] Mon Feb 17 06:22:55 2020 
-## Subset [10678,6][10659,6] Mon Feb 17 06:22:55 2020 
-## Subset [10659,6][7006,6] Mon Feb 17 06:22:56 2020 
-## Log transformed (base 2) Mon Feb 17 06:22:57 2020 
+## Subset [11466,6][10740,6] Mon Feb 17 07:54:15 2020 
+## Subset [10740,6][10678,6] Mon Feb 17 07:54:15 2020 
+## Subset [10678,6][10659,6] Mon Feb 17 07:54:15 2020 
+## Subset [10659,6][7006,6] Mon Feb 17 07:54:16 2020 
+## Log transformed (base 2) Mon Feb 17 07:54:16 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 </div>
 <div id="normalisation" class="section level2">
@@ -1030,12 +1030,12 @@ can be done with the <code>nNA</code> variable that we compute above</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Mon Feb 17 06:22:55 2020 
-## Subset [10740,6][10678,6] Mon Feb 17 06:22:55 2020 
-## Subset [10678,6][10659,6] Mon Feb 17 06:22:55 2020 
-## Subset [10659,6][7006,6] Mon Feb 17 06:22:56 2020 
-## Log transformed (base 2) Mon Feb 17 06:22:57 2020 
-## Normalised (quantiles): Mon Feb 17 06:22:57 2020 
+## Subset [11466,6][10740,6] Mon Feb 17 07:54:15 2020 
+## Subset [10740,6][10678,6] Mon Feb 17 07:54:15 2020 
+## Subset [10678,6][10659,6] Mon Feb 17 07:54:15 2020 
+## Subset [10659,6][7006,6] Mon Feb 17 07:54:16 2020 
+## Log transformed (base 2) Mon Feb 17 07:54:16 2020 
+## Normalised (quantiles): Mon Feb 17 07:54:16 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <div class="sourceCode" id="cb291"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb291-1" data-line-number="1"><span class="kw">plotDensities</span>(<span class="kw">exprs</span>(cptac))</a></code></pre></div>
 <p><img src="_main_files/figure-html/norm-2.png" width="672"></p>
@@ -1088,19 +1088,19 @@ Figure 5.4: Multiple levels of summarisation. Examples of aggregation from PSMs,
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Mon Feb 17 06:22:55 2020 
-## Subset [10740,6][10678,6] Mon Feb 17 06:22:55 2020 
-## Subset [10678,6][10659,6] Mon Feb 17 06:22:55 2020 
-## Subset [10659,6][7006,6] Mon Feb 17 06:22:56 2020 
-## Log transformed (base 2) Mon Feb 17 06:22:57 2020 
-## Normalised (quantiles): Mon Feb 17 06:22:57 2020 
-## Combined 7006 features into 1384 using median: Mon Feb 17 06:22:58 2020 
+## Subset [11466,6][10740,6] Mon Feb 17 07:54:15 2020 
+## Subset [10740,6][10678,6] Mon Feb 17 07:54:15 2020 
+## Subset [10678,6][10659,6] Mon Feb 17 07:54:15 2020 
+## Subset [10659,6][7006,6] Mon Feb 17 07:54:16 2020 
+## Log transformed (base 2) Mon Feb 17 07:54:16 2020 
+## Normalised (quantiles): Mon Feb 17 07:54:16 2020 
+## Combined 7006 features into 1384 using median: Mon Feb 17 07:54:17 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <p>We obtain 1384 proteins. Note how the processing steps are recorded. Below, we
 visualise the protein-level data on an MDS plot.</p>
 <div class="sourceCode" id="cb296"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb296-1" data-line-number="1"><span class="kw">plotMDS</span>(<span class="kw">exprs</span>(cptac_prot), <span class="dt">col =</span> <span class="kw">as.numeric</span>(cptac_prot<span class="op">$</span>condition))</a></code></pre></div>
 <p><img src="_main_files/figure-html/mds1-1.png" width="672"></p>
-<div id="exercise-10" class="section level3 unnumbered">
+<div id="exercise-11" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>Repeat the summarisation using a the robust normalisation by setting
 <code>method = "robust"</code>, as described in <a href="https://www.biorxiv.org/content/10.1101/668863v1">Sticker <em>et
@@ -1153,9 +1153,9 @@ least <code>NA</code> value.</p>
 <a class="sourceLine" id="cb303-2" data-line-number="2">tmp &lt;-<span class="st"> </span><span class="kw">filterNA</span>(naset)</a>
 <a class="sourceLine" id="cb303-3" data-line-number="3"><span class="kw">processingData</span>(tmp)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Subset [689,16][301,16] Mon Feb 17 06:23:01 2020 
-## Removed features with more than 0 NAs: Mon Feb 17 06:23:01 2020 
-## Dropped featureData's levels Mon Feb 17 06:23:01 2020 
+## Subset [689,16][301,16] Mon Feb 17 07:54:21 2020 
+## Removed features with more than 0 NAs: Mon Feb 17 07:54:21 2020 
+## Dropped featureData's levels Mon Feb 17 07:54:21 2020 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>It is of course possible to impute missing values (<code>?impute</code>). This is
 however not a straightforward thing, as is likely to dramatically fail
@@ -1210,14 +1210,14 @@ at random.Conversely, MNAR features should ideally be imputed with a
 ##  mean imputation used for these rows</code></pre>
 <div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb307-1" data-line-number="1"><span class="kw">processingData</span>(tmp)</a></code></pre></div>
 <pre><code>## - - - Processing information - - -
-## Data imputation using knn Mon Feb 17 06:23:02 2020 
+## Data imputation using knn Mon Feb 17 07:54:22 2020 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 <p>There are various methods to perform data imputation, as described in
 <code>?impute</code>. The <em><a href="https://CRAN.R-project.org/package=imp4p">imp4p</a></em> package contains additional
 functionality, including some to estimate the randomness of missing
 data.</p>
-<div id="exercise-11" class="section level3 unnumbered">
+<div id="exercise-12" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>Following the example above, apply a mixed imputation, using knn for
 data missing at random and the deterministic minumum left-cencored
@@ -1240,12 +1240,12 @@ imputation for data missing no at random.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Data imputation using mixed Mon Feb 17 06:23:02 2020 
+## Data imputation using mixed Mon Feb 17 07:54:22 2020 
 ##   Using default parameters 
 ##  MSnbase version: 1.15.6</code></pre>
 </details>
 </div>
-<div id="exercise-12" class="section level3 unnumbered">
+<div id="exercise-13" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>When assessing missing data imputation methods, such as in <a href="https://pubs.acs.org/doi/abs/10.1021/acs.jproteome.5b00981">Lazar et
 al. (2016)</a>,
@@ -1266,7 +1266,7 @@ Bayesian PCA imputation.</p>
 ##  0.0170  0.1865  0.2440  0.2500  0.3080  0.6587</code></pre>
 </details>
 </div>
-<div id="exercise-13" class="section level3 unnumbered">
+<div id="exercise-14" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>When assessing the impact of missing value imputation on real data,
 one can’t use the strategy above. Another useful approach is to assess
@@ -1363,7 +1363,7 @@ refined, but see below).</p>
 <a class="sourceLine" id="cb325-5" data-line-number="5">cptac_rob_<span class="dv">2</span> &lt;-<span class="st"> </span><span class="kw">filterNA</span>(cptac_rob)                     </a>
 <a class="sourceLine" id="cb325-6" data-line-number="6">pv &lt;-<span class="st"> </span><span class="kw">apply</span>(<span class="kw">exprs</span>(cptac_rob_<span class="dv">2</span>), <span class="dv">1</span>, my_t_test)</a></code></pre></div>
 </div>
-<div id="exercise-14" class="section level3 unnumbered">
+<div id="exercise-15" class="section level3 unnumbered">
 <h3>Exercise</h3>
 <p>Do you think we have any statistically differentially expressed
 proteins?</p>
@@ -1585,13 +1585,13 @@ expressed proteins.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-## Subset [11466,6][10740,6] Mon Feb 17 06:22:55 2020 
-## Subset [10740,6][10678,6] Mon Feb 17 06:22:55 2020 
-## Subset [10678,6][10659,6] Mon Feb 17 06:22:55 2020 
-## Subset [10659,6][7006,6] Mon Feb 17 06:22:56 2020 
-## Log transformed (base 2) Mon Feb 17 06:22:57 2020 
-## Normalised (quantiles): Mon Feb 17 06:22:57 2020 
-## Subset [7006,6][4,6] Mon Feb 17 06:23:06 2020 
+## Subset [11466,6][10740,6] Mon Feb 17 07:54:15 2020 
+## Subset [10740,6][10678,6] Mon Feb 17 07:54:15 2020 
+## Subset [10678,6][10659,6] Mon Feb 17 07:54:15 2020 
+## Subset [10659,6][7006,6] Mon Feb 17 07:54:16 2020 
+## Log transformed (base 2) Mon Feb 17 07:54:16 2020 
+## Normalised (quantiles): Mon Feb 17 07:54:16 2020 
+## Subset [7006,6][4,6] Mon Feb 17 07:54:26 2020 
 ##  MSnbase version: 2.12.0</code></pre>
 <p>In the following code chunk, we convert the peptide-level <code>MSnSet</code>
 containing the significant peptides using the <code>ms2df</code> helper function,
