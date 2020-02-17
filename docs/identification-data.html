@@ -649,14 +649,13 @@ function with the name of the desired data.</p>
 <div id="annotated-spectra-and-spectra-comparison" class="section level3">
 <h3>
 <span class="header-section-number">4.5.1</span> Annotated spectra and spectra comparison</h3>
-<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1"><span class="kw">par</span>(<span class="dt">mfrow =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">2</span>))</a>
-<a class="sourceLine" id="cb145-2" data-line-number="2">itraqdata2 &lt;-<span class="st"> </span><span class="kw">pickPeaks</span>(itraqdata, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb145-3" data-line-number="3">s &lt;-<span class="st"> "SIGFEGDSIGR"</span></a>
-<a class="sourceLine" id="cb145-4" data-line-number="4"><span class="kw">plot</span>(itraqdata2[[<span class="dv">14</span>]], s, <span class="dt">main =</span> s)</a></code></pre></div>
-<p><img src="_main_files/figure-html/id1-1.png" width="960"></p>
+<div class="sourceCode" id="cb145"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb145-1" data-line-number="1">itraqdata2 &lt;-<span class="st"> </span><span class="kw">pickPeaks</span>(itraqdata, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
+<a class="sourceLine" id="cb145-2" data-line-number="2">s &lt;-<span class="st"> "SIGFEGDSIGR"</span></a>
+<a class="sourceLine" id="cb145-3" data-line-number="3"><span class="kw">plot</span>(itraqdata2[[<span class="dv">14</span>]], s, <span class="dt">main =</span> s)</a></code></pre></div>
+<p><img src="_main_files/figure-html/plotwithseq1-1.png" width="960"></p>
 <div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="kw">plot</span>(itraqdata2[[<span class="dv">25</span>]], itraqdata2[[<span class="dv">28</span>]], <span class="dt">sequences =</span> <span class="kw">rep</span>(<span class="st">"IMIDLDGTENK"</span>, <span class="dv">2</span>))</a></code></pre></div>
-<p><img src="_main_files/figure-html/id2-1.png" width="960">
-The annotation of spectra is obtained by simulating fragmentation of a
+<p><img src="_main_files/figure-html/plotwithseq2-1.png" width="960"></p>
+<p>The annotation of spectra is obtained by simulating fragmentation of a
 peptide and matching observed peaks to fragments:</p>
 <div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1"><span class="kw">calculateFragments</span>(<span class="st">"SIGFEGDSIGR"</span>)</a></code></pre></div>
 <pre><code>##            mz  ion type pos z        seq

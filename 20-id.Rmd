@@ -238,16 +238,16 @@ data(itraqdata)
 
 ### Annotated spectra and spectra comparison
 
-```{r id1, message=FALSE, fig.width=10, message=FALSE}
-par(mfrow = c(1, 2))
+```{r plotwithseq1, fig.width=10}
 itraqdata2 <- pickPeaks(itraqdata, verbose = FALSE)
 s <- "SIGFEGDSIGR"
 plot(itraqdata2[[14]], s, main = s)
 ```
 
-```{r id2, message=FALSE, fig.width=10, message=FALSE}
+```{r plotwithseq2, fig.width=10}
 plot(itraqdata2[[25]], itraqdata2[[28]], sequences = rep("IMIDLDGTENK", 2))
 ```
+
 The annotation of spectra is obtained by simulating fragmentation of a
 peptide and matching observed peaks to fragments:
 
