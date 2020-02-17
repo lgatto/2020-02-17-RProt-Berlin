@@ -247,25 +247,64 @@ resource. These data can be downloaded within R using the
 <em><a href="https://bioconductor.org/packages/3.10/rpx">rpx</a></em> package.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"rpx"</span>)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">pxannounced</span>()</a></code></pre></div>
+<pre><code>## 15 new ProteomeXchange annoucements</code></pre>
+<pre><code>##     Data.Set Publication.Data Message
+## 1  PXD017273             &lt;NA&gt;     New
+## 2  PXD016391             &lt;NA&gt;     New
+## 3  PXD015638             &lt;NA&gt;     New
+## 4  PXD015424             &lt;NA&gt;     New
+## 5  PXD016099             &lt;NA&gt;     New
+## 6  PXD016917             &lt;NA&gt;     New
+## 7  PXD016837             &lt;NA&gt;     New
+## 8  PXD015361             &lt;NA&gt;     New
+## 9  PXD009243             &lt;NA&gt;     New
+## 10 PXD016452             &lt;NA&gt;     New
+## 11 PXD015432             &lt;NA&gt;     New
+## 12 PXD016322             &lt;NA&gt;     New
+## 13 PXD014751             &lt;NA&gt;     New
+## 14 PXD016552             &lt;NA&gt;     New
+## 15 PXD016835             &lt;NA&gt;     New</code></pre>
 <p>Using the unique <code>PXD000001</code> identifier, we can retrieve the relevant
 metadata that will be stored in a <code>PXDataset</code> object. The names of the
 files available in this data can be retrieved with the <code>pxfiles</code>
 accessor function.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">px &lt;-<span class="st"> </span><span class="kw">PXDataset</span>(<span class="st">"PXD000001"</span>)</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">px</a>
-<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">pxfiles</span>(px)</a></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">px &lt;-<span class="st"> </span><span class="kw">PXDataset</span>(<span class="st">"PXD000001"</span>)</a>
+<a class="sourceLine" id="cb4-2" data-line-number="2">px</a></code></pre></div>
+<pre><code>## Object of class "PXDataset"
+##  Id: PXD000001 with 12 files
+##  [1] 'F063721.dat' ... [12] 'generated'
+##  Use 'pxfiles(.)' to see all files.</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="kw">pxfiles</span>(px)</a></code></pre></div>
+<pre><code>##  [1] "F063721.dat"                                                         
+##  [2] "F063721.dat-mztab.txt"                                               
+##  [3] "PRIDE_Exp_Complete_Ac_22134.xml.gz"                                  
+##  [4] "PRIDE_Exp_mzData_Ac_22134.xml.gz"                                    
+##  [5] "PXD000001_mztab.txt"                                                 
+##  [6] "README.txt"                                                          
+##  [7] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML" 
+##  [8] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzXML"
+##  [9] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzXML"         
+## [10] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.raw"           
+## [11] "erwinia_carotovora.fasta"                                            
+## [12] "generated"</code></pre>
 <p>Other metadata for the <code>px</code> data set:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">pxtax</span>(px)</a>
-<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">pxurl</span>(px)</a>
-<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">pxref</span>(px)</a></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw">pxtax</span>(px)</a></code></pre></div>
+<pre><code>## [1] "Erwinia carotovora"</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">pxurl</span>(px)</a></code></pre></div>
+<pre><code>## [1] "ftp://ftp.pride.ebi.ac.uk/pride/data/archive/2012/03/PXD000001"</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">pxref</span>(px)</a></code></pre></div>
+<pre><code>## [1] "Gatto L, Christoforou A. Using R and Bioconductor for proteomics data analysis. Biochim Biophys Acta. 2013 May 18. doi:pii: S1570-9639(13)00186-6. 10.1016/j.bbapap.2013.04.032"</code></pre>
 <p>Data files can then be downloaded with the <code>pxget</code> function. Below, we
 retrieve the raw data file. The file is
 downloaded<label for="tufte-sn-1" class="margin-toggle sidenote-number">1</label><input type="checkbox" id="tufte-sn-1" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">1</span> If the file is already available, it is not downloaded a second time.</span>
 in the working directory and the name of the file is return by the
 function and stored in the <code>mzf</code> variable for later use.<label for="tufte-sn-2" class="margin-toggle sidenote-number">2</label><input type="checkbox" id="tufte-sn-2" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">2</span> This and other files are also availabel in the <code>msdata</code> package, described below</span></p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">fn &lt;-<span class="st"> "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</span></a>
-<a class="sourceLine" id="cb4-2" data-line-number="2">mzf &lt;-<span class="st"> </span><span class="kw">pxget</span>(px, fn)</a>
-<a class="sourceLine" id="cb4-3" data-line-number="3">mzf</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">fn &lt;-<span class="st"> "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</span></a>
+<a class="sourceLine" id="cb14-2" data-line-number="2">mzf &lt;-<span class="st"> </span><span class="kw">pxget</span>(px, fn)</a></code></pre></div>
+<pre><code>## Downloading 1 file</code></pre>
+<pre><code>## /home/lgatto/wrk/2020-02-17-RProt-Berlin/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML already present.</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">mzf</a></code></pre></div>
+<pre><code>## [1] "/home/lgatto/wrk/2020-02-17-RProt-Berlin/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML"</code></pre>
 </div>
 <div id="from-annotationhub" class="section level3">
 <h3>
@@ -275,10 +314,10 @@ the Bioconductor project that serves various omics datasets. It is
 possible to contribute and access (albeit currently only a limited
 number of)
 <a href="http://bioconductor.org/packages/devel/bioc/vignettes/ProteomicsAnnotationHubData/inst/doc/ProteomicsAnnotationHubData.html">proteomics data</a>.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"AnnotationHub"</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2">ah &lt;-<span class="st"> </span><span class="kw">AnnotationHub</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"AnnotationHub"</span>)</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">ah &lt;-<span class="st"> </span><span class="kw">AnnotationHub</span>()</a></code></pre></div>
 <pre><code>## snapshotDate(): 2019-10-29</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw">query</span>(ah, <span class="st">"proteomics"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw">query</span>(ah, <span class="st">"proteomics"</span>)</a></code></pre></div>
 <pre><code>## AnnotationHub with 4 records
 ## # snapshotDate(): 2019-10-29 
 ## # $dataprovider: PRIDE
@@ -294,8 +333,8 @@ number of)
 ##   AH49007 | PXD000001: Peptide-level quantitation data                    
 ##   AH49008 | PXD000001: raw mass spectrometry data                         
 ##   AH49009 | PXD000001: MS-GF+ identiciation data</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">ms &lt;-<span class="st"> </span>ah[[<span class="st">"AH49008"</span>]]</a>
-<a class="sourceLine" id="cb9-2" data-line-number="2">ms</a></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">ms &lt;-<span class="st"> </span>ah[[<span class="st">"AH49008"</span>]]</a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">ms</a></code></pre></div>
 <pre><code>## Mass Spectrometry file handle.
 ## Filename:  ab7777b09e8_55314 
 ## Number of scans:  7534</code></pre>
@@ -312,24 +351,24 @@ as the <code>mzML</code> (or <code>mzXML</code>) file (see below).</p>
 <em><a href="https://bioconductor.org/packages/3.10/msdata">msdata</a></em>, for example, provides some
 general raw data files relevant for both proteomics and
 metabolomics.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"msdata"</span>)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">## proteomics raw data</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="kw">proteomics</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"msdata"</span>)</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="co">## proteomics raw data</span></a>
+<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="kw">proteomics</span>()</a></code></pre></div>
 <pre><code>## [1] "MRM-standmix-5.mzML.gz"                                                
 ## [2] "MS3TMT10_01022016_32917-33481.mzML.gz"                                 
 ## [3] "MS3TMT11.mzML"                                                         
 ## [4] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz"
 ## [5] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01.mzML.gz"</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="co">## proteomics identification data</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw">ident</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="co">## proteomics identification data</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2"><span class="kw">ident</span>()</a></code></pre></div>
 <pre><code>## [1] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="co">## quantitative data</span></a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="kw">quant</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1"><span class="co">## quantitative data</span></a>
+<a class="sourceLine" id="cb29-2" data-line-number="2"><span class="kw">quant</span>()</a></code></pre></div>
 <pre><code>## [1] "cptac_a_b_peptides.txt"</code></pre>
 <p>More often, such <em>experiment packages</em> distribute processed data; an
 example of such is the <em><a href="https://bioconductor.org/packages/3.10/pRolocdata">pRolocdata</a></em>
 package, that offers quantitative proteomics data.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">pRolocdata<span class="op">::</span><span class="kw">pRolocdata</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1">pRolocdata<span class="op">::</span><span class="kw">pRolocdata</span>()</a></code></pre></div>
 <table>
 <thead><tr class="header">
 <th align="left">Item</th>

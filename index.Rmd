@@ -30,7 +30,7 @@ analysis.
 - 17 - 19 Feb 2020, Free University (FU) Berlin
 - [Laurent Gatto](https://lgatto.github.io/about/), de Duve Institute, UCLouvain, Belgium
 - This page: http://bit.ly/2002rbiocprot
-- [RStudio project directory]((https://raw.githubusercontent.com/lgatto/2020-02-17-RProt-Berlin/master/data/rbioxprot.zip)
+- [RStudio project directory](https://raw.githubusercontent.com/lgatto/2020-02-17-RProt-Berlin/master/data/rbioxprot.zip)
 
 ## Targeted audience and assumed background  {-}
 

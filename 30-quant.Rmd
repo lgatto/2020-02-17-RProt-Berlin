@@ -134,7 +134,7 @@ data can be imported with the `readMzTabData`
 function^[We specify version 0.9 (which generates the warning) to fit with the version of that file. For recent files, the `version` argument should be ignored to use the importer for the current file version 1.0.].
 
 
-```{r mztab, cache=TRUE}
+```{r mztab}
 mztf <- pxget(px, "F063721.dat-mztab.txt")
 (mzt <- readMzTabData(mztf, what = "PEP", version = "0.9"))
 ```

@@ -183,7 +183,7 @@ file against the fasta file from `PXD000001` using `MSGFplus`.
 
 We first download the fasta files from ProteomeXchange:
 
-```{r ex_getfas, cache=TRUE}
+```{r ex_getfas}
 fas <- pxget(px, "erwinia_carotovora.fasta")
 basename(fas)
 ```
