@@ -363,7 +363,7 @@ msnid <- assess_termini(msnid, validCleavagePattern="[KR]\\.[^P]")
 msnid <- assess_missed_cleavages(msnid, missedCleavagePattern="[KR](?=[^P$])")
 ```
 
-## Trimming the data
+### Trimming the data
 
 Now, we can use the `apply_filter` function to effectively apply
 filters. The strings passed to the function represent expressions that
@@ -376,7 +376,7 @@ msnid <- apply_filter(msnid, "numMissCleavages <= 2")
 show(msnid)
 ```
 
-## Parent ion mass errors
+### Parent ion mass errors
 
 Using `"calculatedMassToCharge"` and `"experimentalMassToCharge"`, the
 `mass_measurement_error` function calculates the parent ion mass
@@ -393,7 +393,7 @@ msnid <- apply_filter(msnid, "abs(mass_measurement_error(msnid)) < 20")
 summary(mass_measurement_error(msnid))
 ```
 
-## Filtering criteria
+### Filtering criteria
 
 Filtering of the identification data will rely on 
 
@@ -410,7 +410,7 @@ msnid$msmsScore <- -log10(msnid$`MS-GF:SpecEValue`)
 msnid$absParentMassErrorPPM <- abs(mass_measurement_error(msnid))
 ```
 
-## Setting filters
+### Setting filters
 
 MS2 filters are handled by a special `MSnIDFilter` class objects, where
 individual filters are set by name (that is present in `names(msnid)`)
@@ -433,7 +433,7 @@ identifications for the filtering criteria at hand.
 evaluate_filter(msnid, filtObj)
 ```
 
-## Filter optimisation
+### Filter optimisation
 
 Rather than setting filtering values by hand, as shown above, these
 can be set automatically to meet a specific false discovery rate.
@@ -466,7 +466,7 @@ msnid <- apply_filter(msnid, "!grepl('Contaminant',accession)")
 show(msnid)
 ```
 
-## Export `MSnID` data
+### Export `MSnID` data
 
 The resulting filtered identification data can be exported to a
 `data.frame` or to a dedicated `MSnSet` data structure for
