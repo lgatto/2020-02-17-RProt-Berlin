@@ -14,7 +14,7 @@ accessibility of their work.
 
 Two packages of interest:
 
-- [Specra](https://rformassspectrometry.github.io/Spectra/)
+- [Specra](https://rformassspectrometry.github.io/Spectra/) ([poster](https://github.com/rformassspectrometry/Conferences/raw/master/EuroBioc2019/Spectra/poster/poster.pdf))
 - [Features](https://rformassspectrometry.github.io/Features/)
 
 
