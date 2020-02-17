@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta property="og:title" content="Chapter 6 Optional material | R/Bioconductor for Mass Spectrometry and Proteomics" />
+<meta property="og:type" content="book" />
+
+
+
+
+
+<meta name="author" content="Laurent Gatto" />
+
+<meta name="date" content="2020-02-17" />
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  TeX: { equationNumbers: { autoNumber: "AMS" } }
+});
+</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+
+<meta name="description" content="Chapter 6 Optional material | R/Bioconductor for Mass Spectrometry and Proteomics">
+
+<title>Chapter 6 Optional material | R/Bioconductor for Mass Spectrometry and Proteomics</title>
+
+<link href="libs/tufte-css-2015.12.29/tufte.css" rel="stylesheet" />
+<link href="libs/tufte-css-2015.12.29/envisioned.css" rel="stylesheet" />
+<link href="libs/msmb-css-0/msmb.css" rel="stylesheet" />
+<script>
+function toggle_visibility(id1, id2) {
+var e = document.getElementById(id1);
+var f = document.getElementById(id2);
+
+e.style.display = ((e.style.display!='none') ? 'none' : 'block');
+
+if(f.classList.contains('fa-plus-square')) {
+    f.classList.add('fa-minus-square')
+    f.classList.remove('fa-plus-square')
+} else {
+    f.classList.add('fa-plus-square')
+    f.classList.remove('fa-minus-square')
+}
+
+}
+</script>
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  { background-color: #f8f8f8; }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ef2929; } /* Alert */
+code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #c4a000; } /* Attribute */
+code span.bn { color: #0000cf; } /* BaseN */
+code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4e9a06; } /* Char */
+code span.cn { color: #000000; } /* Constant */
+code span.co { color: #8f5902; font-style: italic; } /* Comment */
+code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code span.dt { color: #204a87; } /* DataType */
+code span.dv { color: #0000cf; } /* DecVal */
+code span.er { color: #a40000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #0000cf; } /* Float */
+code span.fu { color: #000000; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code span.ot { color: #8f5902; } /* Other */
+code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code span.sc { color: #000000; } /* SpecialChar */
+code span.ss { color: #4e9a06; } /* SpecialString */
+code span.st { color: #4e9a06; } /* String */
+code span.va { color: #000000; } /* Variable */
+code span.vs { color: #4e9a06; } /* VerbatimString */
+code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+</head>
+
+<body>
+
+
+
+<div class="row">
+<div class="col-sm-12">
+<div id="TOC">
+<ul class="navbar">
+<li class="msmb"><p class="title">R/Bioconductor for Mass Spectrometry and Proteomics<p><p class="author">Laurent Gatto</p>
+<li class="dropdown" style="float:right">
+<a href="javascript:void(0)" class="dropbtn">&#x25BE; Chapters</a>
+<div class="dropdown-content">
+<a href="index.html">Preamble</a>
+<a href="sec-setup.html"><span class="toc-section-number">1</span> Setup</a>
+<a href="sec-msintro.html"><span class="toc-section-number">2</span> MS Introduction</a>
+<a href="raw-ms-data-mzr-and-msnbase.html"><span class="toc-section-number">3</span> Raw MS data: <code>mzR</code> and <code>MSnbase</code></a>
+<a href="identification-data.html"><span class="toc-section-number">4</span> Identification data</a>
+<a href="sec-quant.html"><span class="toc-section-number">5</span> Quantitative data</a>
+<a id="active-page" href="optional-material.html"><span class="toc-section-number">6</span> Optional material</a><ul class="toc-sections">
+<li class="toc"><a href="#sec:r4ms"> R for Mass Spectrometry</a></li>
+<li class="toc"><a href="#sec:apms"> Affinity purification MS (AP-MS)</a></li>
+</ul>
+<a href="sec-si.html"><span class="toc-section-number">7</span> Session information</a>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-sm-12">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body><div id="optional-material" class="section level1">
+<h1>
+<span class="header-section-number">Chapter 6</span> Optional material</h1>
+<div id="sec:r4ms" class="section level2">
+<h2>
+<span class="header-section-number">6.1</span> R for Mass Spectrometry</h2>
+<p>The aim of the <a href="https://www.rformassspectrometry.org/">R for mass
+spectrometry</a>
+RforMassSpectrometry initiative is to provide efficient, thoroughly
+documented, tested and flexible R software for the analysis and
+interpretation of high throughput mass spectrometry assays, including
+proteomics and metabolomics experiments. The project formalises the
+longtime collaborative development efforts of its core members under
+the RforMassSpectrometry organisation to facilitate dissemination and
+accessibility of their work.</p>
+<p>Two packages of interest:</p>
+<ul>
+<li><a href="https://rformassspectrometry.github.io/Spectra/">Specra</a></li>
+<li><a href="https://rformassspectrometry.github.io/Features/">Features</a></li>
+</ul>
+</div>
+<div id="sec:apms" class="section level2">
+<h2>
+<span class="header-section-number">6.2</span> Affinity purification MS (AP-MS)</h2>
+<p>This use case features a proximity tagging protein-protein interaction
+dataset. In this experiment, a bait protein <code>X</code> was tagged using
+<a href="https://www.ncbi.nlm.nih.gov/pubmed/26912792">BioID2</a>. BioID
+biotinylates proteins in close proximity of the bait <code>X</code>, in
+particular, but not only, proteins interacting with <code>X</code>. These
+proteins are then be recovered using streptavidin beads and
+identified/quantified using mass spectrometry. The expectation is
+that the proteins contain interaction partners of <code>X</code>. However, given
+that a substantial number of false positives will also be
+biotinylated, it is necessary to complement this data with a negative
+control, where <code>X</code> is blocked from interacting with its partners. A
+differential analysis between the wild type and the negative control
+will reveal likely interacting partners of <code>X</code>.</p>
+<p>Identify the most likely interactors of protein <code>X</code>.</p>
+<div id="exercise-15" class="section level3 unnumbered">
+<h3>Exercise</h3>
+<ul>
+<li>Load the <a href="https://raw.githubusercontent.com/lgatto/2020-02-17-RProt-Berlin/master/data/bioid.csv">data in the <code>bioid.csv</code>
+file</a>
+into R.</li>
+<li>Explore the missing data pattern.</li>
+<li>Try to identify interactors using a statistical t-test, or any
+method you see fit. You can use the <code>pos</code> variable to guide you:
+<code>TRUE</code> referring to a set of expected true interactors, but there
+might be more.</li>
+<li>What are the issues? What solutions would you suggest?</li>
+</ul>
+<details></details>
+</div>
+<div id="proda-probabilistic-dropout-analysis" class="section level3">
+<h3>
+<span class="header-section-number">6.2.1</span> <code>proDA</code>: probabilistic dropout analysis</h3>
+<p>We will now try the <code>proDA</code> package for <em>inference of protein
+differential abundance by probabilistic dropout analysis</em>
+(<a href="https://www.biorxiv.org/content/10.1101/661496v1">Ahlman-Eltze and Anders
+(2019)</a>) that
+explicity models missing values as lowly expressed features.</p>
+<div class="sourceCode" id="cb365"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb365-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"proDA"</span>)</a></code></pre></div>
+<p>Below, we first fit the model using the <code>grp</code> variable.</p>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" data-line-number="1">proDA_fit &lt;-<span class="st"> </span><span class="kw">proDA</span>(e_norm,</a>
+<a class="sourceLine" id="cb366-2" data-line-number="2">                   <span class="dt">design =</span> <span class="op">~</span><span class="st"> </span>grp,</a>
+<a class="sourceLine" id="cb366-3" data-line-number="3">                   <span class="dt">data_is_log_transformed =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb366-4" data-line-number="4">proDA_fit</a></code></pre></div>
+<pre><code>##  Parameters of the probabilistic dropout model
+## 
+## The dataset contains 6 samples and 671 proteins
+## 42% of the values are missing
+## 
+## Experimental design: y~grp
+## The model has successfully converged.
+## 
+## The inferred parameters are:
+## location_prior_mean:     3.61
+## location_prior_scale:    11.2
+## location_prior_df:       3
+## variance_prior_scale:    0.696
+## variance_prior_df:       1.58
+## dropout_curve_position:  3.55, 2.78, 3.39, 2.95, ...
+## dropout_curve_scale:     -1.45, -1.41, -1.8, -1.22, ...</code></pre>
+<p>Here we extract the contract of interest, setting the alternative to
+greater to perform a one-sided test (we are only interested in
+proteins with greater expression in the wild type),</p>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="kw">test_diff</span>(proDA_fit,</a>
+<a class="sourceLine" id="cb368-2" data-line-number="2">          <span class="dt">contrast =</span> <span class="st">"grpWT"</span>,</a>
+<a class="sourceLine" id="cb368-3" data-line-number="3">          <span class="dt">alternative =</span> <span class="st">"greater"</span>,</a>
+<a class="sourceLine" id="cb368-4" data-line-number="4">          <span class="dt">pval_adjust_method =</span> <span class="st">"BH"</span>)</a>
+<a class="sourceLine" id="cb368-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb368-6" data-line-number="6">res <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb368-7" data-line-number="7"><span class="st">    </span><span class="kw">arrange</span>(adj_pval) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb368-8" data-line-number="8"><span class="st">    </span><span class="kw">filter</span>(adj_pval <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</a></code></pre></div>
+<pre><code>##       name         pval   adj_pval     diff t_statistic        se df
+## 1 P8706942 8.201344e-05 0.02751551 7.174425   13.708698 0.5233484  4
+## 2 P6582309 7.533477e-05 0.02751551 5.927149   14.008069 0.4231239  4
+## 3 P2936078 2.031653e-04 0.04544132 4.164316   10.871534 0.3830476  4
+## 4 P3615987 5.216715e-04 0.07000831 6.304989    8.515371 0.7404245  4
+## 5 P8350629 4.461788e-04 0.07000831 5.799404    8.869924 0.6538279  4
+##   avg_abundance n_approx n_obs
+## 1      6.419291 5.024494     5
+## 2     10.944913 6.000000     6
+## 3      9.892036 6.000000     6
+## 4      5.991898 4.074015     4
+## 5      6.922041 3.809590     4</code></pre>
+<p>Below, we integrate the results in the <code>MSnSet</code> and visualise them
+using a volcano plot. We observe an enrichment in true positives.</p>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" data-line-number="1"><span class="kw">stopifnot</span>(<span class="kw">identical</span>(res<span class="op">$</span>name, <span class="kw">featureNames</span>(e_norm)))</a>
+<a class="sourceLine" id="cb370-2" data-line-number="2"><span class="kw">fData</span>(e_norm) &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">fData</span>(e_norm), res)</a>
+<a class="sourceLine" id="cb370-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb370-4" data-line-number="4"><span class="kw">with</span>(<span class="kw">fData</span>(e_norm),</a>
+<a class="sourceLine" id="cb370-5" data-line-number="5">     <span class="kw">plot</span>(diff, <span class="op">-</span><span class="kw">log10</span>(adj_pval),</a>
+<a class="sourceLine" id="cb370-6" data-line-number="6">          <span class="dt">col =</span> <span class="kw">as.numeric</span>(pos) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb370-7" data-line-number="7"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="kw">log10</span>(<span class="fl">0.05</span>))</a>
+<a class="sourceLine" id="cb370-8" data-line-number="8"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="kw">log10</span>(<span class="fl">0.1</span>), <span class="dt">lty =</span> <span class="st">"dotted"</span>)</a></code></pre></div>
+<p><img src="_main_files/figure-html/prodares1-1.png" width="672"></p>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" data-line-number="1"><span class="kw">ms2df</span>(e_norm) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb371-2" data-line-number="2"><span class="st">    </span><span class="kw">arrange</span>(adj_pval) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb371-3" data-line-number="3"><span class="st">    </span><span class="kw">filter</span>(adj_pval <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</a></code></pre></div>
+<pre><code>##        WT1      WT2      WT3       NEG1      NEG2     NEG3   pos      ids nNA
+## 1 4.809723 4.843454 5.614666 -2.3246799 -1.978230       NA FALSE P8706942   1
+## 2 8.886493 8.917121 9.096700  2.7715624  3.530842 2.837897  TRUE P6582309   0
+## 3 6.811807 7.003624 7.264089  2.7718795  2.920089 2.896690  TRUE P2936078   0
+## 4 3.934746 4.958431 3.888658 -1.9859032        NA       NA  TRUE P3615987   2
+## 5 5.046591 5.039421 4.638563 -0.5905618        NA       NA  TRUE P8350629   2
+##       name         pval   adj_pval     diff t_statistic        se df
+## 1 P8706942 8.201344e-05 0.02751551 7.174425   13.708698 0.5233484  4
+## 2 P6582309 7.533477e-05 0.02751551 5.927149   14.008069 0.4231239  4
+## 3 P2936078 2.031653e-04 0.04544132 4.164316   10.871534 0.3830476  4
+## 4 P3615987 5.216715e-04 0.07000831 6.304989    8.515371 0.7404245  4
+## 5 P8350629 4.461788e-04 0.07000831 5.799404    8.869924 0.6538279  4
+##   avg_abundance n_approx n_obs
+## 1      6.419291 5.024494     5
+## 2     10.944913 6.000000     6
+## 3      9.892036 6.000000     6
+## 4      5.991898 4.074015     4
+## 5      6.922041 3.809590     4</code></pre>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" data-line-number="1"><span class="kw">table</span>(<span class="kw">fData</span>(e_norm)<span class="op">$</span>pos,</a>
+<a class="sourceLine" id="cb373-2" data-line-number="2">      <span class="kw">fData</span>(e_norm)<span class="op">$</span>nNA)</a></code></pre></div>
+<pre><code>##        
+##           0   1   2   3   4   5
+##   FALSE 176  70  73  78  99 165
+##   TRUE    4   0   2   2   2   0</code></pre>
+
+</div>
+</div>
+</div></body></html>
+
+<p style="text-align: center;">
+<a href="sec-quant.html"><button class="btn btn-default">Previous</button></a>
+<a href="sec-si.html"><button class="btn btn-default">Next</button></a>
+</p>
+<p class="build-date">Page built: 
+2020-02-17
+</p>
+</div>
+</div>
+
+
+
+</body>
+</html>

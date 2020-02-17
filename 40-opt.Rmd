@@ -1,4 +1,24 @@
-# Use case {#sec:usecases}
+# Optional material
+
+## R for Mass Spectrometry {#sec:r4ms}
+
+The aim of the [R for mass
+spectrometry](https://www.rformassspectrometry.org/)
+RforMassSpectrometry initiative is to provide efficient, thoroughly
+documented, tested and flexible R software for the analysis and
+interpretation of high throughput mass spectrometry assays, including
+proteomics and metabolomics experiments. The project formalises the
+longtime collaborative development efforts of its core members under
+the RforMassSpectrometry organisation to facilitate dissemination and
+accessibility of their work.
+
+Two packages of interest:
+
+- [Specra](https://rformassspectrometry.github.io/Spectra/)
+- [Features](https://rformassspectrometry.github.io/Features/)
+
+
+## Affinity purification MS (AP-MS) {#sec:apms}
 
 This use case features a proximity tagging protein-protein interaction
 dataset. In this experiment, a bait protein `X` was tagged using
@@ -18,34 +38,48 @@ Identify the most likely interactors of protein `X`.
 
 ### Exercise {-}
 
-- Load the data in `bioid.csv` file into R.
+- Load the [data in the `bioid.csv`
+  file](https://raw.githubusercontent.com/lgatto/2020-02-17-RProt-Berlin/master/data/bioid.csv)
+  into R.
 - Explore the missing data pattern.
-- Try to identify interactors using a plain t-test. What are the
-  issues? What solutions would you suggest?
+- Try to identify interactors using a statistical t-test, or any
+  method you see fit. You can use the `pos` variable to guide you:
+  `TRUE` referring to a set of expected true interactors, but there
+  might be more. 
+- What are the issues? What solutions would you suggest?
 
 <details>
-```{r bioiddata}
+```{r bioiddata, include = FALSE}
+library("MSnbase")
 e <- readMSnSet2("./data/bioid.csv", ecol = 1:6, fnames = "ids")
 e$grp <- sub("[1-3]", "", sampleNames(e))
-exprs(e)[exprs(e) == 0] <- NA
-e$nNA <- colSums(is.na(e))
-fData(e)$nNA <- rowSums(is.na(e))
-```
-
-```{r biodata2}
 sel1 <- fData(e)$Reverse == ""
 sel2 <- fData(e)$Potential.contaminant == ""
 e <- e[sel1 & sel2, ]
-fData(e) <- fData(e)[, c("pos", "ids", "nNA")] 
+fData(e) <- fData(e)[, c("pos", "ids")] 
 ```
 
-```{r biodata3}
+```{r bioideda, include = FALSE}
+limma::plotDensities(log2(exprs(e) + 1))
+exprs(e)[exprs(e) == 0] <- NA
+(e$nNA <- colSums(is.na(e)))
+fData(e)$nNA <- rowSums(is.na(e))
+table(fData(e)$nNA)
+table(is.na(e))
+sum(is.na(e))/prod(dim(e))
+naplot(e, col = c("black", "white"))
+```
+
+```{r biodata3, include = FALSE}
 e_norm <- e %>%
     log(base = 2) %>%
     normalise(method = "center.median")
-exprs(e_norm) <- exprs(e_norm) + 5 ## to remove negative values
+limma::plotMDS(exprs(e_norm))
+limma::plotDensities(exprs(e_norm))
 ```
 </details>
+
+### `proDA`: probabilistic dropout analysis
 
 We will now try the `proDA` package for *inference of protein
 differential abundance by probabilistic dropout analysis*
