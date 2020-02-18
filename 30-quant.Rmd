@@ -493,7 +493,7 @@ can be done with the `nNA` variable that we compute above
 
 Normalisation is handled by the `normalise` (or `normalize`) function.
 
-```{r norm}
+```{r norm, message = FALSE}
 library("limma")
 plotDensities(exprs(cptac))
 (cptac <- normalise(cptac, method = "quantiles"))
@@ -980,7 +980,7 @@ containing the significant peptides using the `ms2df` helper function,
 convert that wide format dataframe to a long format and visualise the
 expression distributions in each group.
 
-```{r de_peps_ggplot, warning = FALSE}
+```{r de_peps_ggplot, warning = FALSE, message = FALSE}
 library("magrittr")
 ms2df(cptac_sign) %>%
     tidyr::gather(key = sample, value = expression, 1:6) %>%
