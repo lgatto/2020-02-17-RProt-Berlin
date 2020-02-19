@@ -134,7 +134,7 @@ data can be imported with the `readMzTabData`
 function^[We specify version 0.9 (which generates the warning) to fit with the version of that file. For recent files, the `version` argument should be ignored to use the importer for the current file version 1.0.].
 
 
-```{r mztab}
+```{r mztab, eval = FALSE}
 mztf <- pxget(px, "F063721.dat-mztab.txt")
 (mzt <- readMzTabData(mztf, what = "PEP", version = "0.9"))
 ```
@@ -436,9 +436,7 @@ emphasis the presence of missing values in the proteins shown at the
 top and the samples shown towards the right.
 
 ```{r napac, fig.cap = "Overview of missing data"}
-napac <- cptac
-exprs(napac)[!is.na(exprs(napac))] <- 1
-naplot(napac)
+naplot(cptac, col = c("black", "white"))
 ```
 
 The following figure the proportions of features (peptides in this
@@ -1052,7 +1050,3 @@ fData(cptac_prot)$res %>%
 ```
 
 
-## Machine learning 
-
-If of interest, see [chapters 8, 9 and
-10](https://uclouvain-cbio.github.io/WSBIM1322/sec-mlintro.html).
