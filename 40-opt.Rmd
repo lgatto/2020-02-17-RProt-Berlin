@@ -49,7 +49,7 @@ Identify the most likely interactors of protein `X`.
 - What are the issues? What solutions would you suggest?
 
 <details>
-```{r bioiddata, include = FALSE}
+```{r bioiddata}
 library("MSnbase")
 e <- readMSnSet2("./data/bioid.csv", ecol = 1:6, fnames = "ids")
 e$grp <- sub("[1-3]", "", sampleNames(e))
@@ -59,7 +59,7 @@ e <- e[sel1 & sel2, ]
 fData(e) <- fData(e)[, c("pos", "ids")] 
 ```
 
-```{r bioideda, include = FALSE}
+```{r bioideda}
 limma::plotDensities(log2(exprs(e) + 1))
 exprs(e)[exprs(e) == 0] <- NA
 (e$nNA <- colSums(is.na(e)))
@@ -70,7 +70,7 @@ sum(is.na(e))/prod(dim(e))
 naplot(e, col = c("black", "white"))
 ```
 
-```{r biodata3, include = FALSE}
+```{r biodata3}
 e_norm <- e %>%
     log(base = 2) %>%
     normalise(method = "center.median")
