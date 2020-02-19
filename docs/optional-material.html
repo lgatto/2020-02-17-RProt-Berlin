@@ -212,15 +212,15 @@ differential abundance by probabilistic dropout analysis</em>
 (<a href="https://www.biorxiv.org/content/10.1101/661496v1">Ahlman-Eltze and Anders
 (2019)</a>) that
 explicity models missing values as lowly expressed features.</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"proDA"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb363-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"proDA"</span>)</a></code></pre></div>
 <p>Below, we first fit the model using the <code>grp</code> variable.</p>
-<div class="sourceCode" id="cb372"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb372-1" data-line-number="1">proDA_fit &lt;-<span class="st"> </span><span class="kw">proDA</span>(e_norm,</a>
-<a class="sourceLine" id="cb372-2" data-line-number="2">                   <span class="dt">design =</span> <span class="op">~</span><span class="st"> </span>grp,</a>
-<a class="sourceLine" id="cb372-3" data-line-number="3">                   <span class="dt">data_is_log_transformed =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb364"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb364-1" data-line-number="1">proDA_fit &lt;-<span class="st"> </span><span class="kw">proDA</span>(e_norm,</a>
+<a class="sourceLine" id="cb364-2" data-line-number="2">                   <span class="dt">design =</span> <span class="op">~</span><span class="st"> </span>grp,</a>
+<a class="sourceLine" id="cb364-3" data-line-number="3">                   <span class="dt">data_is_log_transformed =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <pre><code>## Warning in proDA(e_norm, design = ~grp, data_is_log_transformed = TRUE): The
 ## data contains a mix of 3 exact zeros and 1689 NA's. Will treat the zeros as
 ## valid input and not replace them with NA's.</code></pre>
-<div class="sourceCode" id="cb374"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb374-1" data-line-number="1">proDA_fit</a></code></pre></div>
+<div class="sourceCode" id="cb366"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb366-1" data-line-number="1">proDA_fit</a></code></pre></div>
 <pre><code>##  Parameters of the probabilistic dropout model
 ## 
 ## The dataset contains 6 samples and 671 proteins
@@ -240,14 +240,14 @@ explicity models missing values as lowly expressed features.</p>
 <p>Here we extract the contract of interest, setting the alternative to
 greater to perform a one-sided test (we are only interested in
 proteins with greater expression in the wild type),</p>
-<div class="sourceCode" id="cb376"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb376-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="kw">test_diff</span>(proDA_fit,</a>
-<a class="sourceLine" id="cb376-2" data-line-number="2">          <span class="dt">contrast =</span> <span class="st">"grpWT"</span>,</a>
-<a class="sourceLine" id="cb376-3" data-line-number="3">          <span class="dt">alternative =</span> <span class="st">"greater"</span>,</a>
-<a class="sourceLine" id="cb376-4" data-line-number="4">          <span class="dt">pval_adjust_method =</span> <span class="st">"BH"</span>)</a>
-<a class="sourceLine" id="cb376-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb376-6" data-line-number="6">res <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb376-7" data-line-number="7"><span class="st">    </span><span class="kw">arrange</span>(adj_pval) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb376-8" data-line-number="8"><span class="st">    </span><span class="kw">filter</span>(adj_pval <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb368"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb368-1" data-line-number="1">res &lt;-<span class="st"> </span><span class="kw">test_diff</span>(proDA_fit,</a>
+<a class="sourceLine" id="cb368-2" data-line-number="2">          <span class="dt">contrast =</span> <span class="st">"grpWT"</span>,</a>
+<a class="sourceLine" id="cb368-3" data-line-number="3">          <span class="dt">alternative =</span> <span class="st">"greater"</span>,</a>
+<a class="sourceLine" id="cb368-4" data-line-number="4">          <span class="dt">pval_adjust_method =</span> <span class="st">"BH"</span>)</a>
+<a class="sourceLine" id="cb368-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb368-6" data-line-number="6">res <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb368-7" data-line-number="7"><span class="st">    </span><span class="kw">arrange</span>(adj_pval) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb368-8" data-line-number="8"><span class="st">    </span><span class="kw">filter</span>(adj_pval <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</a></code></pre></div>
 <pre><code>##       name         pval   adj_pval     diff t_statistic        se df
 ## 1 P8706942 8.290037e-05 0.02781307 7.173387   13.671231 0.5247067  4
 ## 2 P6582309 7.634347e-05 0.02781307 5.927278   13.960778 0.4245665  4
@@ -262,18 +262,18 @@ proteins with greater expression in the wild type),</p>
 ## 5     1.9211433 3.811299     4</code></pre>
 <p>Below, we integrate the results in the <code>MSnSet</code> and visualise them
 using a volcano plot. We observe an enrichment in true positives.</p>
-<div class="sourceCode" id="cb378"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb378-1" data-line-number="1"><span class="kw">stopifnot</span>(<span class="kw">identical</span>(res<span class="op">$</span>name, <span class="kw">featureNames</span>(e_norm)))</a>
-<a class="sourceLine" id="cb378-2" data-line-number="2"><span class="kw">fData</span>(e_norm) &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">fData</span>(e_norm), res)</a>
-<a class="sourceLine" id="cb378-3" data-line-number="3"></a>
-<a class="sourceLine" id="cb378-4" data-line-number="4"><span class="kw">with</span>(<span class="kw">fData</span>(e_norm),</a>
-<a class="sourceLine" id="cb378-5" data-line-number="5">     <span class="kw">plot</span>(diff, <span class="op">-</span><span class="kw">log10</span>(adj_pval),</a>
-<a class="sourceLine" id="cb378-6" data-line-number="6">          <span class="dt">col =</span> <span class="kw">as.numeric</span>(pos) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))</a>
-<a class="sourceLine" id="cb378-7" data-line-number="7"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="kw">log10</span>(<span class="fl">0.05</span>))</a>
-<a class="sourceLine" id="cb378-8" data-line-number="8"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="kw">log10</span>(<span class="fl">0.1</span>), <span class="dt">lty =</span> <span class="st">"dotted"</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb370"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb370-1" data-line-number="1"><span class="kw">stopifnot</span>(<span class="kw">identical</span>(res<span class="op">$</span>name, <span class="kw">featureNames</span>(e_norm)))</a>
+<a class="sourceLine" id="cb370-2" data-line-number="2"><span class="kw">fData</span>(e_norm) &lt;-<span class="st"> </span><span class="kw">cbind</span>(<span class="kw">fData</span>(e_norm), res)</a>
+<a class="sourceLine" id="cb370-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb370-4" data-line-number="4"><span class="kw">with</span>(<span class="kw">fData</span>(e_norm),</a>
+<a class="sourceLine" id="cb370-5" data-line-number="5">     <span class="kw">plot</span>(diff, <span class="op">-</span><span class="kw">log10</span>(adj_pval),</a>
+<a class="sourceLine" id="cb370-6" data-line-number="6">          <span class="dt">col =</span> <span class="kw">as.numeric</span>(pos) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>))</a>
+<a class="sourceLine" id="cb370-7" data-line-number="7"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="kw">log10</span>(<span class="fl">0.05</span>))</a>
+<a class="sourceLine" id="cb370-8" data-line-number="8"><span class="kw">abline</span>(<span class="dt">h =</span> <span class="op">-</span><span class="kw">log10</span>(<span class="fl">0.1</span>), <span class="dt">lty =</span> <span class="st">"dotted"</span>)</a></code></pre></div>
 <p><img src="berlin_files/figure-html/prodares1-1.png" width="672"></p>
-<div class="sourceCode" id="cb379"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb379-1" data-line-number="1"><span class="kw">ms2df</span>(e_norm) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb379-2" data-line-number="2"><span class="st">    </span><span class="kw">arrange</span>(adj_pval) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb379-3" data-line-number="3"><span class="st">    </span><span class="kw">filter</span>(adj_pval <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb371-1" data-line-number="1"><span class="kw">ms2df</span>(e_norm) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb371-2" data-line-number="2"><span class="st">    </span><span class="kw">arrange</span>(adj_pval) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb371-3" data-line-number="3"><span class="st">    </span><span class="kw">filter</span>(adj_pval <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</a></code></pre></div>
 <pre><code>##        WT1      WT2      WT3       NEG1      NEG2     NEG3   pos      ids nNA
 ## 1 4.809723 4.843454 5.614666 -2.3246799 -1.978230       NA FALSE P8706942   1
 ## 2 8.886493 8.917121 9.096700  2.7715624  3.530842 2.837897  TRUE P6582309   0
@@ -292,8 +292,8 @@ using a volcano plot. We observe an enrichment in true positives.</p>
 ## 3     4.8914212 6.000000     6
 ## 4     0.9919089 4.074235     4
 ## 5     1.9211433 3.811299     4</code></pre>
-<div class="sourceCode" id="cb381"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb381-1" data-line-number="1"><span class="kw">table</span>(<span class="kw">fData</span>(e_norm)<span class="op">$</span>pos,</a>
-<a class="sourceLine" id="cb381-2" data-line-number="2">      <span class="kw">fData</span>(e_norm)<span class="op">$</span>nNA)</a></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb373-1" data-line-number="1"><span class="kw">table</span>(<span class="kw">fData</span>(e_norm)<span class="op">$</span>pos,</a>
+<a class="sourceLine" id="cb373-2" data-line-number="2">      <span class="kw">fData</span>(e_norm)<span class="op">$</span>nNA)</a></code></pre></div>
 <pre><code>##        
 ##           0   1   2   3   4   5
 ##   FALSE 176  70  73  78  99 165
