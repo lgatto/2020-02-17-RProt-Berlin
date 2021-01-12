@@ -14,14 +14,14 @@
 
 <meta name="author" content="Laurent Gatto" />
 
-<meta name="date" content="2020-02-19" />
+<meta name="date" content="2021-01-12" />
 
 <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   TeX: { equationNumbers: { autoNumber: "AMS" } }
 });
 </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_CHTML-full" type="text/javascript"></script>
 
 <meta name="description" content="Chapter 4 Identification data | R/Bioconductor for Mass Spectrometry and Proteomics">
 
@@ -51,66 +51,41 @@ if(f.classList.contains('fa-plus-square')) {
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
-
-code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
-}
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-    color: #aaaaaa;
-  }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
-div.sourceCode
-  { background-color: #f8f8f8; }
-@media screen {
-a.sourceLine::before { text-decoration: underline; }
-}
-code span.al { color: #ef2929; } /* Alert */
-code span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #c4a000; } /* Attribute */
-code span.bn { color: #0000cf; } /* BaseN */
-code span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4e9a06; } /* Char */
-code span.cn { color: #000000; } /* Constant */
-code span.co { color: #8f5902; font-style: italic; } /* Comment */
-code span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
-code span.dt { color: #204a87; } /* DataType */
-code span.dv { color: #0000cf; } /* DecVal */
-code span.er { color: #a40000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #0000cf; } /* Float */
-code span.fu { color: #000000; } /* Function */
-code span.im { } /* Import */
-code span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #204a87; font-weight: bold; } /* Keyword */
-code span.op { color: #ce5c00; font-weight: bold; } /* Operator */
-code span.ot { color: #8f5902; } /* Other */
-code span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
-code span.sc { color: #000000; } /* SpecialChar */
-code span.ss { color: #4e9a06; } /* SpecialString */
-code span.st { color: #4e9a06; } /* String */
-code span.va { color: #000000; } /* Variable */
-code span.vs { color: #4e9a06; } /* VerbatimString */
-code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; background-color: #f8f8f8; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+pre, code { background-color: #f8f8f8; }
+code > span.kw { color: #204a87; font-weight: bold; } /* Keyword */
+code > span.dt { color: #204a87; } /* DataType */
+code > span.dv { color: #0000cf; } /* DecVal */
+code > span.bn { color: #0000cf; } /* BaseN */
+code > span.fl { color: #0000cf; } /* Float */
+code > span.ch { color: #4e9a06; } /* Char */
+code > span.st { color: #4e9a06; } /* String */
+code > span.co { color: #8f5902; font-style: italic; } /* Comment */
+code > span.ot { color: #8f5902; } /* Other */
+code > span.al { color: #ef2929; } /* Alert */
+code > span.fu { color: #000000; } /* Function */
+code > span.er { color: #a40000; font-weight: bold; } /* Error */
+code > span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #000000; } /* Constant */
+code > span.sc { color: #000000; } /* SpecialChar */
+code > span.vs { color: #4e9a06; } /* VerbatimString */
+code > span.ss { color: #4e9a06; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #000000; } /* Variable */
+code > span.cf { color: #204a87; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #ce5c00; font-weight: bold; } /* Operator */
+code > span.pp { color: #8f5902; font-style: italic; } /* Preprocessor */
+code > span.ex { } /* Extension */
+code > span.at { color: #c4a000; } /* Attribute */
+code > span.do { color: #8f5902; font-weight: bold; font-style: italic; } /* Documentation */
+code > span.an { color: #8f5902; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #8f5902; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #8f5902; font-weight: bold; font-style: italic; } /* Information */
 </style>
 
 
@@ -160,15 +135,13 @@ code span.wa { color: #8f5902; font-weight: bold; font-style: italic; } /* Warni
 <div id="identification-data.frame" class="section level2">
 <h2>
 <span class="header-section-number">4.1</span> Identification data.frame</h2>
-<p>Let’s use the identification from from <code>msdata</code>:</p>
-<div class="sourceCode" id="cb113"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb113-1" data-line-number="1">idf &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw">ident</span>(<span class="dt">full.names =</span> <span class="ot">TRUE</span>)</a>
-<a class="sourceLine" id="cb113-2" data-line-number="2"><span class="kw">basename</span>(idf)</a></code></pre></div>
+<p>Let's use the identification from from <code>msdata</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">idf &lt;-<span class="st"> </span>msdata<span class="op">::</span><span class="kw">ident</span>(<span class="dt">full.names =</span> <span class="ot">TRUE</span>)
+<span class="kw">basename</span>(idf)</code></pre></div>
 <pre><code>## [1] "TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</code></pre>
-<p>The easiest way to read identification data in <code>mzIdentML</code> (often
-abbreviated with <code>mzid</code>) into R is to read it with <code>readMzIdData</code>,
-that will parse it, process it, and return a <code>data.frame</code>:</p>
-<div class="sourceCode" id="cb115"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb115-1" data-line-number="1">iddf &lt;-<span class="st"> </span><span class="kw">readMzIdData</span>(idf)</a>
-<a class="sourceLine" id="cb115-2" data-line-number="2"><span class="kw">head</span>(iddf)</a></code></pre></div>
+<p>The easiest way to read identification data in <code>mzIdentML</code> (often abbreviated with <code>mzid</code>) into R is to read it with <code>readMzIdData</code>, that will parse it, process it, and return a <code>data.frame</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iddf &lt;-<span class="st"> </span><span class="kw">readMzIdData</span>(idf)
+<span class="kw">head</span>(iddf)</code></pre></div>
 <pre><code>##                    sequence                                    spectrumID
 ## 1              RQCRTDFLNYLR controllerType=0 controllerNumber=1 scan=2949
 ## 2    ESVALADQVTCVDWRNRKATKK controllerType=0 controllerNumber=1 scan=6534
@@ -183,20 +156,20 @@ that will parse it, process it, and return a <code>data.frame</code>:</p>
 ## 4           3    1          TRUE                 913.1642
 ## 5           3    1          TRUE                 926.8102
 ## 6           3    1          TRUE                 969.1943
-##   calculatedMassToCharge modNum isDecoy post pre start end DatabaseAccess
-## 1               547.9474      1   FALSE    V   R   574 585        ECA2006
-## 2              1288.1741      1   FALSE    G   R    69  90        ECA1676
-## 3               744.4255      1    TRUE    Q   R   131 142    XXX_ECA2855
-## 4               912.8134      1   FALSE    D   R   182 203        ECA3009
-## 5               926.4713      1    TRUE    R   R   135 158    XXX_ECA0048
-## 6               968.8557      1   FALSE    S   K   310 334        ECA1420
-##   DBseqLength DatabaseSeq
-## 1        1295            
-## 2         110            
-## 3         157            
-## 4         437            
-## 5         501            
-## 6         477            
+##   calculatedMassToCharge peptideRef modNum isDecoy post pre start end
+## 1               547.9474      Pep77      1   FALSE    V   R   574 585
+## 2              1288.1741     Pep108      1   FALSE    G   R    69  90
+## 3               744.4255     Pep136      1    TRUE    Q   R   131 142
+## 4               912.8134     Pep163      1   FALSE    D   R   182 203
+## 5               926.4713     Pep169      1    TRUE    R   R   135 158
+## 6               968.8557     Pep206      1   FALSE    S   K   310 334
+##   DatabaseAccess DBseqLength DatabaseSeq
+## 1        ECA2006        1295            
+## 2        ECA1676         110            
+## 3    XXX_ECA2855         157            
+## 4        ECA3009         437            
+## 5    XXX_ECA0048         501            
+## 6        ECA1420         477            
 ##                                          DatabaseDescription scan.number.s.
 ## 1                             ECA2006 ATP-dependent helicase           2949
 ## 2                 ECA1676 putative growth inhibitory protein           6534
@@ -232,74 +205,64 @@ that will parse it, process it, and return a <code>data.frame</code>:</p>
 ## 4             -5               160     1.270731e-07    0.3655833    0.7169811
 ## 5              8               241     1.318240e-07    0.3794606    0.7363637
 ## 6              7               214     1.722033e-07    0.4958171    0.8370370
-##   MS.GF.PepQValue         modName  modMass modLocation subOriginalResidue
-## 1       0.5490196 Carbamidomethyl 57.02146           3               &lt;NA&gt;
-## 2       0.6231884 Carbamidomethyl 57.02146          11               &lt;NA&gt;
-## 3       0.6363636 Carbamidomethyl 57.02146           5               &lt;NA&gt;
-## 4       0.7244898 Carbamidomethyl 57.02146          20               &lt;NA&gt;
-## 5       0.7450980 Carbamidomethyl 57.02146          20               &lt;NA&gt;
-## 6       0.8560000 Carbamidomethyl 57.02146          21               &lt;NA&gt;
-##   subReplacementResidue subLocation
-## 1                  &lt;NA&gt;          NA
-## 2                  &lt;NA&gt;          NA
-## 3                  &lt;NA&gt;          NA
-## 4                  &lt;NA&gt;          NA
-## 5                  &lt;NA&gt;          NA
-## 6                  &lt;NA&gt;          NA</code></pre>
-<p>When adding identification data with the <code>addIdentificationData</code>
-function (as shown below), the data is first read with <code>readMzIdData</code>,
-and is then cleaned up:</p>
+##   MS.GF.PepQValue modPeptideRef         modName  modMass modLocation
+## 1       0.5490196         Pep77 Carbamidomethyl 57.02146           3
+## 2       0.6231884        Pep108 Carbamidomethyl 57.02146          11
+## 3       0.6363636        Pep136 Carbamidomethyl 57.02146           5
+## 4       0.7244898        Pep163 Carbamidomethyl 57.02146          20
+## 5       0.7450980        Pep169 Carbamidomethyl 57.02146          20
+## 6       0.8560000        Pep206 Carbamidomethyl 57.02146          21
+##   subOriginalResidue subReplacementResidue subLocation
+## 1               &lt;NA&gt;                  &lt;NA&gt;          NA
+## 2               &lt;NA&gt;                  &lt;NA&gt;          NA
+## 3               &lt;NA&gt;                  &lt;NA&gt;          NA
+## 4               &lt;NA&gt;                  &lt;NA&gt;          NA
+## 5               &lt;NA&gt;                  &lt;NA&gt;          NA
+## 6               &lt;NA&gt;                  &lt;NA&gt;          NA</code></pre>
+<p>When adding identification data with the <code>addIdentificationData</code> function (as shown below), the data is first read with <code>readMzIdData</code>, and is then cleaned up:</p>
 <ul>
 <li>only PSMs matching the regular (non-decoy) database are retained;</li>
 <li>PSMs or rank greater than 1 are discarded;</li>
-<li>only proteotypic peptides are kept, i.e. those that match to a
-unique peptide.</li>
+<li>only proteotypic peptides are kept, i.e. those that match to a unique peptide.</li>
 </ul>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="co">## at this stage, we still have all the PSMs</span></a>
-<a class="sourceLine" id="cb117-2" data-line-number="2"><span class="kw">table</span>(iddf<span class="op">$</span>isDecoy)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">## at this stage, we still have all the PSMs
+<span class="kw">table</span>(iddf<span class="op">$</span>isDecoy)</code></pre></div>
 <pre><code>## 
 ## FALSE  TRUE 
 ##  2906  2896</code></pre>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1"><span class="kw">table</span>(iddf<span class="op">$</span>rank)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(iddf<span class="op">$</span>rank)</code></pre></div>
 <pre><code>## 
 ##    1    2    3    4 
 ## 5487  302   12    1</code></pre>
 <div id="exercise-5" class="section level3 unnumbered">
 <h3>Exercise</h3>
-<p>This behaviour can be replicates with the
-<code>filterIdentificationDataFrame</code> function. Try it out for yourself.</p>
-<details><div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1">iddf2 &lt;-<span class="st"> </span><span class="kw">filterIdentificationDataFrame</span>(iddf)</a>
-<a class="sourceLine" id="cb121-2" data-line-number="2"><span class="kw">table</span>(iddf2<span class="op">$</span>isDecoy)</a></code></pre></div>
+<p>This behaviour can be replicates with the <code>filterIdentificationDataFrame</code> function. Try it out for yourself.</p>
+<p><details></details></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iddf2 &lt;-<span class="st"> </span><span class="kw">filterIdentificationDataFrame</span>(iddf)
+<span class="kw">table</span>(iddf2<span class="op">$</span>isDecoy)</code></pre></div>
 <pre><code>## 
 ## FALSE 
 ##  2710</code></pre>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1"><span class="kw">table</span>(iddf2<span class="op">$</span>rank)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(iddf2<span class="op">$</span>rank)</code></pre></div>
 <pre><code>## 
 ##    1 
 ## 2710</code></pre>
-</details>
+<p></p>
 </div>
 <div id="exercise-6" class="section level3 unnumbered">
 <h3>Exercise</h3>
-<p>The <em><a href="https://CRAN.R-project.org/package=tidyverse">tidyverse</a></em>
-tools are fit for data wrangling with identification data. Using the
-above identification dataframe, calculate the length of each peptide
-(you can use <code>nchar</code> with the peptide sequence <code>sequence</code>) and the
-number of peptides for each protein (defined as
-<code>DatabaseDescription</code>). Plot the length of the proteins against their
-respective number of peptides. Optionally, stratify the plot by the
-peptide e-value score (<code>MS.GF.EValue</code>) using for example <code>cut</code> to
-define bins.</p>
-<details><div class="sourceCode" id="cb125"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb125-1" data-line-number="1"><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(<span class="st">"dplyr"</span>))</a>
-<a class="sourceLine" id="cb125-2" data-line-number="2">iddf2 &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(iddf2) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb125-3" data-line-number="3"><span class="st">    </span><span class="kw">mutate</span>(<span class="dt">peplen =</span> <span class="kw">nchar</span>(sequence))</a>
-<a class="sourceLine" id="cb125-4" data-line-number="4">npeps &lt;-<span class="st"> </span>iddf2 <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb125-5" data-line-number="5"><span class="st">    </span><span class="kw">group_by</span>(DatabaseDescription) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb125-6" data-line-number="6"><span class="st">    </span>tally</a>
-<a class="sourceLine" id="cb125-7" data-line-number="7">iddf2 &lt;-<span class="st"> </span><span class="kw">full_join</span>(iddf2, npeps)</a></code></pre></div>
+<p>The <em><a href="https://CRAN.R-project.org/package=tidyverse">tidyverse</a></em> tools are fit for data wrangling with identification data. Using the above identification dataframe, calculate the length of each peptide (you can use <code>nchar</code> with the peptide sequence <code>sequence</code>) and the number of peptides for each protein (defined as <code>DatabaseDescription</code>). Plot the length of the proteins against their respective number of peptides. Optionally, stratify the plot by the peptide e-value score (<code>MS.GF.EValue</code>) using for example <code>cut</code> to define bins.</p>
+<p><details></details></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">suppressPackageStartupMessages</span>(<span class="kw">library</span>(<span class="st">"dplyr"</span>))
+iddf2 &lt;-<span class="st"> </span><span class="kw">as_tibble</span>(iddf2) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">mutate</span>(<span class="dt">peplen =</span> <span class="kw">nchar</span>(sequence))
+npeps &lt;-<span class="st"> </span>iddf2 <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw">group_by</span>(DatabaseDescription) <span class="op">%&gt;%</span>
+<span class="st">    </span>tally
+iddf2 &lt;-<span class="st"> </span><span class="kw">full_join</span>(iddf2, npeps)</code></pre></div>
 <pre><code>## Joining, by = "DatabaseDescription"</code></pre>
-<div class="sourceCode" id="cb127"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb127-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"ggplot2"</span>)</a>
-<a class="sourceLine" id="cb127-2" data-line-number="2"><span class="kw">ggplot</span>(iddf2, <span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> DBseqLength)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"ggplot2"</span>)
+<span class="kw">ggplot</span>(iddf2, <span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> DBseqLength)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>()</code></pre></div>
 <div class="figure">
 <span id="fig:answid1"></span>
 <p class="caption marginnote shownote">
@@ -307,10 +270,10 @@ Figure 4.1: Identifcation data wrangling 1
 </p>
 <img src="berlin_files/figure-html/answid1-1.png" alt="Identifcation data wrangling 1" width="672">
 </div>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1">iddf2<span class="op">$</span>evalBins &lt;-<span class="st"> </span><span class="kw">cut</span>(iddf2<span class="op">$</span>MS.GF.EValue, <span class="kw">summary</span>(iddf2<span class="op">$</span>MS.GF.EValue))</a>
-<a class="sourceLine" id="cb128-2" data-line-number="2"><span class="kw">ggplot</span>(iddf2, <span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> DBseqLength, <span class="dt">color =</span> peplen)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb128-3" data-line-number="3"><span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb128-4" data-line-number="4"><span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>evalBins)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">iddf2<span class="op">$</span>evalBins &lt;-<span class="st"> </span><span class="kw">cut</span>(iddf2<span class="op">$</span>MS.GF.EValue, <span class="kw">summary</span>(iddf2<span class="op">$</span>MS.GF.EValue))
+<span class="kw">ggplot</span>(iddf2, <span class="kw">aes</span>(<span class="dt">x =</span> n, <span class="dt">y =</span> DBseqLength, <span class="dt">color =</span> peplen)) <span class="op">+</span>
+<span class="st">    </span><span class="kw">geom_point</span>() <span class="op">+</span>
+<span class="st">    </span><span class="kw">facet_wrap</span>(<span class="op">~</span><span class="st"> </span>evalBins)</code></pre></div>
 <div class="figure">
 <span id="fig:answid2"></span>
 <p class="caption marginnote shownote">
@@ -318,20 +281,16 @@ Figure 4.2: Identifcation data wrangling 2
 </p>
 <img src="berlin_files/figure-html/answid2-1.png" alt="Identifcation data wrangling 2" width="672">
 </div>
-</details>
+<p></p>
 </div>
 </div>
 <div id="low-level-access-to-id-data" class="section level2">
 <h2>
 <span class="header-section-number">4.2</span> Low level access to id data</h2>
-<p>There are two packages that can be used to parse <code>mzIdentML</code> files,
-namely <code>mzR</code> (that we have already used for raw data) and <code>mzID</code>. The
-major difference is that the former leverages C++ code from
-<code>proteowizard</code> and is hence faster than the latter (which uses the
-<code>XML</code> R package). They both work in similar ways.</p>
+<p>There are two packages that can be used to parse <code>mzIdentML</code> files, namely <code>mzR</code> (that we have already used for raw data) and <code>mzID</code>. The major difference is that the former leverages C++ code from <code>proteowizard</code> and is hence faster than the latter (which uses the <code>XML</code> R package). They both work in similar ways.</p>
 <table>
 <thead><tr class="header">
-<th></th>
+<th align="left"></th>
 <th align="left">Data type</th>
 <th align="left">File format</th>
 <th align="left">Data structure</th>
@@ -339,14 +298,14 @@ major difference is that the former leverages C++ code from
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>4</td>
+<td align="left">4</td>
 <td align="left">Identification</td>
 <td align="left">mzIdentML</td>
 <td align="left">mzRident</td>
 <td align="left">mzR</td>
 </tr>
 <tr class="even">
-<td>5</td>
+<td align="left">5</td>
 <td align="left">Identification</td>
 <td align="left">mzIdentML</td>
 <td align="left">mzID</td>
@@ -358,19 +317,18 @@ major difference is that the former leverages C++ code from
 <h3>
 <span class="header-section-number">4.2.1</span> <code>mzID</code>
 </h3>
-<p>The main functions are <code>mzID</code> to read the data into a dedicated data
-class and <code>flatten</code> to transform it into a <code>data.frame</code>.</p>
-<div class="sourceCode" id="cb129"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb129-1" data-line-number="1">idf</a></code></pre></div>
-<pre><code>## [1] "/home/lgatto/R/x86_64-pc-linux-gnu-library/3.6/msdata/ident/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</code></pre>
-<div class="sourceCode" id="cb131"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb131-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"mzID"</span>)</a></code></pre></div>
+<p>The main functions are <code>mzID</code> to read the data into a dedicated data class and <code>flatten</code> to transform it into a <code>data.frame</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">idf</code></pre></div>
+<pre><code>## [1] "/home/lgatto/R/x86_64-pc-linux-gnu-library/4.0/msdata/ident/TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid"</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"mzID"</span>)</code></pre></div>
 <pre><code>## 
 ## Attaching package: 'mzID'</code></pre>
 <pre><code>## The following object is masked from 'package:dplyr':
 ## 
 ##     id</code></pre>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1">id &lt;-<span class="st"> </span><span class="kw">mzID</span>(idf)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">id &lt;-<span class="st"> </span><span class="kw">mzID</span>(idf)</code></pre></div>
 <pre><code>## reading TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid... DONE!</code></pre>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1">id</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">id</code></pre></div>
 <pre><code>## An mzID object
 ## 
 ## Software used:   MS-GF+ (version: Beta (v10072))
@@ -381,11 +339,8 @@ class and <code>flatten</code> to transform it into a <code>data.frame</code>.</
 ## 
 ## Number of scans: 5343
 ## Number of PSM's: 5656</code></pre>
-<p>Various data can be extracted from the <code>mzID</code> object, using one the
-accessor functions such as <code>database</code>, <code>software</code>, <code>scans</code>, <code>peptides</code>,
-… The object can also be converted into a <code>data.frame</code> using the
-<code>flatten</code> function.</p>
-<div class="sourceCode" id="cb138"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb138-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">flatten</span>(id))</a></code></pre></div>
+<p>Various data can be extracted from the <code>mzID</code> object, using one the accessor functions such as <code>database</code>, <code>software</code>, <code>scans</code>, <code>peptides</code>, ... The object can also be converted into a <code>data.frame</code> using the <code>flatten</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">flatten</span>(id))</code></pre></div>
 <pre><code>##                                      spectrumid scan number(s) acquisitionnum
 ## 1 controllerType=0 controllerNumber=1 scan=5782           5782           5782
 ## 2 controllerType=0 controllerNumber=1 scan=6037           6037           6037
@@ -461,23 +416,18 @@ accessor functions such as <code>database</code>, <code>software</code>, <code>s
 <h3>
 <span class="header-section-number">4.2.2</span> <code>mzR</code>
 </h3>
-<p>The <code>mzR</code> interface provides a similar interface. It is however much
-faster as it does not read all the data into memory and only extracts
-relevant data on demand. It has also accessor functions such as
-<code>softwareInfo</code>, <code>mzidInfo</code>, … (use <code>showMethods(classes = "mzRident", where = "package:mzR")</code>)
-to see all available methods.</p>
-<div class="sourceCode" id="cb140"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb140-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"mzR"</span>)</a>
-<a class="sourceLine" id="cb140-2" data-line-number="2">id2 &lt;-<span class="st"> </span><span class="kw">openIDfile</span>(idf)</a>
-<a class="sourceLine" id="cb140-3" data-line-number="3">id2</a></code></pre></div>
+<p>The <code>mzR</code> interface provides a similar interface. It is however much faster as it does not read all the data into memory and only extracts relevant data on demand. It has also accessor functions such as <code>softwareInfo</code>, <code>mzidInfo</code>, ... (use <code>showMethods(classes = "mzRident", where = "package:mzR")</code>) to see all available methods.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"mzR"</span>)
+id2 &lt;-<span class="st"> </span><span class="kw">openIDfile</span>(idf)
+id2</code></pre></div>
 <pre><code>## Identification file handle.
 ## Filename:  TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzid 
 ## Number of psms:  5759</code></pre>
-<div class="sourceCode" id="cb142"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb142-1" data-line-number="1"><span class="kw">softwareInfo</span>(id2)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">softwareInfo</span>(id2)</code></pre></div>
 <pre><code>## [1] "MS-GF+ Beta (v10072) "                      
 ## [2] "ProteoWizard MzIdentML 3.0.501 ProteoWizard"</code></pre>
-<p>The identification data can be accessed as a <code>data.frame</code> with the
-<code>psms</code> accessor.</p>
-<div class="sourceCode" id="cb144"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb144-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">psms</span>(id2))</a></code></pre></div>
+<p>The identification data can be accessed as a <code>data.frame</code> with the <code>psms</code> accessor.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">psms</span>(id2))</code></pre></div>
 <pre><code>##                                      spectrumID chargeState rank passThreshold
 ## 1 controllerType=0 controllerNumber=1 scan=5782           3    1          TRUE
 ## 2 controllerType=0 controllerNumber=1 scan=6037           3    1          TRUE
@@ -492,20 +442,20 @@ to see all available methods.</p>
 ## 4                 960.5365               960.5365
 ## 5                1264.3409              1264.3419
 ## 6                1268.6429              1268.6501
-##                              sequence modNum isDecoy post pre start end
-## 1 PVQIQAGEDSNVIGALGGAVLGGFLGNTIGGGSGR      0   FALSE    S   R    50  84
-## 2        TQVLDGLINANDIEVPVALIDGEIDVLR      0   FALSE    R   K   288 315
-## 3   TKGLNVMQNLLTAHPDVQAVFAQNDEMALGALR      0   FALSE    A   R   192 224
-## 4         SQILQQAGTSVLSQANQVPQTVLSLLR      0   FALSE    -   R   264 290
-## 5 PIIGDNPFVVVLPDVVLDESTADQTQENLALLISR      0   FALSE    F   R   119 153
-## 6             WTSQSSLDLGEPLSLITESVFAR      0   FALSE    Y   K   264 286
-##   DatabaseAccess DBseqLength DatabaseSeq
-## 1        ECA1932         155            
-## 2        ECA1147         434            
-## 3        ECA0013         295            
-## 4        ECA1731         290            
-## 5        ECA1443         298            
-## 6        ECA1444         468            
+##                              sequence peptideRef modNum isDecoy post pre start
+## 1 PVQIQAGEDSNVIGALGGAVLGGFLGNTIGGGSGR       Pep1      0   FALSE    S   R    50
+## 2        TQVLDGLINANDIEVPVALIDGEIDVLR       Pep2      0   FALSE    R   K   288
+## 3   TKGLNVMQNLLTAHPDVQAVFAQNDEMALGALR       Pep3      0   FALSE    A   R   192
+## 4         SQILQQAGTSVLSQANQVPQTVLSLLR       Pep4      0   FALSE    -   R   264
+## 5 PIIGDNPFVVVLPDVVLDESTADQTQENLALLISR       Pep5      0   FALSE    F   R   119
+## 6             WTSQSSLDLGEPLSLITESVFAR       Pep6      0   FALSE    Y   K   264
+##   end DatabaseAccess DBseqLength DatabaseSeq
+## 1  84        ECA1932         155            
+## 2 315        ECA1147         434            
+## 3 224        ECA0013         295            
+## 4 290        ECA1731         290            
+## 5 153        ECA1443         298            
+## 6 286        ECA1444         468            
 ##                                         DatabaseDescription scan.number.s.
 ## 1                        ECA1932 outer membrane lipoprotein           5782
 ## 2                                    ECA1147 trigger factor           6037
@@ -526,44 +476,43 @@ to see all available methods.</p>
 <h2>
 <span class="header-section-number">4.3</span> Adding identification data to raw data</h2>
 <p>Here are two matching raw and identification data files:</p>
-<div class="sourceCode" id="cb146"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb146-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"MSnbase"</span>)</a>
-<a class="sourceLine" id="cb146-2" data-line-number="2"><span class="co">## find path to a mzXML file</span></a>
-<a class="sourceLine" id="cb146-3" data-line-number="3">rwf &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"MSnbase"</span>, <span class="dt">dir =</span> <span class="st">"extdata"</span>),</a>
-<a class="sourceLine" id="cb146-4" data-line-number="4">           <span class="dt">full.name =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">"mzXML$"</span>)</a>
-<a class="sourceLine" id="cb146-5" data-line-number="5"><span class="co">## find path to a mzIdentML file</span></a>
-<a class="sourceLine" id="cb146-6" data-line-number="6">idf &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"MSnbase"</span>, <span class="dt">dir =</span> <span class="st">"extdata"</span>),</a>
-<a class="sourceLine" id="cb146-7" data-line-number="7">           <span class="dt">full.name =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">"dummyiTRAQ.mzid"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"MSnbase"</span>)
+## find path to a mzXML file
+rwf &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"MSnbase"</span>, <span class="dt">dir =</span> <span class="st">"extdata"</span>),
+           <span class="dt">full.name =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">"mzXML$"</span>)
+## find path to a mzIdentML file
+idf &lt;-<span class="st"> </span><span class="kw">dir</span>(<span class="kw">system.file</span>(<span class="dt">package =</span> <span class="st">"MSnbase"</span>, <span class="dt">dir =</span> <span class="st">"extdata"</span>),
+           <span class="dt">full.name =</span> <span class="ot">TRUE</span>, <span class="dt">pattern =</span> <span class="st">"dummyiTRAQ.mzid"</span>)</code></pre></div>
 <p>We first create the raw data object:</p>
-<div class="sourceCode" id="cb147"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb147-1" data-line-number="1">msexp &lt;-<span class="st"> </span><span class="kw">readMSData</span>(rwf, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb147-2" data-line-number="2"><span class="kw">head</span>(<span class="kw">fData</span>(msexp))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">msexp &lt;-<span class="st"> </span><span class="kw">readMSData</span>(rwf, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
+<span class="kw">head</span>(<span class="kw">fData</span>(msexp))</code></pre></div>
 <pre><code>##       spectrum
 ## F1.S1        1
 ## F1.S2        2
 ## F1.S3        3
 ## F1.S4        4
 ## F1.S5        5</code></pre>
-<p>The simply add identification data. The matching of spectra from the
-raw data and the PSMs from the identification data is done internally.</p>
-<div class="sourceCode" id="cb149"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb149-1" data-line-number="1">msexp &lt;-<span class="st"> </span><span class="kw">addIdentificationData</span>(msexp, idf)</a>
-<a class="sourceLine" id="cb149-2" data-line-number="2"><span class="kw">head</span>(<span class="kw">fData</span>(msexp))</a></code></pre></div>
+<p>The simply add identification data. The matching of spectra from the raw data and the PSMs from the identification data is done internally.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">msexp &lt;-<span class="st"> </span><span class="kw">addIdentificationData</span>(msexp, idf)
+<span class="kw">head</span>(<span class="kw">fData</span>(msexp))</code></pre></div>
 <pre><code>##       spectrum acquisition.number          sequence chargeState rank
 ## F1.S1        1                  1 VESITARHGEVLQLRPK           3    1
 ## F1.S2        2                  2     IDGQWVTHQWLKK           3    1
 ## F1.S3        3                  3              &lt;NA&gt;          NA   NA
 ## F1.S4        4                  4              &lt;NA&gt;          NA   NA
 ## F1.S5        5                  5           LVILLFR           2    1
-##       passThreshold experimentalMassToCharge calculatedMassToCharge modNum
-## F1.S1          TRUE                 645.3741               645.0375      0
-## F1.S2          TRUE                 546.9586               546.9633      0
-## F1.S3            NA                       NA                     NA     NA
-## F1.S4            NA                       NA                     NA     NA
-## F1.S5          TRUE                 437.8040               437.2997      0
-##       isDecoy post  pre start end DatabaseAccess DBseqLength DatabaseSeq
-## F1.S1   FALSE    A    R   170 186        ECA0984         231            
-## F1.S2   FALSE    A    K    50  62        ECA1028         275            
-## F1.S3      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
-## F1.S4      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
-## F1.S5   FALSE    L    K    22  28        ECA0510         166            
+##       passThreshold experimentalMassToCharge calculatedMassToCharge peptideRef
+## F1.S1          TRUE                 645.3741               645.0375       Pep2
+## F1.S2          TRUE                 546.9586               546.9633       Pep1
+## F1.S3            NA                       NA                     NA       &lt;NA&gt;
+## F1.S4            NA                       NA                     NA       &lt;NA&gt;
+## F1.S5          TRUE                 437.8040               437.2997       Pep4
+##       modNum isDecoy post  pre start end DatabaseAccess DBseqLength DatabaseSeq
+## F1.S1      0   FALSE    A    R   170 186        ECA0984         231            
+## F1.S2      0   FALSE    A    K    50  62        ECA1028         275            
+## F1.S3     NA      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
+## F1.S4     NA      NA &lt;NA&gt; &lt;NA&gt;    NA  NA           &lt;NA&gt;          NA        &lt;NA&gt;
+## F1.S5      0   FALSE    L    K    22  28        ECA0510         166            
 ##                                                              DatabaseDescription
 ## F1.S1                                        ECA0984 DNA mismatch repair protein
 ## F1.S2 ECA1028 2,3,4,5-tetrahydropyridine-2,6-dicarboxylate N-succinyltransferase
@@ -576,12 +525,12 @@ raw data and the PSMs from the identification data is done internally.</p>
 ## F1.S3             NA            &lt;NA&gt;             NA                NA
 ## F1.S4             NA            &lt;NA&gt;             NA                NA
 ## F1.S5              5 dummyiTRAQ.mzid            -42                 5
-##       MS.GF.SpecEValue MS.GF.EValue modName modMass modLocation
-## F1.S1     5.527468e-05     79.36958    &lt;NA&gt;      NA          NA
-## F1.S2     9.399048e-06     13.46615    &lt;NA&gt;      NA          NA
-## F1.S3               NA           NA    &lt;NA&gt;      NA          NA
-## F1.S4               NA           NA    &lt;NA&gt;      NA          NA
-## F1.S5     2.577830e-04    366.38422    &lt;NA&gt;      NA          NA
+##       MS.GF.SpecEValue MS.GF.EValue modPeptideRef modName modMass modLocation
+## F1.S1     5.527468e-05     79.36958          &lt;NA&gt;    &lt;NA&gt;      NA          NA
+## F1.S2     9.399048e-06     13.46615          &lt;NA&gt;    &lt;NA&gt;      NA          NA
+## F1.S3               NA           NA          &lt;NA&gt;    &lt;NA&gt;      NA          NA
+## F1.S4               NA           NA          &lt;NA&gt;    &lt;NA&gt;      NA          NA
+## F1.S5     2.577830e-04    366.38422          &lt;NA&gt;    &lt;NA&gt;      NA          NA
 ##       subOriginalResidue subReplacementResidue subLocation nprot npep.prot
 ## F1.S1               &lt;NA&gt;                  &lt;NA&gt;          NA     1         1
 ## F1.S2               &lt;NA&gt;                  &lt;NA&gt;          NA     1         1
@@ -598,26 +547,20 @@ raw data and the PSMs from the identification data is done internally.</p>
 <div id="msms-database-search" class="section level2">
 <h2>
 <span class="header-section-number">4.4</span> MS/MS database search</h2>
-<p>While searches are generally performed using third-party software
-independently of R or can be started from R using a <code>system</code> call, the
-<em><a href="https://bioconductor.org/packages/3.10/MSGFplus">MSGFplus</a></em> package enables to perform a search using the
-MSGF+ engine, as illustrated below.</p>
-<p>We search the
-<code>TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz</code>
-file against the fasta file from <code>PXD000001</code> using <code>MSGFplus</code>.</p>
+<p>While searches are generally performed using third-party software independently of R or can be started from R using a <code>system</code> call, the <em><a href="https://bioconductor.org/packages/3.12/MSGFplus">MSGFplus</a></em> package enables to perform a search using the MSGF+ engine, as illustrated below.</p>
+<p>We search the <code>TMT_Erwinia_1uLSike_Top10HCD_isol2_45stepped_60min_01-20141210.mzML.gz</code> file against the fasta file from <code>PXD000001</code> using <code>MSGFplus</code>.</p>
 <p>We first download the fasta files from ProteomeXchange:</p>
-<div class="sourceCode" id="cb151"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb151-1" data-line-number="1">fas &lt;-<span class="st"> </span><span class="kw">pxget</span>(px, <span class="st">"erwinia_carotovora.fasta"</span>)</a>
-<a class="sourceLine" id="cb151-2" data-line-number="2"><span class="kw">basename</span>(fas)</a></code></pre></div>
-<p>Below, we setup and run the
-search<label for="tufte-sn-3" class="margin-toggle sidenote-number">3</label><input type="checkbox" id="tufte-sn-3" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">3</span> In the <code>runMSGF</code> call, the memory allocated to the java virtual machine is limited to 1GB. In general, there is no need to specify this argument, unless you experience an error regarding the <em>maximum heap size</em>.</span>.</p>
-<div class="sourceCode" id="cb152"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb152-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"MSGFplus"</span>)</a>
-<a class="sourceLine" id="cb152-2" data-line-number="2">msgfpar &lt;-<span class="st"> </span><span class="kw">msgfPar</span>(<span class="dt">database =</span> fas,</a>
-<a class="sourceLine" id="cb152-3" data-line-number="3">                   <span class="dt">instrument =</span> <span class="st">'HighRes'</span>,</a>
-<a class="sourceLine" id="cb152-4" data-line-number="4">                   <span class="dt">tda =</span> <span class="ot">TRUE</span>,</a>
-<a class="sourceLine" id="cb152-5" data-line-number="5">                   <span class="dt">enzyme =</span> <span class="st">'Trypsin'</span>,</a>
-<a class="sourceLine" id="cb152-6" data-line-number="6">                   <span class="dt">protocol =</span> <span class="st">'iTRAQ'</span>)</a>
-<a class="sourceLine" id="cb152-7" data-line-number="7">idres &lt;-<span class="st"> </span><span class="kw">runMSGF</span>(msgfpar, mzf, <span class="dt">memory=</span><span class="dv">1000</span>)</a>
-<a class="sourceLine" id="cb152-8" data-line-number="8">idres</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fas &lt;-<span class="st"> </span><span class="kw">pxget</span>(px, <span class="st">"erwinia_carotovora.fasta"</span>)
+<span class="kw">basename</span>(fas)</code></pre></div>
+<p>Below, we setup and run the search<label for="tufte-sn-3" class="margin-toggle sidenote-number">3</label><input type="checkbox" id="tufte-sn-3" class="margin-toggle"><span class="sidenote"><span class="sidenote-number">3</span> In the <code>runMSGF</code> call, the memory allocated to the java virtual machine is limited to 1GB. In general, there is no need to specify this argument, unless you experience an error regarding the <em>maximum heap size</em>.</span>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"MSGFplus"</span>)
+msgfpar &lt;-<span class="st"> </span><span class="kw">msgfPar</span>(<span class="dt">database =</span> fas,
+                   <span class="dt">instrument =</span> <span class="st">'HighRes'</span>,
+                   <span class="dt">tda =</span> <span class="ot">TRUE</span>,
+                   <span class="dt">enzyme =</span> <span class="st">'Trypsin'</span>,
+                   <span class="dt">protocol =</span> <span class="st">'iTRAQ'</span>)
+idres &lt;-<span class="st"> </span><span class="kw">runMSGF</span>(msgfpar, mzf, <span class="dt">memory=</span><span class="dv">1000</span>)
+idres</code></pre></div>
 <pre><code>## An mzID object
 ## 
 ## Software used:   MS-GF+ (version: Beta (v10072))
@@ -628,34 +571,30 @@ search<label for="tufte-sn-3" class="margin-toggle sidenote-number">3</label><in
 ## 
 ## Number of scans: 5343
 ## Number of PSM's: 5656</code></pre>
-<p>A graphical interface to perform the search the data and explore the
-results is also available:</p>
-<div class="sourceCode" id="cb154"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb154-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"MSGFgui"</span>)</a>
-<a class="sourceLine" id="cb154-2" data-line-number="2"><span class="kw">MSGFgui</span>()</a></code></pre></div>
+<p>A graphical interface to perform the search the data and explore the results is also available:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"MSGFgui"</span>)
+<span class="kw">MSGFgui</span>()</code></pre></div>
 <div class="figure">
-<img src="img/MSGFgui.png" alt="The MSGFgui interface"><p class="caption">The <em><a href="https://bioconductor.org/packages/3.10/MSGFgui">MSGFgui</a></em> interface</p>
+<img src="img/MSGFgui.png" alt="The MSGFgui interface"><p class="caption">The <em><a href="https://bioconductor.org/packages/3.12/MSGFgui">MSGFgui</a></em> interface</p>
 </div>
 </div>
 <div id="visualising-identification-data" class="section level2">
 <h2>
 <span class="header-section-number">4.5</span> Visualising identification data</h2>
-<p>For this part, let’s use a ready made <code>MSnExp</code> object that is
-distributed with the <code>MSnbase</code> package. Simply use the <code>data()</code>
-function with the name of the desired data.</p>
-<div class="sourceCode" id="cb155"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb155-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"MSnbase"</span>)</a>
-<a class="sourceLine" id="cb155-2" data-line-number="2"><span class="kw">data</span>(itraqdata)</a></code></pre></div>
+<p>For this part, let's use a ready made <code>MSnExp</code> object that is distributed with the <code>MSnbase</code> package. Simply use the <code>data()</code> function with the name of the desired data.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"MSnbase"</span>)
+<span class="kw">data</span>(itraqdata)</code></pre></div>
 <div id="annotated-spectra-and-spectra-comparison" class="section level3">
 <h3>
 <span class="header-section-number">4.5.1</span> Annotated spectra and spectra comparison</h3>
-<div class="sourceCode" id="cb156"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb156-1" data-line-number="1">itraqdata2 &lt;-<span class="st"> </span><span class="kw">pickPeaks</span>(itraqdata, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb156-2" data-line-number="2">s &lt;-<span class="st"> "SIGFEGDSIGR"</span></a>
-<a class="sourceLine" id="cb156-3" data-line-number="3"><span class="kw">plot</span>(itraqdata2[[<span class="dv">14</span>]], s, <span class="dt">main =</span> s)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">itraqdata2 &lt;-<span class="st"> </span><span class="kw">pickPeaks</span>(itraqdata, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
+s &lt;-<span class="st"> "SIGFEGDSIGR"</span>
+<span class="kw">plot</span>(itraqdata2[[<span class="dv">14</span>]], s, <span class="dt">main =</span> s)</code></pre></div>
 <p><img src="berlin_files/figure-html/plotwithseq1-1.png" width="960"></p>
-<div class="sourceCode" id="cb157"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb157-1" data-line-number="1"><span class="kw">plot</span>(itraqdata2[[<span class="dv">25</span>]], itraqdata2[[<span class="dv">28</span>]], <span class="dt">sequences =</span> <span class="kw">rep</span>(<span class="st">"IMIDLDGTENK"</span>, <span class="dv">2</span>))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(itraqdata2[[<span class="dv">25</span>]], itraqdata2[[<span class="dv">28</span>]], <span class="dt">sequences =</span> <span class="kw">rep</span>(<span class="st">"IMIDLDGTENK"</span>, <span class="dv">2</span>))</code></pre></div>
 <p><img src="berlin_files/figure-html/plotwithseq2-1.png" width="960"></p>
-<p>The annotation of spectra is obtained by simulating fragmentation of a
-peptide and matching observed peaks to fragments:</p>
-<div class="sourceCode" id="cb158"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb158-1" data-line-number="1"><span class="kw">calculateFragments</span>(<span class="st">"SIGFEGDSIGR"</span>)</a></code></pre></div>
+<p>The annotation of spectra is obtained by simulating fragmentation of a peptide and matching observed peaks to fragments:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">calculateFragments</span>(<span class="st">"SIGFEGDSIGR"</span>)</code></pre></div>
 <pre><code>##            mz  ion type pos z        seq
 ## 1    88.03931   b1    b   1 1          S
 ## 2   201.12337   b2    b   2 1         SI
@@ -689,64 +628,40 @@ peptide and matching observed peaks to fragments:</p>
 ## 30  214.12985  y2_   y_   2 1         GR
 ## 31  327.21391  y3_   y_   3 1        IGR
 ## 32  414.24594  y4_   y_   4 1       SIGR</code></pre>
-<p>Visualising a pair of spectra means that we can access them, and that,
-in addition to plotting, we can manipulate them and perform
-computations. The two spectra corresponding to the <code>IMIDLDGTENK</code>
-peptide, for example have
-22
-common peaks, a correlation of
-0.198
-and a dot product of
-0.21
-(see <code>?compareSpectra</code> for details).</p>
+<p>Visualising a pair of spectra means that we can access them, and that, in addition to plotting, we can manipulate them and perform computations. The two spectra corresponding to the <code>IMIDLDGTENK</code> peptide, for example have 22 common peaks, a correlation of 0.198 and a dot product of 0.21 (see <code>?compareSpectra</code> for details).</p>
 </div>
 <div id="exercise-7" class="section level3 unnumbered">
 <h3>Exercise</h3>
-<p>Use the <code>compareSpectra</code> function to compare spectra 25 and 28 plotted
-above, calculating the metrics mentioned above. Don’t forget to pick
-peaks from <code>itraqdata</code> first.</p>
-<details><div class="sourceCode" id="cb160"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb160-1" data-line-number="1"><span class="kw">data</span>(itraqdata)</a>
-<a class="sourceLine" id="cb160-2" data-line-number="2">itraqdata2 &lt;-<span class="st"> </span><span class="kw">pickPeaks</span>(itraqdata, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</a>
-<a class="sourceLine" id="cb160-3" data-line-number="3"><span class="kw">compareSpectra</span>(itraqdata2[[<span class="dv">25</span>]], itraqdata2[[<span class="dv">28</span>]], <span class="dt">fun =</span> <span class="st">"common"</span>)</a></code></pre></div>
+<p>Use the <code>compareSpectra</code> function to compare spectra 25 and 28 plotted above, calculating the metrics mentioned above. Don't forget to pick peaks from <code>itraqdata</code> first.</p>
+<p><details></details></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(itraqdata)
+itraqdata2 &lt;-<span class="st"> </span><span class="kw">pickPeaks</span>(itraqdata, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)
+<span class="kw">compareSpectra</span>(itraqdata2[[<span class="dv">25</span>]], itraqdata2[[<span class="dv">28</span>]], <span class="dt">fun =</span> <span class="st">"common"</span>)</code></pre></div>
 <pre><code>## [1] 22</code></pre>
-<div class="sourceCode" id="cb162"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb162-1" data-line-number="1"><span class="kw">compareSpectra</span>(itraqdata2[[<span class="dv">25</span>]], itraqdata2[[<span class="dv">28</span>]], <span class="dt">fun =</span> <span class="st">"cor"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compareSpectra</span>(itraqdata2[[<span class="dv">25</span>]], itraqdata2[[<span class="dv">28</span>]], <span class="dt">fun =</span> <span class="st">"cor"</span>)</code></pre></div>
 <pre><code>## [1] 0.1983378</code></pre>
-<div class="sourceCode" id="cb164"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb164-1" data-line-number="1"><span class="kw">compareSpectra</span>(itraqdata2[[<span class="dv">25</span>]], itraqdata2[[<span class="dv">28</span>]], <span class="dt">fun =</span> <span class="st">"dotproduct"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">compareSpectra</span>(itraqdata2[[<span class="dv">25</span>]], itraqdata2[[<span class="dv">28</span>]], <span class="dt">fun =</span> <span class="st">"dotproduct"</span>)</code></pre></div>
 <pre><code>## [1] 0.2101533</code></pre>
-</details>
+<p></p>
 </div>
 </div>
 <div id="exploration-and-assessment-of-confidence-of-lc-msn-proteomics-identifications-using-msnid" class="section level2">
 <h2>
 <span class="header-section-number">4.6</span> Exploration and Assessment of Confidence of LC-MSn Proteomics Identifications using <code>MSnID</code>
 </h2>
-<p>The <code>MSnID</code> package extracts MS/MS ID data from mzIdentML (leveraging
-the <code>mzID</code> package) or text files. After collating the search results
-from multiple datasets it assesses their identification quality and
-optimises filtering criteria to achieve the maximum number of
-identifications while not exceeding a specified false discovery
-rate. It also contains a number of utilities to explore the MS/MS
-results and assess missed and irregular enzymatic cleavages, mass
-measurement accuracy, etc.</p>
+<p>The <code>MSnID</code> package extracts MS/MS ID data from mzIdentML (leveraging the <code>mzID</code> package) or text files. After collating the search results from multiple datasets it assesses their identification quality and optimises filtering criteria to achieve the maximum number of identifications while not exceeding a specified false discovery rate. It also contains a number of utilities to explore the MS/MS results and assess missed and irregular enzymatic cleavages, mass measurement accuracy, etc.</p>
 <div id="step-by-step-work-flow" class="section level3">
 <h3>
 <span class="header-section-number">4.6.1</span> Step-by-step work-flow</h3>
-<p>Let’s reproduce parts of the analysis described the <code>MSnID</code>
-vignette. You can explore more with</p>
-<div class="sourceCode" id="cb166"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb166-1" data-line-number="1"><span class="kw">vignette</span>(<span class="st">"msnid_vignette"</span>, <span class="dt">package =</span> <span class="st">"MSnID"</span>)</a></code></pre></div>
-<p>The <em><a href="https://bioconductor.org/packages/3.10/MSnID">MSnID</a></em> package can be used for post-search filtering
-of MS/MS identifications. One starts with the construction of an
-<code>MSnID</code> object that is populated with identification results that can
-be imported from a <code>data.frame</code> or from <code>mzIdenML</code> files. Here, we
-will use the example identification data provided with the package.</p>
-<div class="sourceCode" id="cb167"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb167-1" data-line-number="1">mzids &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"c_elegans.mzid.gz"</span>, <span class="dt">package=</span><span class="st">"MSnID"</span>)</a>
-<a class="sourceLine" id="cb167-2" data-line-number="2"><span class="kw">basename</span>(mzids)</a></code></pre></div>
+<p>Let's reproduce parts of the analysis described the <code>MSnID</code> vignette. You can explore more with</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">vignette</span>(<span class="st">"msnid_vignette"</span>, <span class="dt">package =</span> <span class="st">"MSnID"</span>)</code></pre></div>
+<p>The <em><a href="https://bioconductor.org/packages/3.12/MSnID">MSnID</a></em> package can be used for post-search filtering of MS/MS identifications. One starts with the construction of an <code>MSnID</code> object that is populated with identification results that can be imported from a <code>data.frame</code> or from <code>mzIdenML</code> files. Here, we will use the example identification data provided with the package.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mzids &lt;-<span class="st"> </span><span class="kw">system.file</span>(<span class="st">"extdata"</span>, <span class="st">"c_elegans.mzid.gz"</span>, <span class="dt">package=</span><span class="st">"MSnID"</span>)
+<span class="kw">basename</span>(mzids)</code></pre></div>
 <pre><code>## [1] "c_elegans.mzid.gz"</code></pre>
-<p>We start by loading the package, initialising the <code>MSnID</code> object, and
-add the identification result from our <code>mzid</code> file (there could of
-course be more that one).</p>
-<div class="sourceCode" id="cb169"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb169-1" data-line-number="1"><span class="kw">library</span>(<span class="st">"MSnID"</span>)</a>
-<a class="sourceLine" id="cb169-2" data-line-number="2">msnid &lt;-<span class="st"> </span><span class="kw">MSnID</span>(<span class="st">"."</span>)</a></code></pre></div>
+<p>We start by loading the package, initialising the <code>MSnID</code> object, and add the identification result from our <code>mzid</code> file (there could of course be more that one).</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(<span class="st">"MSnID"</span>)
+msnid &lt;-<span class="st"> </span><span class="kw">MSnID</span>(<span class="st">"."</span>)</code></pre></div>
 <pre><code>## Note, the anticipated/suggested columns in the
 ## peptide-to-spectrum matching results are:
 ## -----------------------------------------------
@@ -758,9 +673,9 @@ course be more that one).</p>
 ## peptide
 ## spectrumFile
 ## spectrumID</code></pre>
-<div class="sourceCode" id="cb171"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb171-1" data-line-number="1">msnid &lt;-<span class="st"> </span><span class="kw">read_mzIDs</span>(msnid, mzids)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">msnid &lt;-<span class="st"> </span><span class="kw">read_mzIDs</span>(msnid, mzids)</code></pre></div>
 <pre><code>## Loaded cached data</code></pre>
-<div class="sourceCode" id="cb173"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb173-1" data-line-number="1"><span class="kw">show</span>(msnid)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">show</span>(msnid)</code></pre></div>
 <pre><code>## MSnID object
 ## Working directory: "."
 ## #Spectrum Files:  1 
@@ -775,16 +690,13 @@ course be more that one).</p>
 <li>Number of unique peptide sequences and corresponding FDR.</li>
 <li>Number of unique proteins or amino acid sequence accessions and corresponding FDR.</li>
 </ul>
-<p>The package then enables to define, optimise and apply filtering based
-for example on missed cleavages, identification scores, precursor mass
-errors, etc. and assess PSM, peptide and protein FDR levels. To
-properly function, it expects to have access to the following data</p>
+<p>The package then enables to define, optimise and apply filtering based for example on missed cleavages, identification scores, precursor mass errors, etc. and assess PSM, peptide and protein FDR levels. To properly function, it expects to have access to the following data</p>
 <pre><code>## [1] "accession"                "calculatedMassToCharge"  
 ## [3] "chargeState"              "experimentalMassToCharge"
 ## [5] "isDecoy"                  "peptide"                 
 ## [7] "spectrumFile"             "spectrumID"</code></pre>
 <p>which are indeed present in our data:</p>
-<div class="sourceCode" id="cb176"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb176-1" data-line-number="1"><span class="kw">names</span>(msnid)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">names</span>(msnid)</code></pre></div>
 <pre><code>##  [1] "spectrumID"                "scan number(s)"           
 ##  [3] "acquisitionNum"            "passThreshold"            
 ##  [5] "rank"                      "calculatedMassToCharge"   
@@ -801,29 +713,22 @@ properly function, it expects to have access to the following data</p>
 ## [27] "modification"              "idFile"                   
 ## [29] "spectrumFile"              "databaseFile"             
 ## [31] "peptide"</code></pre>
-<p>Here, we summarise a few steps and redirect the reader to the
-package’s vignette for more details:</p>
+<p>Here, we summarise a few steps and redirect the reader to the package's vignette for more details:</p>
 </div>
 <div id="analysis-of-peptide-sequences" class="section level3">
 <h3>
 <span class="header-section-number">4.6.2</span> Analysis of peptide sequences</h3>
-<p>Cleaning irregular cleavages at the termini of the peptides and
-missing cleavage site within the peptide sequences. The following two
-function call create the new <code>numMisCleavages</code> and <code>numIrregCleavages</code>
-columns in the <code>MSnID</code> object</p>
-<div class="sourceCode" id="cb178"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb178-1" data-line-number="1">msnid &lt;-<span class="st"> </span><span class="kw">assess_termini</span>(msnid, <span class="dt">validCleavagePattern=</span><span class="st">"[KR]</span><span class="ch">\\</span><span class="st">.[^P]"</span>)</a>
-<a class="sourceLine" id="cb178-2" data-line-number="2">msnid &lt;-<span class="st"> </span><span class="kw">assess_missed_cleavages</span>(msnid, <span class="dt">missedCleavagePattern=</span><span class="st">"[KR](?=[^P$])"</span>)</a></code></pre></div>
+<p>Cleaning irregular cleavages at the termini of the peptides and missing cleavage site within the peptide sequences. The following two function call create the new <code>numMisCleavages</code> and <code>numIrregCleavages</code> columns in the <code>MSnID</code> object</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">msnid &lt;-<span class="st"> </span><span class="kw">assess_termini</span>(msnid, <span class="dt">validCleavagePattern=</span><span class="st">"[KR]</span><span class="ch">\\</span><span class="st">.[^P]"</span>)
+msnid &lt;-<span class="st"> </span><span class="kw">assess_missed_cleavages</span>(msnid, <span class="dt">missedCleavagePattern=</span><span class="st">"[KR](?=[^P$])"</span>)</code></pre></div>
 </div>
 <div id="trimming-the-data" class="section level3">
 <h3>
 <span class="header-section-number">4.6.3</span> Trimming the data</h3>
-<p>Now, we can use the <code>apply_filter</code> function to effectively apply
-filters. The strings passed to the function represent expressions that
-will be evaluated, thus keeping only PSMs that have 0 irregular
-cleavages and 2 or less missed cleavages.</p>
-<div class="sourceCode" id="cb179"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb179-1" data-line-number="1">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"numIrregCleavages == 0"</span>)</a>
-<a class="sourceLine" id="cb179-2" data-line-number="2">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"numMissCleavages &lt;= 2"</span>)</a>
-<a class="sourceLine" id="cb179-3" data-line-number="3"><span class="kw">show</span>(msnid)</a></code></pre></div>
+<p>Now, we can use the <code>apply_filter</code> function to effectively apply filters. The strings passed to the function represent expressions that will be evaluated, thus keeping only PSMs that have 0 irregular cleavages and 2 or less missed cleavages.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"numIrregCleavages == 0"</span>)
+msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"numMissCleavages &lt;= 2"</span>)
+<span class="kw">show</span>(msnid)</code></pre></div>
 <pre><code>## MSnID object
 ## Working directory: "."
 ## #Spectrum Files:  1 
@@ -834,15 +739,13 @@ cleavages and 2 or less missed cleavages.</p>
 <div id="parent-ion-mass-errors" class="section level3">
 <h3>
 <span class="header-section-number">4.6.4</span> Parent ion mass errors</h3>
-<p>Using <code>"calculatedMassToCharge"</code> and <code>"experimentalMassToCharge"</code>, the
-<code>mass_measurement_error</code> function calculates the parent ion mass
-measurement error in parts per million.</p>
-<div class="sourceCode" id="cb181"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb181-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">mass_measurement_error</span>(msnid))</a></code></pre></div>
+<p>Using <code>"calculatedMassToCharge"</code> and <code>"experimentalMassToCharge"</code>, the <code>mass_measurement_error</code> function calculates the parent ion mass measurement error in parts per million.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">mass_measurement_error</span>(msnid))</code></pre></div>
 <pre><code>##       Min.    1st Qu.     Median       Mean    3rd Qu.       Max. 
 ## -2184.0640    -0.6992     0.0000    17.6146     0.7512  2012.5178</code></pre>
 <p>We then filter any matches that do not fit the +/- 20 ppm tolerance</p>
-<div class="sourceCode" id="cb183"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb183-1" data-line-number="1">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"abs(mass_measurement_error(msnid)) &lt; 20"</span>)</a>
-<a class="sourceLine" id="cb183-2" data-line-number="2"><span class="kw">summary</span>(<span class="kw">mass_measurement_error</span>(msnid))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"abs(mass_measurement_error(msnid)) &lt; 20"</span>)
+<span class="kw">summary</span>(<span class="kw">mass_measurement_error</span>(msnid))</code></pre></div>
 <pre><code>##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
 ## -19.7797  -0.5866   0.0000  -0.2970   0.5713  19.6758</code></pre>
 </div>
@@ -851,33 +754,26 @@ measurement error in parts per million.</p>
 <span class="header-section-number">4.6.5</span> Filtering criteria</h3>
 <p>Filtering of the identification data will rely on</p>
 <ul>
-<li>-log10 transformed MS-GF+ Spectrum E-value, reflecting the goodness
-of match experimental and theoretical fragmentation patterns</li>
+<li>-log10 transformed MS-GF+ Spectrum E-value, reflecting the goodness of match experimental and theoretical fragmentation patterns</li>
 </ul>
-<div class="sourceCode" id="cb185"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb185-1" data-line-number="1">msnid<span class="op">$</span>msmsScore &lt;-<span class="st"> </span><span class="op">-</span><span class="kw">log10</span>(msnid<span class="op">$</span><span class="st">`</span><span class="dt">MS-GF:SpecEValue</span><span class="st">`</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">msnid<span class="op">$</span>msmsScore &lt;-<span class="st"> </span><span class="op">-</span><span class="kw">log10</span>(msnid<span class="op">$</span><span class="st">`</span><span class="dt">MS-GF:SpecEValue</span><span class="st">`</span>)</code></pre></div>
 <ul>
 <li>the absolute mass measurement error (in ppm units) of the parent ion</li>
 </ul>
-<div class="sourceCode" id="cb186"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb186-1" data-line-number="1">msnid<span class="op">$</span>absParentMassErrorPPM &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">mass_measurement_error</span>(msnid))</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">msnid<span class="op">$</span>absParentMassErrorPPM &lt;-<span class="st"> </span><span class="kw">abs</span>(<span class="kw">mass_measurement_error</span>(msnid))</code></pre></div>
 </div>
 <div id="setting-filters" class="section level3">
 <h3>
 <span class="header-section-number">4.6.6</span> Setting filters</h3>
-<p>MS2 filters are handled by a special <code>MSnIDFilter</code> class objects, where
-individual filters are set by name (that is present in <code>names(msnid)</code>)
-and comparison operator (&gt;, &lt;, = , …) defining if we should retain
-hits with higher or lower given the threshold and finally the
-threshold value itself.</p>
-<div class="sourceCode" id="cb187"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb187-1" data-line-number="1">filtObj &lt;-<span class="st"> </span><span class="kw">MSnIDFilter</span>(msnid)</a>
-<a class="sourceLine" id="cb187-2" data-line-number="2">filtObj<span class="op">$</span>absParentMassErrorPPM &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">comparison=</span><span class="st">"&lt;"</span>, <span class="dt">threshold=</span><span class="fl">10.0</span>)</a>
-<a class="sourceLine" id="cb187-3" data-line-number="3">filtObj<span class="op">$</span>msmsScore &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">comparison=</span><span class="st">"&gt;"</span>, <span class="dt">threshold=</span><span class="fl">10.0</span>)</a>
-<a class="sourceLine" id="cb187-4" data-line-number="4"><span class="kw">show</span>(filtObj)</a></code></pre></div>
+<p>MS2 filters are handled by a special <code>MSnIDFilter</code> class objects, where individual filters are set by name (that is present in <code>names(msnid)</code>) and comparison operator (&gt;, &lt;, = , ...) defining if we should retain hits with higher or lower given the threshold and finally the threshold value itself.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtObj &lt;-<span class="st"> </span><span class="kw">MSnIDFilter</span>(msnid)
+filtObj<span class="op">$</span>absParentMassErrorPPM &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">comparison=</span><span class="st">"&lt;"</span>, <span class="dt">threshold=</span><span class="fl">10.0</span>)
+filtObj<span class="op">$</span>msmsScore &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">comparison=</span><span class="st">"&gt;"</span>, <span class="dt">threshold=</span><span class="fl">10.0</span>)
+<span class="kw">show</span>(filtObj)</code></pre></div>
 <pre><code>## MSnIDFilter object
 ## (absParentMassErrorPPM &lt; 10) &amp; (msmsScore &gt; 10)</code></pre>
-<p>We can then evaluate the filter on the identification data object,
-which return the false discovery rate and number of retained
-identifications for the filtering criteria at hand.</p>
-<div class="sourceCode" id="cb189"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb189-1" data-line-number="1"><span class="kw">evaluate_filter</span>(msnid, filtObj)</a></code></pre></div>
+<p>We can then evaluate the filter on the identification data object, which return the false discovery rate and number of retained identifications for the filtering criteria at hand.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">evaluate_filter</span>(msnid, filtObj)</code></pre></div>
 <pre><code>##           fdr    n
 ## PSM         0 3807
 ## peptide     0 2455
@@ -886,34 +782,31 @@ identifications for the filtering criteria at hand.</p>
 <div id="filter-optimisation" class="section level3">
 <h3>
 <span class="header-section-number">4.6.7</span> Filter optimisation</h3>
-<p>Rather than setting filtering values by hand, as shown above, these
-can be set automatically to meet a specific false discovery rate.</p>
-<div class="sourceCode" id="cb191"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb191-1" data-line-number="1">filtObj.grid &lt;-<span class="st"> </span><span class="kw">optimize_filter</span>(filtObj, msnid, <span class="dt">fdr.max=</span><span class="fl">0.01</span>,</a>
-<a class="sourceLine" id="cb191-2" data-line-number="2">                                <span class="dt">method=</span><span class="st">"Grid"</span>, <span class="dt">level=</span><span class="st">"peptide"</span>,</a>
-<a class="sourceLine" id="cb191-3" data-line-number="3">                                <span class="dt">n.iter=</span><span class="dv">500</span>)</a>
-<a class="sourceLine" id="cb191-4" data-line-number="4"><span class="kw">show</span>(filtObj.grid)</a></code></pre></div>
+<p>Rather than setting filtering values by hand, as shown above, these can be set automatically to meet a specific false discovery rate.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filtObj.grid &lt;-<span class="st"> </span><span class="kw">optimize_filter</span>(filtObj, msnid, <span class="dt">fdr.max=</span><span class="fl">0.01</span>,
+                                <span class="dt">method=</span><span class="st">"Grid"</span>, <span class="dt">level=</span><span class="st">"peptide"</span>,
+                                <span class="dt">n.iter=</span><span class="dv">500</span>)
+<span class="kw">show</span>(filtObj.grid)</code></pre></div>
 <pre><code>## MSnIDFilter object
 ## (absParentMassErrorPPM &lt; 3) &amp; (msmsScore &gt; 7.4)</code></pre>
-<div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb193-1" data-line-number="1"><span class="kw">evaluate_filter</span>(msnid, filtObj.grid)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">evaluate_filter</span>(msnid, filtObj.grid)</code></pre></div>
 <pre><code>##                   fdr    n
 ## PSM       0.004097561 5146
 ## peptide   0.006447651 3278
 ## accession 0.021996616 1208</code></pre>
-<p>Filters can eventually be applied (rather than just evaluated) using
-the <code>apply_filter</code> function.</p>
-<div class="sourceCode" id="cb195"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb195-1" data-line-number="1">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, filtObj.grid)</a>
-<a class="sourceLine" id="cb195-2" data-line-number="2"><span class="kw">show</span>(msnid)</a></code></pre></div>
+<p>Filters can eventually be applied (rather than just evaluated) using the <code>apply_filter</code> function.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, filtObj.grid)
+<span class="kw">show</span>(msnid)</code></pre></div>
 <pre><code>## MSnID object
 ## Working directory: "."
 ## #Spectrum Files:  1 
 ## #PSMs: 5146 at 0.41 % FDR
 ## #peptides: 3278 at 0.64 % FDR
 ## #accessions: 1208 at 2.2 % FDR</code></pre>
-<p>And finally, identifications that matched decoy and contaminant
-protein sequences are removed</p>
-<div class="sourceCode" id="cb197"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb197-1" data-line-number="1">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"isDecoy == FALSE"</span>) </a>
-<a class="sourceLine" id="cb197-2" data-line-number="2">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"!grepl('Contaminant',accession)"</span>)</a>
-<a class="sourceLine" id="cb197-3" data-line-number="3"><span class="kw">show</span>(msnid)</a></code></pre></div>
+<p>And finally, identifications that matched decoy and contaminant protein sequences are removed</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"isDecoy == FALSE"</span>) 
+msnid &lt;-<span class="st"> </span><span class="kw">apply_filter</span>(msnid, <span class="st">"!grepl('Contaminant',accession)"</span>)
+<span class="kw">show</span>(msnid)</code></pre></div>
 <pre><code>## MSnID object
 ## Working directory: "."
 ## #Spectrum Files:  1 
@@ -924,11 +817,8 @@ protein sequences are removed</p>
 <div id="export-msnid-data" class="section level3">
 <h3>
 <span class="header-section-number">4.6.8</span> Export <code>MSnID</code> data</h3>
-<p>The resulting filtered identification data can be exported to a
-<code>data.frame</code> or to a dedicated <code>MSnSet</code> data structure for
-quantitative MS data, described below, and further processed and
-analyses using appropriate statistical tests.</p>
-<div class="sourceCode" id="cb199"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb199-1" data-line-number="1"><span class="kw">head</span>(<span class="kw">psms</span>(msnid))</a></code></pre></div>
+<p>The resulting filtered identification data can be exported to a <code>data.frame</code> or to a dedicated <code>MSnSet</code> data structure for quantitative MS data, described below, and further processed and analyses using appropriate statistical tests.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(<span class="kw">psms</span>(msnid))</code></pre></div>
 <pre><code>##   spectrumID scan number(s) acquisitionNum passThreshold rank
 ## 1 index=7151           8819           7151          TRUE    1
 ## 2 index=8520          10419           8520          TRUE    1
@@ -999,7 +889,7 @@ analyses using appropriate statistical tests.</p>
 ## 4                 0                1  30.18677             0.9322561
 ## 5                 0                1  30.18677             0.9322561
 ## 6                 0                1  30.18677             0.9322561</code></pre>
-<div class="sourceCode" id="cb201"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb201-1" data-line-number="1"><span class="kw">as</span>(msnid, <span class="st">"MSnSet"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">as</span>(msnid, <span class="st">"MSnSet"</span>)</code></pre></div>
 <pre><code>## MSnSet (storageMode: lockedEnvironment)
 ## assayData: 3251 features, 1 samples 
 ##   element names: exprs 
@@ -1014,7 +904,7 @@ analyses using appropriate statistical tests.</p>
 ## experimentData: use 'experimentData(object)'
 ## Annotation:  
 ## - - - Processing information - - -
-##  MSnbase version: 2.12.0</code></pre>
+##  MSnbase version: 2.17.4</code></pre>
 
 </div>
 </div>
@@ -1025,7 +915,7 @@ analyses using appropriate statistical tests.</p>
 <a href="sec-quant.html"><button class="btn btn-default">Next</button></a>
 </p>
 <p class="build-date">Page built: 
-2020-02-19
+2021-01-12
 </p>
 </div>
 </div>
